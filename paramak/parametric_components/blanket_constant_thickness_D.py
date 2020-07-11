@@ -8,10 +8,32 @@ from paramak import RotateMixedShape
 
 class BlanketConstantThicknessD(RotateMixedShape):
     """
-
+    :param height:  the height of the inner straight part of the blanket (cm)
+    :type height: float
     :param thickness:  the thickness of the blanket (cm)
     :type thickness: float
-
+    :param thickness:  the thickness of the blanket (cm)
+    :type thickness: float
+    :param name: The legend name used when exporting a html graph of the shape
+    :type name: str
+    :param color: the color to use when exporting as html graphs or png images
+    :type color: Red, Green, Blue, [Alpha] values. RGB and RGBA are sequences
+     of, 3 or 4 floats respectively each in the range 0-1
+    :param material_tag: The material name to use when exporting the
+     neutronics description
+    :type material_tag: str
+    :param stp_filename: the filename used when saving stp files as part of a
+     reactor
+    :type stp_filename: str
+    :param azimuth_placement_angle: the angle or angles to use when rotating
+     the shape on the azimuthal axis
+    :type azimuth_placement_angle: float or iterable of floats
+    :param rotation_angle: The rotation_angle to use when revoling the solid
+     (degrees)
+    :type rotation_angle: float
+    :param cut: An optional cadquery object to perform a boolean cut with this
+     object
+    :type cut: cadquery object
 
     :return: a shape object that has generic functionality
     :rtype: paramak shape object
@@ -88,8 +110,12 @@ class BlanketConstantThicknessD(RotateMixedShape):
 
     def cut_inner_shape(self):
         # TODO: make this follow the curve of the plasma
-        F = (self.minor_radius + self.thickness, self.height/2 - self.thickness)
-        G = (self.minor_radius + self.thickness, -(self.height/2 - self.thickness))
+        F = (
+            self.minor_radius + self.thickness,
+            self.height/2 - self.thickness)
+        G = (
+            self.minor_radius + self.thickness,
+            -(self.height/2 - self.thickness))
         H = (self.minor_radius + self.height/2, 0)
         inner_shape = RotateMixedShape(
             points=[
