@@ -55,6 +55,22 @@ class test_BlanketConstantThicknessArcH(unittest.TestCase):
         assert test_shape.solid is not None
         assert test_shape.volume > 1000
 
+
+class test_BlanketConstantThicknessD(unittest.TestCase):
+    def test_BlanketConstantThickness_creation(self):
+        """creates blanket from parametric shape and checks a solid is created"""
+
+        test_shape = paramak.BlanketConstantThicknessD(
+                         height=100,
+                         thickness=20,
+                         minor_radius=10,
+                         rotation_angle=180
+        )
+
+        assert test_shape.solid is not None
+        assert test_shape.volume > 1000
+
+
 class test_BlanketConstantThickness(unittest.TestCase):
     def test_BlanketConstantThickness_creation(self):
         """creates blanket from parametric shape and checks a solid is created"""
