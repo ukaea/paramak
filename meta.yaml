@@ -1,0 +1,27 @@
+{% set setup_py = load_setup_py_data() %}
+
+package:
+  name: paramak
+  version: {{ setup_py.get('version')}}
+
+build:
+  number: 1
+
+requirements:
+  run:
+    - python
+
+test:
+  requires:
+    - pytest	
+  source_files:
+    - tests/
+  commands:
+    - pytest -v
+
+about:
+  home: https://github.com/ukaea/paramak
+  license: {{ setup_py.get('license')}}
+  license_file: LICENSE
+  summary: Create parametric 3D fusion reactor CAD models
+  doc_url: https://paramak.readthedocs.io/en/latest/#prerequisites
