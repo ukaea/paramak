@@ -43,6 +43,7 @@ class ExtrudeCircleShape(Shape):
         radius,
         workplane="XZ",
         stp_filename='ExtrudeCircleShape.stp',
+        stl_filename='ExtrudeCircleShape.stl',
         solid=None,
         color=None,
         azimuth_placement_angle=0,
@@ -58,6 +59,7 @@ class ExtrudeCircleShape(Shape):
             color,
             material_tag,
             stp_filename,
+            stl_filename,
             azimuth_placement_angle,
             workplane,
         )

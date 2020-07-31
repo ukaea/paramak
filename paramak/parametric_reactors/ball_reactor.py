@@ -139,7 +139,8 @@ class BallReactor(paramak.Reactor):
                                 minor_radius=self.minor_radius,
                                 elongation=self.elongation,
                                 triangularity=self.triangularity,
-                                rotation_angle=self.rotation_angle)
+                                rotation_angle=self.rotation_angle,
+                                stl_filename='plasma.stl')
         plasma.create_solid()
 
         shapes_or_components.append(plasma)
@@ -234,6 +235,7 @@ class BallReactor(paramak.Reactor):
             rotation_angle=self.rotation_angle,
             # color=centre_column_color,
             stp_filename="inboard_tf_coils.stp",
+            stl_filename="inboard_tf_coils.stl",
             name="inboard_tf_coils",
             material_tag="inboard_tf_coils_mat",
         )
@@ -246,6 +248,7 @@ class BallReactor(paramak.Reactor):
             rotation_angle=self.rotation_angle,
             # color=centre_column_color,
             stp_filename="center_column_shield.stp",
+            stl_filename="center_column_shield.stl",
             name="center_column_shield",
             material_tag="center_column_shield_mat",
         )
@@ -264,6 +267,7 @@ class BallReactor(paramak.Reactor):
                 ],
                 rotation_angle=self.rotation_angle,
                 stp_filename='extra_blanket_upper.stp',
+                stl_filename='extra_blanket_upper.stl',
                 name='extra_blanket_upper',
                 material_tag='blanket_mat')
             shapes_or_components.append(extra_blanket_upper)
@@ -276,6 +280,7 @@ class BallReactor(paramak.Reactor):
                 ],
                 rotation_angle=self.rotation_angle,
                 stp_filename='extra_firstwall_upper.stp',
+                stl_filename='extra_firstwall_upper.stl',
                 name='extra_firstwall_upper',
                 material_tag='firstwall_mat')
             shapes_or_components.append(extra_firstwall_upper)
@@ -288,6 +293,7 @@ class BallReactor(paramak.Reactor):
                 ],
                 rotation_angle=self.rotation_angle,
                 stp_filename='extra_blanket_rear_wall_upper.stp',
+                stl_filename='extra_blanket_rear_wall_upper.stl',
                 name='extra_blanket_rear_wall_upper',
                 material_tag='blanket_rear_wall_mat')
             shapes_or_components.append(extra_blanket_rear_wall_upper)
@@ -300,6 +306,7 @@ class BallReactor(paramak.Reactor):
                 ],
                 rotation_angle=self.rotation_angle,
                 stp_filename='extra_blanket_lower.stp',
+                stl_filename='extra_blanket_lower.stl',
                 name='extra_blanket_lower',
                 material_tag='blanket_mat')
             shapes_or_components.append(extra_blanket_lower)
@@ -312,6 +319,7 @@ class BallReactor(paramak.Reactor):
                 ],
                 rotation_angle=self.rotation_angle,
                 stp_filename='extra_firstwall_lower.stp',
+                stl_filename='extra_firstwall_lower.stl',
                 name='extra_firstwall_lower',
                 material_tag='firstwall_mat')
             shapes_or_components.append(extra_firstwall_lower)
@@ -324,6 +332,7 @@ class BallReactor(paramak.Reactor):
                 ],
                 rotation_angle=self.rotation_angle,
                 stp_filename='extra_blanket_rear_wall_lower.stp',
+                stl_filename='extra_blanket_rear_wall_lower.stl',
                 name='extra_blanket_rear_wall_lower',
                 material_tag='blanket_rear_wall_mat')
             shapes_or_components.append(extra_blanket_rear_wall_lower)
@@ -335,6 +344,7 @@ class BallReactor(paramak.Reactor):
                 (divertor_end_radius, divertor_end_height),
                 ],
                 stp_filename='divertor_upper.stp',
+                stl_filename='divertor_upper.stl',
                 name='divertor_upper',
                 rotation_angle=self.rotation_angle,
                 material_tag='divertor_mat'
@@ -349,6 +359,7 @@ class BallReactor(paramak.Reactor):
                 (divertor_end_radius, -divertor_end_height),
                 ],
                 stp_filename='divertor_lower.stp',
+                stl_filename='divertor_lower.stl',
                 name='divertor_lower',
                 rotation_angle=self.rotation_angle,
                 material_tag='divertor_mat'
@@ -384,6 +395,7 @@ class BallReactor(paramak.Reactor):
                 (divertor_start_radius+space_for_divertor, divertor_end_height, 'straight'),
                 ],
                 stp_filename='divertor_upper.stp',
+                stl_filename='divertor_upper.stl',
                 name='divertor_upper',
                 rotation_angle=self.rotation_angle,
                 material_tag='divertor_mat'
@@ -402,6 +414,7 @@ class BallReactor(paramak.Reactor):
                 (divertor_start_radius+space_for_divertor, -divertor_end_height, 'straight'),
                 ],
                 stp_filename='divertor_lower.stp',
+                stl_filename='divertor_lower.stl',
                 name='divertor_lower',
                 rotation_angle=self.rotation_angle,
                 material_tag='divertor_mat'
@@ -417,6 +430,7 @@ class BallReactor(paramak.Reactor):
                 (divertor_start_radius+space_for_divertor, divertor_end_height, 'straight'),
                 ],
                 stp_filename='divertor_upper.stp',
+                stl_filename='divertor_upper.stl',
                 name='divertor_upper',
                 rotation_angle=self.rotation_angle,
                 material_tag='divertor_mat'
@@ -431,6 +445,7 @@ class BallReactor(paramak.Reactor):
                 (divertor_start_radius+space_for_divertor, -divertor_end_height, 'straight'),
                 ],
                 stp_filename='divertor_lower.stp',
+                stl_filename='divertor_lower.stl',
                 name='divertor_lower',
                 rotation_angle=self.rotation_angle,
                 material_tag='divertor_mat'
@@ -444,6 +459,7 @@ class BallReactor(paramak.Reactor):
             thickness=self.firstwall_radial_thickness,
             rotation_angle=self.rotation_angle,
             stp_filename='firstwall.stp',
+            stl_filename='firstwall.stl',
             name='firstwall',
             material_tag='firstwall_mat',
             cut=[divertor_lower_part, divertor_upper_part]
@@ -457,6 +473,7 @@ class BallReactor(paramak.Reactor):
             thickness=self.blanket_radial_thickness,
             rotation_angle=self.rotation_angle,
             stp_filename='blanket.stp',
+            stl_filename='blanket.stl',
             name='blanket',
             material_tag='blanket_mat',
             cut=[divertor_lower_part, divertor_upper_part]
@@ -470,6 +487,7 @@ class BallReactor(paramak.Reactor):
             thickness=self.blanket_rear_wall_radial_thickness,
             rotation_angle=self.rotation_angle,
             stp_filename='blanket_rear_wall.stp',
+            stl_filename='blanket_rear_wall.stl',
             name='blanket_rear_wall',
             material_tag='blanket_rear_wall_mat',
             cut=[divertor_lower_part, divertor_upper_part]
@@ -491,6 +509,7 @@ class BallReactor(paramak.Reactor):
                                                     center_point=(x_value,y_value),
                                                     rotation_angle=self.rotation_angle,
                                                     stp_filename='pf_coil_'+str(i)+'.stp',
+                                                    stl_filename='pf_coil_'+str(i)+'.stl',
                                                     name='pf_coil',
                                                     material_tag='pf_coil_mat')
                 shapes_or_components.append(pf_coil)
@@ -502,6 +521,8 @@ class BallReactor(paramak.Reactor):
                                                 thickness= self.tf_coil_radial_thickness,
                                                 number_of_coils=self.number_of_tf_coils,
                                                 distance=self.tf_coil_poloidal_thickness,
+                                                stp_filename='tf_coil.stp',
+                                                stl_filename='tf_coil.stl',
                                                 cut=cutting_slice)
 
                 shapes_or_components.append(tf_coil)

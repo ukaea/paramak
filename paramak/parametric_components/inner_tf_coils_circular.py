@@ -28,6 +28,7 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
         gap_size,
         distance=None,
         stp_filename="InnerTfCoilsCircular.stp",
+        stl_filename="InnerTfCoilsCircular.stl",
         color=None,
         azimuth_placement_angle=0,
         cut=None,
@@ -48,6 +49,7 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
         super().__init__(
             distance=distance,
             stp_filename=stp_filename,
+            stl_filename=stl_filename,
             color=color,
             azimuth_placement_angle=azimuth_placement_angle,
             cut=cut,
