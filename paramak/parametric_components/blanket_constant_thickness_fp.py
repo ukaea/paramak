@@ -72,6 +72,7 @@ class BlanketConstantThicknessFP(RotateMixedShape):
         offset_from_plasma=0,
         num_points=50,
         stp_filename="BlanketConstantThicknessFP.stp",
+        stl_filename="BlanketConstantThicknessFP.stl",
         rotation_angle=360,
         azimuth_placement_angle=0,
         color=None,
@@ -98,6 +99,7 @@ class BlanketConstantThicknessFP(RotateMixedShape):
             color=color,
             material_tag=material_tag,
             stp_filename=stp_filename,
+            stl_filename=stl_filename,
             azimuth_placement_angle=azimuth_placement_angle,
             rotation_angle=rotation_angle,
             **default_dict

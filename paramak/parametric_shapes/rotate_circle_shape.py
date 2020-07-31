@@ -32,6 +32,7 @@ class RotateCircleShape(Shape):
         radius,
         workplane="XZ",
         stp_filename="RotateCircleShape.stp",
+        stl_filename="RotateCircleShape.stl",
         solid=None,
         color=None,
         azimuth_placement_angle=0,
@@ -50,6 +51,7 @@ class RotateCircleShape(Shape):
             color,
             material_tag,
             stp_filename,
+            stl_filename,
             azimuth_placement_angle,
             workplane,
         )

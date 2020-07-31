@@ -33,6 +33,7 @@ class RotateSplineShape(Shape):
         color=None,
         material_tag=None,
         stp_filename="RotateSplineShape.stp",
+        stl_filename="RotateSplineShape.stl",
         azimuth_placement_angle=0,
         solid=None,
         rotation_angle=360,
@@ -48,6 +49,7 @@ class RotateSplineShape(Shape):
             color,
             material_tag,
             stp_filename,
+            stl_filename,
             azimuth_placement_angle,
             workplane,
         )

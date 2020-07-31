@@ -40,6 +40,7 @@ class ExtrudeMixedShape(Shape):
         distance,
         workplane="XZ",
         stp_filename="ExtrudeMixedShape.stp",
+        stl_filename="ExtrudeMixedShape.stl",
         solid=None,
         color=None,
         azimuth_placement_angle=0,
@@ -57,6 +58,7 @@ class ExtrudeMixedShape(Shape):
             color,
             material_tag,
             stp_filename,
+            stl_filename,
             azimuth_placement_angle,
             workplane,
         )

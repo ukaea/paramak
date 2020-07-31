@@ -38,6 +38,7 @@ class ExtrudeStraightShape(Shape):
         distance,
         workplane="XZ",
         stp_filename="ExtrudeStraightShape.stp",
+        stl_filename="ExtrudeStraightShape.stl",
         solid=None,
         color=None,
         azimuth_placement_angle=0,
@@ -55,6 +56,7 @@ class ExtrudeStraightShape(Shape):
             color,
             material_tag,
             stp_filename,
+            stl_filename,
             azimuth_placement_angle,
             workplane,
         )
