@@ -178,9 +178,9 @@ class PlasmaBoundaries(Plasma):
         # remove unnecessary points
         lower_x_point, upper_x_point = self.compute_x_points()
         # if non-null these are the y bounds
-        lower_point_y = -self.elongation*aspect_ratio + \
+        lower_point_y = -self.elongation*self.minor_radius + \
             self.vertical_displacement
-        upper_point_y = self.elongation*aspect_ratio + \
+        upper_point_y = self.elongation*self.minor_radius + \
             self.vertical_displacement
         # else use x points
         if self.configuration == "single-null" or \
