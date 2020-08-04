@@ -5,10 +5,10 @@ import numpy as np
 import scipy
 from plasmaboundaries import get_separatrix_coordinates
 
-from paramak import RotateSplineShape
+from paramak import Plasma
 
 
-class PlasmaBoundaries(RotateSplineShape):
+class PlasmaBoundaries(Plasma):
     """Creates a double null tokamak plasma shape that is controlled
        by 4 shaping parameters.
 
@@ -157,36 +157,6 @@ class PlasmaBoundaries(RotateSplineShape):
             raise ValueError("elongation is out of range")
         else:
             self._elongation = value
-
-    def compute_x_points(self):
-        """Computes the location of X points based on plasma parameters and
-         configuration
-
-        Returns:
-            ((float, float), (float, float)): lower and upper x points
-             coordinates. None if no x points
-        """
-        lower_x_point, upper_x_point = None, None  # non-null config
-        minor_radius, major_radius = self.minor_radius, self.major_radius
-        shift = self.x_point_shift
-        elongation = self.elongation
-        triangularity = self.triangularity
-        if self.configuration == "single-null" or \
-           self.configuration == "double-null":
-            # no X points for non-null config
-            lower_x_point = (
-                1-(1+shift)*triangularity*minor_radius,
-                -(1+shift)*elongation*minor_radius + self.vertical_displacement
-            )
-
-            if self.configuration == "double-null":
-                # upper_x_point is up-down symmetrical
-                upper_x_point = (
-                    lower_x_point[0],
-                    (1+shift)*elongation*minor_radius +
-                    self.vertical_displacement
-                )
-        return lower_x_point, upper_x_point
 
     def find_points(self):
         """Finds the XZ points that describe the 2D profile of the plasma.
