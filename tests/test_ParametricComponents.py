@@ -198,7 +198,7 @@ class test_Plasma(unittest.TestCase):
                     expected_lower_x_point = (
                         1-(1+test_plasma.x_point_shift)*triangularity *
                         minor_radius,
-                        (1+test_plasma.x_point_shift)*elongation *
+                        -(1+test_plasma.x_point_shift)*elongation *
                         minor_radius
                     )
 

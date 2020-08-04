@@ -181,7 +181,7 @@ class Plasma(RotateSplineShape):
             # no X points for non-null config
             lower_x_point = (
                 1-(1+shift)*triangularity*minor_radius,
-                (1+shift)*elongation*minor_radius
+                -(1+shift)*elongation*minor_radius
             )
 
             if self.configuration == "double-null":
