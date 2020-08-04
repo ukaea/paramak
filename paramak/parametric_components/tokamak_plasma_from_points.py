@@ -80,10 +80,7 @@ class PlasmaFromPoints(Plasma):
         self.outer_equatorial_x_point = outer_equatorial_x_point
         self.inner_equatorial_x_point = inner_equatorial_x_point
         self.high_point = high_point
-        self.lower_x_point, self.upper_x_point = self.compute_x_points(
-            (minor_radius, major_radius), elongation, triangularity,
-            x_point_shift
-        )
+        self.lower_x_point, self.upper_x_point = self.compute_x_points()
 
     @property
     def points(self):

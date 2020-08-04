@@ -175,11 +175,13 @@ class test_Plasma(unittest.TestCase):
         """Checks the location of the x point for various plasma configurations
         """
 
-        for triangularity, elongation, minor_radius, major_radius in zip(
-                [-0.7, 0, 0.5],  # triangularity
-                [1, 1.5, 2],  # elongation
-                [100, 200, 300],  # minor radius
-                [300, 400, 600]):  # major radius
+        for triangularity, elongation, minor_radius, major_radius, \
+                vertical_displacement in zip(
+                    [-0.7, 0, 0.5],  # triangularity
+                    [1, 1.5, 2],  # elongation
+                    [100, 200, 300],  # minor radius
+                    [300, 400, 600],  # major radius
+                    [0, -10, 5]):  # displacement
 
             for config in ["non-null", "single-null", "double-null"]:
 
@@ -189,7 +191,8 @@ class test_Plasma(unittest.TestCase):
                     triangularity=triangularity,
                     elongation=elongation,
                     minor_radius=minor_radius,
-                    major_radius=major_radius)
+                    major_radius=major_radius,
+                    vertical_displacement=vertical_displacement)
 
                 # Expected
                 expected_lower_x_point, expected_upper_x_point = None, None
@@ -199,13 +202,14 @@ class test_Plasma(unittest.TestCase):
                         1-(1+test_plasma.x_point_shift)*triangularity *
                         minor_radius,
                         -(1+test_plasma.x_point_shift)*elongation *
-                        minor_radius
+                        minor_radius + vertical_displacement
                     )
 
                     if config == "double-null":
                         expected_upper_x_point = (
                             expected_lower_x_point[0],
-                            -expected_lower_x_point[1]
+                            (1+test_plasma.x_point_shift)*elongation *
+                            minor_radius + vertical_displacement
                         )
 
                 # Check
