@@ -206,9 +206,9 @@ class BallReactor(paramak.Reactor):
             pf_coil_start_radius = blanket_read_wall_end_radius + self.pf_coil_to_rear_blanket_radial_gap
             pf_coil_end_radius = pf_coil_start_radius + max(self.pf_coil_radial_thicknesses)
         
-        if self.pf_coil_to_tf_coil_radial_gap !=None and self.tf_coil_radial_thickness !=None:
-            tf_coil_start_radius = pf_coil_end_radius + self.pf_coil_to_rear_blanket_radial_gap 
-            tf_coil_end_radius = tf_coil_start_radius + self.tf_coil_radial_thickness
+            if self.pf_coil_to_tf_coil_radial_gap !=None and self.tf_coil_radial_thickness !=None:
+                tf_coil_start_radius = pf_coil_end_radius + self.pf_coil_to_rear_blanket_radial_gap 
+                tf_coil_end_radius = tf_coil_start_radius + self.tf_coil_radial_thickness
 
 
         if self.rotation_angle < 360:
