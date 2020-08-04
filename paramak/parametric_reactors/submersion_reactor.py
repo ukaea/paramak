@@ -164,9 +164,18 @@ class SubmersionTokamak(paramak.Reactor):
         blanket_rear_wall_start_radius = outboard_blanket_end_radius 
         blanket_rear_wall_end_radius = blanket_rear_wall_start_radius + self.blanket_rear_wall_radial_thickness 
 
-        if self.tf_coil_to_rear_blanket_radial_gap !=None and self.outboard_tf_coil_radial_thickness !=None:
+
+        tf_info_provided=False
+        if self.outboard_tf_coil_radial_thickness!=None and self.tf_coil_to_rear_blanket_radial_gap!=None and self.tf_coil_poloidal_thickness!=None:
+            tf_info_provided=True
             outboard_tf_coil_start_radius = blanket_rear_wall_end_radius + self.tf_coil_to_rear_blanket_radial_gap
             outboard_tf_coil_end_radius = outboard_tf_coil_start_radius + self.outboard_tf_coil_radial_thickness
+
+        pf_info_provided=False
+        if self.pf_coil_vertical_thicknesses!=None and self.pf_coil_radial_thicknesses!=None and self.pf_coil_to_tf_coil_radial_gap!=None:
+            pf_info_provided=True
+
+
 
 
 
@@ -209,7 +218,7 @@ class SubmersionTokamak(paramak.Reactor):
 
 
 
-        if self.pf_coil_vertical_thicknesses!=None and self.pf_coil_radial_thicknesses !=None and self.pf_coil_to_tf_coil_radial_gap !=None:
+        if tf_info_provided and pf_info_provided:
             number_of_pf_coils = len(self.pf_coil_vertical_thicknesses)
 
             y_position_step = (2*blanket_rear_wall_end_height)/(number_of_pf_coils+1)
@@ -408,7 +417,7 @@ class SubmersionTokamak(paramak.Reactor):
 
         shapes_or_components.append(outboard_rear_blanket_wall)
 
-        if self.outboard_tf_coil_radial_thickness != None and self.tf_coil_to_rear_blanket_radial_gap !=None and self.tf_coil_poloidal_thickness != None:
+        if tf_info_provided:
             tf_coil = paramak.ToroidalFieldCoilRectangle(
                                             inner_upper_point=(inboard_tf_coils_start_radius, blanket_rear_wall_end_height),
                                             inner_lower_point=(inboard_tf_coils_start_radius, -blanket_rear_wall_end_height),
@@ -419,23 +428,23 @@ class SubmersionTokamak(paramak.Reactor):
                                             cut=cutting_slice)
             shapes_or_components.append(tf_coil)
 
-        if self.pf_coil_vertical_thicknesses!=None and self.pf_coil_radial_thicknesses !=None and self.pf_coil_to_tf_coil_radial_gap !=None:
-            
-            for i, (rt, vt, y_value, x_value) in enumerate(zip(self.pf_coil_radial_thicknesses,
-                                                             self.pf_coil_vertical_thicknesses,
-                                                             pf_coils_y_values,
-                                                             pf_coils_x_values,
-                                                            )
-                                                        ):
+            if pf_info_provided:
+                
+                for i, (rt, vt, y_value, x_value) in enumerate(zip(self.pf_coil_radial_thicknesses,
+                                                                self.pf_coil_vertical_thicknesses,
+                                                                pf_coils_y_values,
+                                                                pf_coils_x_values,
+                                                                )
+                                                            ):
 
 
-                pf_coil = paramak.PoloidalFieldCoil(width=rt, 
-                                                    height=vt,
-                                                    center_point=(x_value,y_value),
-                                                    rotation_angle=self.rotation_angle,
-                                                    stp_filename='pf_coil_'+str(i)+'.stp',
-                                                    name='pf_coil',
-                                                    material_tag='pf_coil_mat')
-                shapes_or_components.append(pf_coil)
+                    pf_coil = paramak.PoloidalFieldCoil(width=rt, 
+                                                        height=vt,
+                                                        center_point=(x_value,y_value),
+                                                        rotation_angle=self.rotation_angle,
+                                                        stp_filename='pf_coil_'+str(i)+'.stp',
+                                                        name='pf_coil',
+                                                        material_tag='pf_coil_mat')
+                    shapes_or_components.append(pf_coil)
 
         self.shapes_and_components = shapes_or_components
