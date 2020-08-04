@@ -25,7 +25,7 @@ class PlasmaBoundaries(Plasma):
     :param num_points: number of points to described the shape
     :type num_points: int
     :param configuration: plasma configuration
-     ("non-null", "single-null", "double-null"). Defaults to "non-null")
+     ("non-null", "single-null", "double-null"). Defaults to "non-null".
     :type configuration: str
     :param x_point_shift: Shift parameters for locating the X points in [0, 1].
      Default to 0.1.
@@ -33,7 +33,8 @@ class PlasmaBoundaries(Plasma):
 
     :return: a shape object that has generic functionality with 4 attributes
        (outer_equatorial_point, inner_equatorial_point, high_point, low_point)
-       as tuples of 2 floats
+       as tuples of 2 floats. Note, in the case of a single-null or
+       double-null plasma, low_point and high_point aren't the x points
     :rtype: paramak shape object
     """
 
@@ -196,3 +197,15 @@ class PlasmaBoundaries(Plasma):
         # add spline to points
         points = [[p[0], p[1], "spline"] for p in points]
         self.points = points
+
+        # set the points of interest
+        self.high_point = (
+            self.major_radius-self.triangularity*self.minor_radius,
+            self.elongation*self.minor_radius)
+        self.low_point = (
+            self.major_radius-self.triangularity*self.minor_radius,
+            -self.elongation*self.minor_radius)
+        self.outer_equatorial_point = (
+            self.major_radius + self.minor_radius, 0)
+        self.inner_equatorial_point = (
+            self.major_radius - self.minor_radius, 0)
