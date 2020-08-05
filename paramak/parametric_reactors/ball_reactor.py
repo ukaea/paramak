@@ -172,11 +172,7 @@ class BallReactor(paramak.Reactor):
 
         #this is the vertical build sequence, componets build on each other in a similar manner to the radial build
 
-        divertor_start_height = plasma.high_point[1]+ self.outer_plasma_gap_radial_thickness
-        # make it the same hight as fw, blanket, rw
-        divertor_end_height = divertor_start_height + self.firstwall_radial_thickness + self.blanket_radial_thickness + self.blanket_rear_wall_radial_thickness
-
-        firstwall_start_height = divertor_start_height
+        firstwall_start_height = plasma.high_point[1]+ self.outer_plasma_gap_radial_thickness
         firstwall_end_height = firstwall_start_height + self.firstwall_radial_thickness
 
         blanket_start_height = firstwall_end_height
@@ -210,7 +206,7 @@ class BallReactor(paramak.Reactor):
             tf_coil_start_radius = pf_coil_end_radius + self.pf_coil_to_rear_blanket_radial_gap 
             tf_coil_end_radius = tf_coil_start_radius + self.tf_coil_radial_thickness
 
-
+        # makes a large cylinder that is used to cut the TF coils when the rotation angle is less than 360
         if self.rotation_angle < 360:
             max_high = 3 * center_column_shield_height
             max_width = 3 * blanket_read_wall_end_radius
@@ -226,7 +222,6 @@ class BallReactor(paramak.Reactor):
         else:
             cutting_slice=None
 
-        # shapes_or_components.append(inboard_tf_coils)
         inboard_tf_coils = paramak.CenterColumnShieldCylinder(
             height=tf_coil_height * 2,
             inner_radius=inboard_tf_coils_start_radius,
@@ -250,8 +245,6 @@ class BallReactor(paramak.Reactor):
             material_tag="center_column_shield_mat",
         )
         shapes_or_components.append(center_column_shield)
-
-        space_for_divertor = plasma.high_point[0] - center_column_shield_end_radius
 
         extra_blanket_upper = paramak.RotateStraightShape(points=[
             (center_column_shield_end_radius, blanket_start_height),
@@ -301,8 +294,6 @@ class BallReactor(paramak.Reactor):
             ],
             rotation_angle=self.rotation_angle,)
 
-
-
         firstwall = paramak.BlanketConstantThicknessArcV(
             inner_mid_point=(firstwall_start_radius, 0),
             inner_upper_point=(plasma.high_point[0], firstwall_start_height),
@@ -339,7 +330,7 @@ class BallReactor(paramak.Reactor):
             union=[extra_blanket_rear_wall_upper, extra_blanket_rear_wall_lower]
         )
 
-        # used when making the divertor
+        # used as an intersect when making the divertor
         blanket_fw_rear_wall_envelope = paramak.BlanketConstantThicknessArcV(
             inner_mid_point=(firstwall_start_radius, 0),
             inner_upper_point=(plasma.high_point[0], firstwall_start_height),
