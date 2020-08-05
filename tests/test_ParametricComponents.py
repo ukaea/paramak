@@ -55,8 +55,8 @@ class test_BlanketConstantThicknessArcH(unittest.TestCase):
         assert test_shape.solid is not None
         assert test_shape.volume > 1000
 
-class test_BlanketConstantThickness(unittest.TestCase):
-    def test_BlanketConstantThickness_creation(self):
+class test_Blanket(unittest.TestCase):
+    def test_Blanket_creation(self):
         """creates blanket from parametric shape and checks a solid is created"""
         plasma = paramak.Plasma(
             major_radius=300,
@@ -64,7 +64,7 @@ class test_BlanketConstantThickness(unittest.TestCase):
             triangularity=0.5,
             elongation=2,
         )
-        test_shape = paramak.BlanketConstantThicknessFP(
+        test_shape = paramak.BlanketFP(
             plasma=plasma,
             thickness=200,
             stop_angle=90,
@@ -76,8 +76,8 @@ class test_BlanketConstantThickness(unittest.TestCase):
         assert test_shape.volume > 1000
 
 
-class test_BlanketConstantThicknessFP(unittest.TestCase):
-    def test_BlanketConstantThicknessFP_creation_plasma(self):
+class test_BlanketFP(unittest.TestCase):
+    def test_BlanketFP_creation_plasma(self):
         """creates blanket from parametric shape and checks a solid is created"""
         plasma = paramak.Plasma(
             major_radius=300,
@@ -85,7 +85,7 @@ class test_BlanketConstantThicknessFP(unittest.TestCase):
             triangularity=0.5,
             elongation=2,
         )
-        test_shape = paramak.BlanketConstantThicknessFP(
+        test_shape = paramak.BlanketFP(
             plasma=plasma,
             thickness=200,
             stop_angle=90,
@@ -96,10 +96,10 @@ class test_BlanketConstantThicknessFP(unittest.TestCase):
         assert test_shape.solid is not None
         assert test_shape.volume > 1000
 
-    def test_BlanketConstantThicknessFP_creation_noplasma(self):
+    def test_BlanketFP_creation_noplasma(self):
         """creates blanket from parametric shape and checks a solid is created"""
 
-        test_shape = paramak.BlanketConstantThicknessFP(
+        test_shape = paramak.BlanketFP(
             major_radius=300,
             minor_radius=50,
             triangularity=0.5,
@@ -112,19 +112,19 @@ class test_BlanketConstantThicknessFP(unittest.TestCase):
         assert test_shape.solid is not None
         assert test_shape.volume > 1000
 
-    def test_BlanketConstantThicknessFP_physical_groups(self):
+    def test_BlanketFP_physical_groups(self):
         """Creates default blanket and checks the exports of physical groups
         """
-        test_shape = paramak.BlanketConstantThicknessFP(
+        test_shape = paramak.BlanketFP(
             100, stop_angle=90,
             start_angle=270,)
         test_shape.export_physical_groups('tests/blanket.json')
 
-    def test_BlanketConstantThicknessFP_full_cov_stp_export(self):
+    def test_BlanketFP_full_cov_stp_export(self):
         """creates blanket from parametric shape and checks the STP export
         with full coverage"""
 
-        test_shape = paramak.BlanketConstantThicknessFP(
+        test_shape = paramak.BlanketFP(
             major_radius=300,
             minor_radius=50,
             triangularity=0.5,
