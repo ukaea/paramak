@@ -197,9 +197,25 @@ class BlanketConstantThicknessFP(RotateMixedShape):
         inner_points[-1][2] = 'straight'
 
         # compute outer points
+        def new_offset(theta):
+            if callable(self.thickness):
+                # use the function of angle
+                return self.thickness(theta) + self.offset_from_plasma
+            elif isinstance(self.thickness, tuple):
+                # increase thickness linearly
+                start_thickness, stop_thickness = self.thickness
+                a = (stop_thickness - start_thickness) / \
+                    (self.stop_angle*conversion_factor -
+                        self.start_angle*conversion_factor)
+                b = start_thickness - self.start_angle*a
+                print(a*theta + b + self.offset_from_plasma)
+                return a*theta + b + self.offset_from_plasma
+            else:
+                # use the constant value
+                return self.thickness + self.offset_from_plasma
         outer_points = self.create_offset_points(
             np.flip(thetas), R, Z,
-            self.thickness + self.offset_from_plasma)
+            new_offset)
         points = inner_points + outer_points
         points[-1][2] = 'straight'
         points.append(inner_points[0])
@@ -217,7 +233,7 @@ class BlanketConstantThicknessFP(RotateMixedShape):
         :type Z_fun: callable
         :param offset: offset value (cm). offset=0 will follow the parametric
          equations.
-
+        :type offset: float, callable
         :return: list of points [[R1, Z1, connection1], [R2, Z2, connection2],
             ...]
         :rtype: list
@@ -231,6 +247,12 @@ class BlanketConstantThicknessFP(RotateMixedShape):
         R_derivative = sp.diff(R_sp, theta_sp)
         Z_derivative = sp.diff(Z_sp, theta_sp)
         points = []
+
+        def new_offset(theta):
+            if callable(offset):
+                return offset(theta)
+            else:
+                return offset
 
         for theta in thetas:
             # get local value of derivatives
@@ -247,8 +269,8 @@ class BlanketConstantThicknessFP(RotateMixedShape):
             ny /= normal_vector_norm
 
             # calculate outer points
-            val_R_outer = R_fun(theta) + offset*nx
-            val_Z_outer = Z_fun(theta) + offset*ny
+            val_R_outer = R_fun(theta) + new_offset(theta)*nx
+            val_Z_outer = Z_fun(theta) + new_offset(theta)*ny
 
             points.append([float(val_R_outer), float(val_Z_outer), 'spline'])
         return points
