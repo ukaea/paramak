@@ -7,7 +7,7 @@ import sympy as sp
 from paramak import RotateMixedShape
 
 
-class BlanketConstantThicknessFP(RotateMixedShape):
+class BlanketFP(RotateMixedShape):
     """A blanket volume created from plasma parameters.
 
 
