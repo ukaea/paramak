@@ -11,37 +11,36 @@ from paramak import Plasma
 class PlasmaBoundaries(Plasma):
     """Creates a double null tokamak plasma shape that is controlled
        by 4 shaping parameters.
+        Args:
+            A (float, optional): plasma parameter see plasmaboundaries doc.
+                Defaults to 0.05.
+            elongation (float, optional): the elongation of the plasma.
+                Defaults to 2.0.
+            major_radius (int, optional): the major radius of the plasma (cm).
+                Defaults to 450.
+            minor_radius (int, optional): the minor radius of the plasma (cm).
+                Defaults to 150.
+            triangularity (float, optional): the triangularity of the plasma.
+                Defaults to 0.55.
+            vertical_displacement (int, optional): the vertical_displacement
+                of the plasma (cm). Defaults to 0.
+            num_points (int, optional): number of points to described the
+                shape. Defaults to 50.
+            configuration (str, optional): plasma configuration
+                ("non-null", "single-null", "double-null").
+                Defaults to "non-null".
+            x_point_shift (float, optional): Shift parameters for locating the
+                X points in [0, 1]. Defaults to 0.1.
+            Others: see paramak.RotateMixedShape() arguments.
 
-    :param major_radius: the major radius of the plasma (cm)
-    :type major_radius: float
-    :param minor_radius: the minor radius of the plasma (cm)
-    :type minor_radius: float
-    :param triangularity: the triangularity of the plasma
-    :type triangularity: float
-    :param elongation: the elongation of the plasma
-    :type elongation: float
-    :param vertical_displacement: the vertical_displacement of the plasma (cm)
-    :type vertical_displacement: float
-    :param num_points: number of points to described the shape
-    :type num_points: int
-    :param configuration: plasma configuration
-     ("non-null", "single-null", "double-null"). Defaults to "non-null".
-    :type configuration: str
-    :param x_point_shift: Shift parameters for locating the X points in [0, 1].
-     Default to 0.1.
-    :type x_point_shift: float
-
-    :return: a shape object that has generic functionality with 4 attributes
-       (outer_equatorial_point, inner_equatorial_point, high_point, low_point)
-       as tuples of 2 floats. Note, in the case of a single-null or
-       double-null plasma, low_point and high_point aren't the x points
-    :rtype: paramak shape object
+        Attributes:
+            A: plasma parameter see plasmaboundaries doc.
+            Others: see paramak.RotateMixedShape() and paramak.Plasma()
+                attributes.
     """
 
     def __init__(
         self,
-        name='plasma',
-        material_tag='DT_plasma',
         A=0.05,
         elongation=2.0,
         major_radius=450,
@@ -51,6 +50,8 @@ class PlasmaBoundaries(Plasma):
         num_points=50,
         configuration="non-null",
         x_point_shift=0.1,
+        name='plasma',
+        material_tag='DT_plasma',
         stp_filename="plasma.stp",
         color=None,
         rotation_angle=360,
@@ -88,7 +89,6 @@ class PlasmaBoundaries(Plasma):
         self.triangularity = triangularity
         self.vertical_displacement = vertical_displacement
         self.num_points = num_points
-        # self.points = points
         self.configuration = configuration
         self.x_point_shift = x_point_shift
 
