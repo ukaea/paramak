@@ -1,4 +1,3 @@
-
 import math
 import operator
 
@@ -11,7 +10,6 @@ class SubmersionTokamak(paramak.Reactor):
     """Creates geometry for a simple submersion reactor including a
     plasma, cylindical center column shielding, square toroidal field
     coils. There is an inboard breeder blanket on this ball reactor.
-
     :param inner_bore_radial_thickness: the radial thickness of 
      the inner bore (cm)
     :type inner_bore_radial_thickness: float
@@ -67,7 +65,6 @@ class SubmersionTokamak(paramak.Reactor):
     :pf_coil_to_tf_coil_radial_gap: the radial distance between the rear of
      the poloidal field coil and the toroidal field coil (optional)
     :type pf_coil_to_tf_coil_radial_gap: float
-
     :return: a Reactor object that has generic functionality
     :rtype: paramak shape object
     """
@@ -285,6 +282,7 @@ class SubmersionTokamak(paramak.Reactor):
         self.triangularity = plasma.triangularity
 
         shapes_or_components.append(plasma)
+
         # this is used to cut the inboard blanket and then fused / unioned with the firstwall
         inboard_firstwall = paramak.BlanketFP(
             plasma=plasma,
@@ -308,7 +306,7 @@ class SubmersionTokamak(paramak.Reactor):
         inboard_blanket.solid = inboard_blanket.solid.solids(cq.selectors.NearestToPointSelector((0, 0, 0)))
 
 
-        outboard_firstwall = paramak.BlanketFP(
+        firstwall = paramak.BlanketFP(
             plasma=plasma,
             offset_from_plasma=self.outer_plasma_gap_radial_thickness,
             start_angle=90,
@@ -336,8 +334,9 @@ class SubmersionTokamak(paramak.Reactor):
         # the divertor is cut away then the firstwall can be added to the reactor using CQ operations
         firstwall.solid = firstwall.solid.cut(divertor.solid)
         shapes_or_components.append(firstwall)
+
         # this is the outboard fused / unioned with the inboard blanket
-        outboard_blanket = paramak.BlanketFP(
+        blanket = paramak.BlanketFP(
             plasma=plasma,
             start_angle=90,
             stop_angle=-90,
@@ -387,7 +386,7 @@ class SubmersionTokamak(paramak.Reactor):
             rotation_angle=self.rotation_angle,
         )
 
-        outboard_rear_blanket_wall = paramak.BlanketConstantThicknessFP(
+        outboard_rear_blanket_wall = paramak.BlanketFP(
             plasma=plasma,
             start_angle=90,
             stop_angle=-90,
