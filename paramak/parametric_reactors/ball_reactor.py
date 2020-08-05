@@ -346,7 +346,10 @@ class BallReactor(paramak.Reactor):
             height=blanket_rear_wall_end_height*2,
             inner_radius=divertor_start_radius,
             outer_radius=divertor_end_radius,
-            intersect=blanket_fw_rear_wall_envelope
+            intersect=blanket_fw_rear_wall_envelope,
+            stp_filename='divertor.stp',
+            name='divertor',
+            material_tag='divertor_mat',
         )
         shapes_or_components.append(divertor)
 
