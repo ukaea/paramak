@@ -10,36 +10,54 @@ from paramak import RotateSplineShape
 class Plasma(RotateSplineShape):
     """Creates a double null tokamak plasma shape that is controlled
        by 4 shaping parameters.
+        Args:
+            elongation (float, optional): the elongation of the plasma.
+                Defaults to 2.0.
+            major_radius (int, optional): the major radius of the plasma (cm).
+                Defaults to 450.
+            minor_radius (int, optional): the minor radius of the plasma (cm).
+                Defaults to 150.
+            triangularity (float, optional): the triangularity of the plasma.
+                Defaults to 0.55.
+            vertical_displacement (int, optional): the vertical_displacement
+                of the plasma (cm). Defaults to 0.
+            num_points (int, optional): number of points to described the
+                shape. Defaults to 50.
+            configuration (str, optional): plasma configuration
+                ("non-null", "single-null", "double-null").
+                Defaults to "non-null".
+            x_point_shift (float, optional): Shift parameters for locating the
+                X points in [0, 1]. Defaults to 0.1.
+            Others: see paramak.RotateSplineShape() arguments.
 
-    :param major_radius: the major radius of the plasma (cm)
-    :type major_radius: float
-    :param minor_radius: the minor radius of the plasma (cm)
-    :type minor_radius: float
-    :param triangularity: the triangularity of the plasma
-    :type triangularity: float
-    :param elongation: the elongation of the plasma
-    :type elongation: float
-    :param vertical_displacement: the vertical_displacement of the plasma (cm)
-    :type vertical_displacement: float
-    :param num_points: number of points to described the shape
-    :type num_points: int
-    :param configuration: plasma configuration
-     ("non-null", "single-null", "double-null"). Defaults to "non-null")
-    :type configuration: str
-    :param x_point_shift: Shift parameters for locating the X points in [0, 1].
-     Default to 0.1.
-    :type x_point_shift: float
-
-    :return: a shape object that has generic functionality with 4 attributes
-       (outer_equatorial_point, inner_equatorial_point, high_point, low_point)
-       as tuples of 2 floats
-    :rtype: paramak shape object
+        Attributes:
+            elongation (float): the elongation of the plasma.
+            major_radius (int): the major radius of the plasma (cm).
+            minor_radius (int): the minor radius of the plasma (cm).
+            triangularity (float): the triangularity of the plasma.
+            vertical_displacement (int): the vertical_displacement
+                of the plasma (cm).
+            num_points (int): number of points to described the
+                shape.
+            configuration (str): plasma configuration
+                ("non-null", "single-null", "double-null").
+            x_point_shift (float): Shift parameters for locating the
+                X points in [0, 1].
+            outer_equatorial_point (float, float): coordinates for outer
+                equatorial point
+            inner_equatorial_point (float, float): coordinates for inner
+                equatorial point
+            high_point (float, float): coordinates for high point
+            low_point (float, float): coordinates for low point
+            lower_x_point (float, float): coordinates for lower x point (None
+                if doesn't exist)
+            upper_x_point (float, float): coordinates for upper x point (None
+                if doesn't exist)
+            Others: see paramak.RotateSplineShape() attributes.
     """
 
     def __init__(
         self,
-        name='plasma',
-        material_tag='DT_plasma',
         elongation=2.0,
         major_radius=450,
         minor_radius=150,
@@ -48,6 +66,8 @@ class Plasma(RotateSplineShape):
         num_points=50,
         configuration="non-null",
         x_point_shift=0.1,
+        name='plasma',
+        material_tag='DT_plasma',
         stp_filename="plasma.stp",
         color=None,
         rotation_angle=360,
@@ -84,7 +104,6 @@ class Plasma(RotateSplineShape):
         self.triangularity = triangularity
         self.vertical_displacement = vertical_displacement
         self.num_points = num_points
-        # self.points = points
         self.configuration = configuration
         self.x_point_shift = x_point_shift
 
