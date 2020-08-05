@@ -112,6 +112,39 @@ class test_BlanketFP(unittest.TestCase):
         assert test_shape.solid is not None
         assert test_shape.volume > 1000
 
+    def test_BlanketFP_creation_variable_thickness_from_tuple(self):
+        """creates blanket from parametric shape and checks a solid is created"""
+
+        test_shape = paramak.BlanketFP(
+            major_radius=300,
+            minor_radius=50,
+            triangularity=0.5,
+            elongation=2,
+            thickness=(100, 200),
+            stop_angle=90,
+            start_angle=270,
+        )
+
+        assert test_shape.solid is not None
+        assert test_shape.volume > 1000
+
+    def test_BlanketFP_creation_variable_thickness_function(self):
+        """creates blanket from parametric shape and checks a solid is created"""
+        def thickness(theta):
+            return 100 + 3*theta
+        test_shape = paramak.BlanketFP(
+            major_radius=300,
+            minor_radius=50,
+            triangularity=0.5,
+            elongation=2,
+            thickness=thickness,
+            stop_angle=90,
+            start_angle=270,
+        )
+
+        assert test_shape.solid is not None
+        assert test_shape.volume > 1000
+
     def test_BlanketFP_physical_groups(self):
         """Creates default blanket and checks the exports of physical groups
         """
