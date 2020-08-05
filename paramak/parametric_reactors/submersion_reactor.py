@@ -33,6 +33,8 @@ class SubmersionTokamak(paramak.Reactor):
     :type plasma_radial_thickness: float
     :divertor_radial_thickness: the radial thickness of the divertors (cm)
     :type divertor_radial_thickness: float
+    :support_radial_thickness: the radial thickness of the upper and lower supports (cm)
+    :type support_radial_thickness: float
     :outer_plasma_gap_radial_thickness: the radial thickness of the
      outboard gap between the plasma and the firstwall (cm)
     :type outer_plasma_gap_radial_thickness: float
@@ -41,9 +43,30 @@ class SubmersionTokamak(paramak.Reactor):
     :blanket_rear_wall_radial_thickness: the radial thickness of the rear wall
      of the blanket (cm)
     :type blanket_rear_wall_radial_thickness: float
-
+    :param high_point: the (x,z) coordinates value of the top of the plasma (cm)
+    :type high_point: tuple of 2 floats
+    :number_of_tf_coils: the number of tf coils
+    :type number_of_tf_coils: int
     :rotation_angle: the angle of the sector that is desired
     :type rotation_angle: int
+    :outboard_tf_coil_radial_thickness: the radial thickness of the toroidal field
+     coil (optional)
+    :type outboard_tf_coil_radial_thickness: float
+    :tf_coil_to_rear_blanket_radial_gap: the radial distance between the rear of
+     the blanket and the toroidal field coil (optional)
+    :type tf_coil_to_rear_blanket_radial_gap: float
+    :tf_coil_poloidal_thickness: the poloidal thickness of the toroidal field
+     coil (optional)
+    :type tf_coil_poloidal_thickness: float
+    :pf_coil_vertical_thicknesses: the vertical thickness of each poloidal
+     field coil (optional)
+    :type pf_coil_vertical_thicknesses: list of floats
+    :pf_coil_radial_thicknesses: the radial thickness of each poloidal field
+     coil (optional)
+    :type pf_coil_radial_thicknesses: list of floats
+    :pf_coil_to_tf_coil_radial_gap: the radial distance between the rear of
+     the poloidal field coil and the toroidal field coil (optional)
+    :type pf_coil_to_tf_coil_radial_gap: float
 
     :return: a Reactor object that has generic functionality
     :rtype: paramak shape object
