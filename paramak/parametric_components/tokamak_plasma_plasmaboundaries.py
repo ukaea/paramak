@@ -31,11 +31,11 @@ class PlasmaBoundaries(Plasma):
                 Defaults to "non-null".
             x_point_shift (float, optional): Shift parameters for locating the
                 X points in [0, 1]. Defaults to 0.1.
-            Others: see paramak.RotateMixedShape() arguments.
+            Others: see paramak.RotateSplineShape() arguments.
 
         Attributes:
             A: plasma parameter see plasmaboundaries doc.
-            Others: see paramak.RotateMixedShape() and paramak.Plasma()
+            Others: see paramak.RotateSplineShape() and paramak.Plasma()
                 attributes.
     """
 
