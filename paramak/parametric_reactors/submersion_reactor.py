@@ -244,7 +244,7 @@ class SubmersionTokamak(paramak.Reactor):
 
         shapes_or_components.append(plasma)
 
-        inboard_firstwall = paramak.BlanketConstantThicknessFP(
+        inboard_firstwall = paramak.BlanketFP(
             plasma=plasma,
             offset_from_plasma=self.inner_plasma_gap_radial_thickness,
             start_angle=90,
@@ -274,7 +274,7 @@ class SubmersionTokamak(paramak.Reactor):
 
         # shapes_or_components.append(inboard_blanket)
 
-        outboard_firstwall = paramak.BlanketConstantThicknessFP(
+        outboard_firstwall = paramak.BlanketFP(
             plasma=plasma,
             offset_from_plasma=self.outer_plasma_gap_radial_thickness,
             start_angle=90,
@@ -305,7 +305,7 @@ class SubmersionTokamak(paramak.Reactor):
         outboard_firstwall.solid = firstwall.cut(divertor.solid)
         shapes_or_components.append(outboard_firstwall)
 
-        outboard_blanket = paramak.BlanketConstantThicknessFP(
+        outboard_blanket = paramak.BlanketFP(
             plasma=plasma,
             start_angle=90,
             stop_angle=-90,
@@ -323,7 +323,7 @@ class SubmersionTokamak(paramak.Reactor):
         outboard_blanket.solid = blanket
         shapes_or_components.append(outboard_blanket)
 
-        outboard_rear_blanket_wall = paramak.BlanketConstantThicknessFP(
+        outboard_rear_blanket_wall = paramak.BlanketFP(
             plasma=plasma,
             start_angle=90,
             stop_angle=-90,
