@@ -10,19 +10,21 @@ from paramak import Plasma
 
 class PlasmaBoundaries(Plasma):
     """Creates a double null tokamak plasma shape that is controlled
-       by 4 shaping parameters.
+       by 5 shaping parameters using the plasmaboundaries package to calculate
+       points. For more details see:
+       http://github.com/RemiTheWarrior/plasma-boundaries
         Args:
             A (float, optional): plasma parameter see plasmaboundaries doc.
                 Defaults to 0.05.
             elongation (float, optional): the elongation of the plasma.
                 Defaults to 2.0.
-            major_radius (int, optional): the major radius of the plasma (cm).
+            major_radius (float, optional): the major radius of the plasma (cm).
                 Defaults to 450.
-            minor_radius (int, optional): the minor radius of the plasma (cm).
+            minor_radius (float, optional): the minor radius of the plasma (cm).
                 Defaults to 150.
             triangularity (float, optional): the triangularity of the plasma.
                 Defaults to 0.55.
-            vertical_displacement (int, optional): the vertical_displacement
+            vertical_displacement (float, optional): the vertical_displacement
                 of the plasma (cm). Defaults to 0.
             num_points (int, optional): number of points to described the
                 shape. Defaults to 50.
