@@ -71,6 +71,7 @@ class test_BlanketFP(unittest.TestCase):
             stop_angle=90,
             start_angle=270,
             offset_from_plasma=30,
+            rotation_angle=180,
         )
 
         assert test_shape.solid is not None
@@ -85,8 +86,8 @@ class test_BlanketFP(unittest.TestCase):
             triangularity=0.5,
             elongation=2,
             thickness=200,
-            stop_angle=90,
-            start_angle=270,
+            stop_angle=360,
+            start_angle=0,
         )
 
         assert test_shape.solid is not None
