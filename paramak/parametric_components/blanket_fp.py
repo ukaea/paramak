@@ -208,7 +208,6 @@ class BlanketFP(RotateMixedShape):
                     (self.stop_angle*conversion_factor -
                         self.start_angle*conversion_factor)
                 b = start_thickness - self.start_angle*a
-                print(a*theta + b + self.offset_from_plasma)
                 return a*theta + b + self.offset_from_plasma
             else:
                 # use the constant value
