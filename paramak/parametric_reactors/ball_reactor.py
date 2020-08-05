@@ -395,11 +395,15 @@ class BallReactor(paramak.Reactor):
                                                 distance=self.tf_coil_poloidal_thickness,
                                                 stp_filename='tf_coil.stp',
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                 name='tf_coil',
                                                 material_tag='tf_coil_mat',
 =======
                                                 stl_filename='tf_coil.stl',
 >>>>>>> added stl_filename as arg
+=======
+                                                stl_filename='tf_coil.stl',
+>>>>>>> fee2430e4eee2b5915998ff0b8fadfd4db8b340a
                                                 cut=cutting_slice)
 
                 shapes_or_components.append(tf_coil)

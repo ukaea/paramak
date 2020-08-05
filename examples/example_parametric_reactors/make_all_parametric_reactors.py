@@ -113,4 +113,3 @@ if __name__ == "__main__":
         reactors.export_stp(reactors.name)
         reactors.export_stl(reactors.name)
         reactors.export_neutronics_description()
-
