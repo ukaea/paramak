@@ -194,8 +194,6 @@ class PlasmaBoundaries(Plasma):
                 points2.append(p)
         points = points2
 
-        # add spline to points
-        points = [[p[0], p[1], "spline"] for p in points]
         self.points = points
 
         # set the points of interest
