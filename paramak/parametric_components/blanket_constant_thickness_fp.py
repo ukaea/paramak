@@ -10,52 +10,57 @@ from paramak import RotateMixedShape
 class BlanketConstantThicknessFP(RotateMixedShape):
     """A blanket volume created from plasma parameters.
 
-    :param thickness: the thickness of the blanket (cm)
-    :type thickness: float
-    :param stop_angle: the angle in degrees to stop the blanket, measured anti
-     clockwise from 3 o'clock
-    :type stop_angle: float
-    :param start_angle: the angle in degrees to start the blanket, measured
-     anti clockwise from 3 o'clock
-    :type start_angle: float
-    :param minor_radius: the minor radius of the plasma (cm)
-    :type minor_radius: float
-    :param major_radius: the major radius of the plasma (cm)
-    :type major_radius: float
-    :param triangularity: the triangularity of the plasma
-    :type triangularity: float
-    :param elongation: the elongation of the plasma
-    :type elongation: float
-    :param vertical_displacement: the vertical_displacement of the plasma (cm)
-    :type vertical_displacement: float
-    :param offset_from_plasma: the distance bettwen the plasma and the blanket
-        (cm)
-    :type offset_from_plasma: float
-    :param num_points: number of points that will describe the shape
-    :type num_points: int
-    :param name: The legend name used when exporting a html graph of the shape
-    :type name: str
-    :param color: the color to use when exporting as html graphs or png images
-    :type color: Red, Green, Blue, [Alpha] values. RGB and RGBA are sequences
-     of, 3 or 4 floats respectively each in the range 0-1
-    :param material_tag: The material name to use when exporting the
-     neutronics description
-    :type material_tag: str
-    :param stp_filename: the filename used when saving stp files as part of a
-     reactor
-    :type stp_filename: str
-    :param azimuth_placement_angle: the angle or angles to use when rotating
-     the shape on the azimuthal axis
-    :type azimuth_placement_angle: float or iterable of floats
-    :param rotation_angle: The rotation_angle to use when revoling the solid
-     (degrees)
-    :type rotation_angle: float
-    :param cut: An optional cadquery object to perform a boolean cut with this
-     object
-    :type cut: cadquery object
 
-    :return: a shape object that has generic functionality
-    :rtype: paramak shape object
+    Args:
+        thickness (float, (float, float), callable): the thickness of the
+            blanket (cm). If float, constant thickness. If tuple of floats,
+            thickness will vary linearly between the two values. If callable,
+            thickness will be a function of poloidal angle
+        start_angle (float): the angle in degrees to start the blanket,
+            measured anti clockwise from 3 o'clock
+        stop_angle (float): the angle in degrees to stop the blanket, measured
+            anti clockwise from 3 o'clock
+        plasma (paramak.Plasma, optional): If not None, the parameters of the
+            plasma Object will be used. Defaults to None.
+        minor_radius (float, optional): the minor radius of the plasma (cm).
+            Defaults to 150.
+        major_radius (float, optional): the major radius of the plasma (cm).
+            Defaults to 450.
+        triangularity (float, optional): the triangularity of the plasma.
+            Defaults to 0.55.
+        elongation (float, optional): the elongation of the plasma.
+            Defaults to 2.0.
+        vertical_displacement (float, optional): the vertical_displacement of
+            the plasma (cm). Defaults to 0.
+        offset_from_plasma (float, optional): the distance bettwen the plasma
+            and the blanket (cm). Defaults to 0.
+        num_points (int, optional): number of points that will describe the
+            shape. Defaults to 50.
+        Others: see paramak.RotateMixedShape() arguments.
+
+    Attributes:
+        thickness (float, (float, float), callable): the thickness of the
+            blanket (cm). If float, constant thickness. If tuple of floats,
+            thickness will vary linearly between the two values. If callable,
+            thickness will be a function of poloidal angle
+        start_angle (float): the angle in degrees to start the blanket,
+            measured anti clockwise from 3 o'clock
+        stop_angle (float): the angle in degrees to stop the blanket, measured
+            anti clockwise from 3 o'clock
+        plasma (paramak.Plasma): If not None, the parameters of the
+            plasma Object will be used.
+        minor_radius (float): the minor radius of the plasma (cm).
+        major_radius (float): the major radius of the plasma (cm).
+        triangularity (float): the triangularity of the plasma.
+        elongation (float): the elongation of the plasma.
+            Defaults to 2.0.
+        vertical_displacement (float): the vertical_displacement of
+            the plasma (cm).
+        offset_from_plasma (float): the distance bettwen the plasma
+            and the blanket (cm).
+        num_points (int): number of points that will describe the
+            shape.
+        Others: see paramak.RotateMixedShape() attributes.
     """
 
     def __init__(
@@ -64,8 +69,8 @@ class BlanketConstantThicknessFP(RotateMixedShape):
         start_angle,
         stop_angle,
         plasma=None,
-        minor_radius=150,
-        major_radius=450,
+        minor_radius=150.,
+        major_radius=450.,
         triangularity=0.55,
         elongation=2.0,
         vertical_displacement=0,
