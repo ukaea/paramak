@@ -75,13 +75,13 @@ class Plasma(RotateSplineShape):
         **kwargs
     ):
 
-        default_dict = {'points':None,
-                        'workplane':"XZ",
-                        'solid':None,
-                        'hash_value':None,
-                        'intersect':None,
-                        'cut':None
-        }
+        default_dict = {'points': None,
+                        'workplane': "XZ",
+                        'solid': None,
+                        'hash_value': None,
+                        'intersect': None,
+                        'cut': None
+                        }
 
         for arg in kwargs:
             if arg in default_dict:
