@@ -63,9 +63,10 @@ class SubmersionTokamak(paramak.Reactor):
         outer_plasma_gap_radial_thickness,
         outboard_blanket_radial_thickness,
         blanket_rear_wall_radial_thickness,
- 
-
         plasma_high_point,
+        number_of_tf_coils=16,
+        rotation_angle = 360,
+ 
         outboard_tf_coil_radial_thickness=None,
         tf_coil_to_rear_blanket_radial_gap=None,
         tf_coil_poloidal_thickness=None,
@@ -73,9 +74,6 @@ class SubmersionTokamak(paramak.Reactor):
         pf_coil_vertical_thicknesses=None,
         pf_coil_radial_thicknesses=None,
         pf_coil_to_tf_coil_radial_gap=None,
-        
-        number_of_tf_coils=16,
-        rotation_angle = 360,
     ):
 
         super().__init__([])
@@ -88,11 +86,8 @@ class SubmersionTokamak(paramak.Reactor):
         self.inner_plasma_gap_radial_thickness = inner_plasma_gap_radial_thickness
         self.plasma_radial_thickness = plasma_radial_thickness
         self.outer_plasma_gap_radial_thickness = outer_plasma_gap_radial_thickness
-
         self.outboard_blanket_radial_thickness = outboard_blanket_radial_thickness
         self.blanket_rear_wall_radial_thickness = blanket_rear_wall_radial_thickness
-        #ToDo add pf coils
-        # self.pf_coil_to_rear_blanket_radial_gap = pf_coil_to_rear_blanket_radial_gap
         self.pf_coil_radial_thicknesses = pf_coil_radial_thicknesses
         self.pf_coil_to_tf_coil_radial_gap = pf_coil_to_tf_coil_radial_gap
         self.outboard_tf_coil_radial_thickness = outboard_tf_coil_radial_thickness
@@ -100,11 +95,7 @@ class SubmersionTokamak(paramak.Reactor):
         self.divertor_radial_thickness = divertor_radial_thickness
         self.support_radial_thickness = support_radial_thickness
         self.plasma_high_point = plasma_high_point
-        # self.divertor_vertical_thickness = divertor_vertical_thickness
-
-        # ToDo add pf and tf coils
         self.tf_coil_to_rear_blanket_radial_gap = tf_coil_to_rear_blanket_radial_gap
-        # self.tf_coil_vertical_thickness = tf_coil_vertical_thickness
         self.pf_coil_vertical_thicknesses = pf_coil_vertical_thicknesses
         self.number_of_tf_coils = number_of_tf_coils
         self.rotation_angle = rotation_angle
@@ -122,44 +113,33 @@ class SubmersionTokamak(paramak.Reactor):
         # this is the radial build sequence, where one componet stops and another starts
         inner_bore_start_radius = 0
         inner_bore_end_radius = inner_bore_start_radius + self.inner_bore_radial_thickness
-        print('inner_bore_end_radius',inner_bore_end_radius)
 
         inboard_tf_coils_start_radius = inner_bore_end_radius
         inboard_tf_coils_end_radius = inboard_tf_coils_start_radius + self.inboard_tf_leg_radial_thickness
-        print('inboard_tf_coils_end_radius',inboard_tf_coils_end_radius)
 
         center_column_shield_start_radius = inboard_tf_coils_end_radius
         center_column_shield_end_radius = center_column_shield_start_radius + self.center_column_shield_radial_thickness
-        print('center_column_shield_end_radius',center_column_shield_end_radius)
 
         inboard_blanket_start_radius = center_column_shield_end_radius
         inboard_blanket_end_radius = inboard_blanket_start_radius + self.inboard_blanket_radial_thickness
-        print('inboard_blanket_end_radius',inboard_blanket_end_radius)
 
         inboard_firstwall_start_radius = inboard_blanket_end_radius
         inboard_firstwall_end_radius = inboard_firstwall_start_radius + self.firstwall_radial_thickness
-        print('inboard_firstwall_end_radius',inboard_firstwall_end_radius)
 
         inner_plasma_gap_start_radius = inboard_firstwall_end_radius
         inner_plasma_gap_end_radius = inner_plasma_gap_start_radius + self.inner_plasma_gap_radial_thickness
-        print('inner_plasma_gap_end_radius',inner_plasma_gap_end_radius)
 
         plasma_start_radius = inner_plasma_gap_end_radius
         plasma_end_radius = plasma_start_radius + self.plasma_radial_thickness
-        print('plasma_start_radius',plasma_start_radius)
-        print('plasma_end_radius',plasma_end_radius)
 
         outer_plasma_gap_start_radius = plasma_end_radius
         outer_plasma_gap_end_radius = outer_plasma_gap_start_radius + self.outer_plasma_gap_radial_thickness
-        print('outer_plasma_gap_end_radius',outer_plasma_gap_end_radius)
 
         outboard_firstwall_start_radius = outer_plasma_gap_end_radius
         outboard_firstwall_end_radius = outboard_firstwall_start_radius + self.firstwall_radial_thickness
-        print('outboard_firstwall_end_radius',outboard_firstwall_end_radius)
 
         outboard_blanket_start_radius = outboard_firstwall_end_radius
         outboard_blanket_end_radius = outboard_blanket_start_radius + self.outboard_blanket_radial_thickness
-        print('outboard_blanket_end_radius',outboard_blanket_end_radius)
 
         blanket_rear_wall_start_radius = outboard_blanket_end_radius 
         blanket_rear_wall_end_radius = blanket_rear_wall_start_radius + self.blanket_rear_wall_radial_thickness 
@@ -174,23 +154,6 @@ class SubmersionTokamak(paramak.Reactor):
         pf_info_provided=False
         if self.pf_coil_vertical_thicknesses!=None and self.pf_coil_radial_thicknesses!=None and self.pf_coil_to_tf_coil_radial_gap!=None:
             pf_info_provided=True
-
-
-
-
-
-        #ToDo add pf tf coils
-        # blanket_rear_wall_to_pf_coil_gap_start_radius = blanket_rear_wall_end_radius
-        # blanket_rear_wall_to_pf_coil_gap_end_radius = blanket_rear_wall_to_pf_coil_gap_start_radius + self.pf_coil_to_rear_blanket_radial_gap
-        
-        # pf_coil_start_radius = blanket_rear_wall_to_pf_coil_gap_end_radius
-        # pf_coil_end_radius = pf_coil_start_radius + self.pf_coil_radial_thicknesses
-
-        # pf_coil_to_tf_coil_gap_start_radius = pf_coil_end_radius
-        # pf_coil_to_tf_coil_gap_end_radius = pf_coil_to_tf_coil_gap_start_radius + self.pf_coil_to_tf_coil_radial_gap
-
-        # tf_coil_start_radius = pf_coil_to_tf_coil_gap_end_radius
-        # tf_coil_end_radius = tf_coil_start_radius + self.outboard_tf_coil_radial_thickness
 
         divertor_start_radius = self.plasma_high_point[0] - 0.5 * self.divertor_radial_thickness
         divertor_end_radius = self.plasma_high_point[0] + 0.5 * self.divertor_radial_thickness
@@ -237,12 +200,15 @@ class SubmersionTokamak(paramak.Reactor):
             pf_coil_end_radius = pf_coil_start_radius + max(self.pf_coil_radial_thicknesses)
         
 
-
-        #ToDo, return error warning
+        #raises an error if the plasma high point is not above part of the plasma
         if self.plasma_high_point[0] < plasma_start_radius:
-            print('The first value in plasma high_point is too small, it should be larger than',plasma_start_radius)
+            raise ValueError(
+                'The first value in plasma high_point is too small, it should be larger than',plasma_start_radius
+            )
         if self.plasma_high_point[0] > plasma_end_radius:
-            print('The first value in plasma high_point is too large, it should be smaller than',plasma_end_radius)
+            raise ValueError(
+                'The first value in plasma high_point is too large, it should be smaller than',plasma_end_radius
+            )
 
         if self.rotation_angle < 360:
             max_high = 3 * blanket_rear_wall_end_height
