@@ -3,6 +3,23 @@ from collections import Iterable
 
 import numpy as np
 
+def union_solid(solid, joiner):
+    """
+    Performs a boolean union of a solid with another solid or iterable of solids.
+    
+    Args:
+        solid Shape: the Shape that you want to union from
+        joiner Shape: the Shape(s) that you want to be the unionting object
+    Returns:
+        Shape: the original shape union with the joiner shape(s)
+    """
+    # Allows for multiple unions to be applied
+    if isinstance(joiner, Iterable):
+        for joining_solid in joiner:
+            solid = solid.union(joining_solid.solid)
+    else:
+        solid = solid.union(joiner.solid)
+    return solid
 
 def cut_solid(solid, cutter):
     """
@@ -90,7 +107,7 @@ def find_center_point_of_circle(point1, point2, point3):
     return (cx, cy), radius
 
 def extend(A, B, L):
-    """Creates a point C in (AB) direction so that |AC| = L
+    """Creates a point C in (AB) direction so that \|AC\| = L
 
     Args:
         A (float, float): point A coordinates
