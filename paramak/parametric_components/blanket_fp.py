@@ -15,7 +15,7 @@ class BlanketFP(RotateMixedShape):
         thickness (float, (float, float), callable): the thickness of the
             blanket (cm). If float, constant thickness. If tuple of floats,
             thickness will vary linearly between the two values. If callable,
-            thickness will be a function of poloidal angle
+            thickness will be a function of poloidal angle (in degrees).
         start_angle (float): the angle in degrees to start the blanket,
             measured anti clockwise from 3 o'clock
         stop_angle (float): the angle in degrees to stop the blanket, measured
@@ -42,7 +42,7 @@ class BlanketFP(RotateMixedShape):
         thickness (float, (float, float), callable): the thickness of the
             blanket (cm). If float, constant thickness. If tuple of floats,
             thickness will vary linearly between the two values. If callable,
-            thickness will be a function of poloidal angle
+            thickness will be a function of poloidal angle (in degrees).
         start_angle (float): the angle in degrees to start the blanket,
             measured anti clockwise from 3 o'clock
         stop_angle (float): the angle in degrees to stop the blanket, measured
