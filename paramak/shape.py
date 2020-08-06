@@ -53,6 +53,7 @@ class Shape:
         stl_filename=None,
         azimuth_placement_angle=0,
         workplane="XZ",
+        tet_mesh=None,
     ):
 
         self.points = points
@@ -66,7 +67,8 @@ class Shape:
 
         # neutronics specific properties
         self.material_tag = material_tag
-        self.tet_mesh = None
+        self.tet_mesh = tet_mesh
+                
 
         # properties calculated internally by the class
         self.solid = None
