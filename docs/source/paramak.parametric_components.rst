@@ -232,6 +232,18 @@ Plasma()
    :members:
    :show-inheritance:
 
+PlasmaFromPoints()
+^^^^^^^^^^^^^^^^^^
+
+.. image:: https://user-images.githubusercontent.com/8583900/87316638-f39b8300-c51d-11ea-918b-5194d600d068.png
+    :width: 220px
+    :height: 200px
+    :align: center
+
+.. automodule:: paramak.parametric_components.tokamak_plasma_from_points
+   :members:
+   :show-inheritance:
+
 ToroidalFieldCoilRectangle()
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
