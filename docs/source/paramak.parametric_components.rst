@@ -38,7 +38,7 @@ BlanketConstantThicknessArcV()
    :show-inheritance:
 
 BlanketFP()
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^
 
 .. image:: https://user-images.githubusercontent.com/8583900/87254778-fe520b80-c47c-11ea-845f-470991d74874.png
    :width: 250
