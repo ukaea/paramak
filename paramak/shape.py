@@ -667,8 +667,10 @@ class Shape:
         :rtype: dictionary
         """
 
-        neutronics_description = {"material": self.material_tag,
-                                  "filename": self.stp_filename}
+        neutronics_description = {"material": self.material_tag}
+
+        if self.stp_filename != None:
+            neutronics_description['stp_filename'] = self.stp_filename
 
         if self.tet_mesh != None:
             neutronics_description['tet_mesh'] = self.tet_mesh
