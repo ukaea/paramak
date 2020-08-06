@@ -66,13 +66,10 @@ class test_object_properties(unittest.TestCase):
         assert test_reactor.stp_filenames[1] == 'filename2.stp'
 
     def test_adding_shape_with_duplicate_stp_filename_to_reactor(self):
-        """creates a plasma object and checks elongation is type float"""
-
-        """adds a shape to the reactor and checks that the stp_filename
-        property works as designed"""
+        """creates reactor and addes to shapes with the same stp filename"""
 
         def test_stp_filename_duplication():
-            """checks ValueError is raised when an elongation < 0 is specified"""
+            """checks ValueError is raised when a duplicate filename is added"""
             test_shape = paramak.RotateStraightShape(
                 points=[(0, 0), (0, 20), (20, 20)],
                 stp_filename='filename.stp')
@@ -81,13 +78,15 @@ class test_object_properties(unittest.TestCase):
                 stp_filename='filename.stp')
             test_shape.rotation_angle = 360
             test_shape.create_solid()
-            test_reactor = paramak.Reactor([test_shape, test_shape2])
+            paramak.Reactor([test_shape, test_shape2])
 
         self.assertRaises(ValueError, test_stp_filename_duplication)  
 
+    def test_adding_shape_with_duplicate_stl_filename_to_reactor(self):
+        """creates reactor and addes to shapes with the same stl filename"""
 
         def test_stl_filename_duplication():
-            """checks ValueError is raised when an elongation < 0 is specified"""
+            """checks ValueError is raised when a duplicate filename is added"""
             test_shape = paramak.RotateStraightShape(
                 points=[(0, 0), (0, 20), (20, 20)],
                 stl_filename='filename.stl')
@@ -96,7 +95,7 @@ class test_object_properties(unittest.TestCase):
                 stl_filename='filename.stl')
             test_shape.rotation_angle = 360
             test_shape.create_solid()
-            test_reactor = paramak.Reactor([test_shape, test_shape2])
+            paramak.Reactor([test_shape, test_shape2])
 
         self.assertRaises(ValueError, test_stl_filename_duplication)  
 
