@@ -54,6 +54,7 @@ class Plasma(RotateSplineShape):
             upper_x_point (float, float): coordinates for upper x point (None
                 if doesn't exist)
             Others: see paramak.RotateSplineShape() attributes.
+            
     """
 
     def __init__(
