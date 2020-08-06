@@ -121,14 +121,6 @@ CenterColumnShieldPlasmaHyperbola()
    :members:
    :show-inheritance:
 
-DivertorBlock()
-^^^^^^^^^^^^^^^
-
-.. automodule:: paramak.parametric_components.divertor_block
-   :members:
-   :show-inheritance:
-
-
 ITERtypeDivertor()
 ^^^^^^^^^^^^^^^^^^
 
