@@ -76,12 +76,8 @@ class BlanketFP(RotateMixedShape):
         vertical_displacement=0,
         offset_from_plasma=0,
         num_points=50,
-<<<<<<< HEAD:paramak/parametric_components/blanket_constant_thickness_fp.py
-        stp_filename="BlanketConstantThicknessFP.stp",
-        stl_filename="BlanketConstantThicknessFP.stl",
-=======
         stp_filename="BlanketFP.stp",
->>>>>>> develop:paramak/parametric_components/blanket_fp.py
+        stl_filename="BlanketFP.stl",
         rotation_angle=360,
         azimuth_placement_angle=0,
         color=None,
