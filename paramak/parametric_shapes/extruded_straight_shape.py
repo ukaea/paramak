@@ -51,7 +51,7 @@ class ExtrudeStraightShape(Shape):
     ):
 
         default_dict = {'tet_mesh':None,
-                        'physical_gropus':None}
+                        'physical_groups':None}
 
         for arg in kwargs:
             if arg in default_dict:
