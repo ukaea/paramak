@@ -67,6 +67,7 @@ class PlasmaBoundaries(Plasma):
                         'intersect': None,
                         'cut': None,
                         'tet_mesh':None,
+                        'physical_groups':None,
         }
 
         for arg in kwargs:

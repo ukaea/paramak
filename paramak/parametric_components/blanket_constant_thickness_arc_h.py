@@ -66,6 +66,7 @@ class BlanketConstantThicknessArcH(RotateMixedShape):
                         'cut':None,
                         'union':None,
                         'tet_mesh':None,
+                        'physical_groups':None,
         }
 
         for arg in kwargs:
