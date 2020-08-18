@@ -63,7 +63,7 @@ class SingleNullReactor(paramak.Reactor):
     :type tf_coil_poloidal_thickness: float
     :rotation_angle: the angle of the sector that is desired
     :type rotation_angle: int
-    
+
     :divertor_position: divertor position, either "upper" or "lower"
     :type divertor_position: str
 
@@ -459,7 +459,7 @@ class SingleNullReactor(paramak.Reactor):
             name="divertor",
             material_tag="divertor_mat"
         )
-        
+
         shapes_or_components.append(divertor)
 
         firstwall.solid = firstwall.solid.cut(divertor.solid)

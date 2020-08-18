@@ -125,7 +125,7 @@ class test_SingleNullReactor(unittest.TestCase):
     def test_SingleNullReactor_svg_creation(self):
         """creates a SingleNullReactor using a parametric reactor and checks that an
         svg image of the reactor can be exported"""
-        
+
         os.system("rm test_singlenullreactor_image.svg")
 
         test_reactor = paramak.SingleNullReactor(
@@ -153,5 +153,5 @@ class test_SingleNullReactor(unittest.TestCase):
         )
         test_reactor.export_svg("test_singlenullreactor_image.svg")
 
-        assert Path("test_singlenullreactor_image.svg").exists() is True 
+        assert Path("test_singlenullreactor_image.svg").exists() is True
         os.system("rm test_singlenullreactor_image.svg")

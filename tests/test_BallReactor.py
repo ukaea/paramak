@@ -171,7 +171,7 @@ class test_BallReactor(unittest.TestCase):
     def test_export_3d_image(self):
         """creates a BallReactor using a parametric reactor and checks that a 3D image
         of the reactor can be exported using the export_3d_image() method"""
-        
+
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
             inboard_tf_leg_radial_thickness=50,
