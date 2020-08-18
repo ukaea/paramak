@@ -9,7 +9,8 @@ import paramak
 
 class test_BallReactor(unittest.TestCase):
     def test_BallReactor_creation_with_narrow_divertor(self):
-        """creates blanket from parametric shape and checks a solid is created"""
+        """creates a BallReactor with a narrow divertor using a parametric reactor
+        and checks that all components are created"""
 
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
@@ -31,8 +32,9 @@ class test_BallReactor(unittest.TestCase):
 
         assert len(test_reactor.shapes_and_components) == 7
 
-    def test_BallReactor_creation_without_wide_divertor(self):
-        """creates blanket from parametric shape and checks a solid is created"""
+    def test_BallReactor_creation_with_wide_divertor(self):
+        """creates a BallReactor with a wide divertor using a parametric reactor
+        and checks that all components are created"""
 
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
@@ -55,9 +57,12 @@ class test_BallReactor(unittest.TestCase):
         assert len(test_reactor.shapes_and_components) == 7
 
     def test_BallReactor_svg_creation(self):
+        """creates a BallReactor using a parametric reactor and checks that an
+        svg image of the reactor can be exported"""
+
         os.system("rm test_ballreactor_image.svg")
 
-        my_reactor = paramak.BallReactor(
+        test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
             inboard_tf_leg_radial_thickness=200,
             center_column_shield_radial_thickness=50,
@@ -72,12 +77,15 @@ class test_BallReactor(unittest.TestCase):
             triangularity=0.55,
             number_of_tf_coils=16,
         )
-        my_reactor.export_svg("test_ballreactor_image.svg")
+        test_reactor.export_svg("test_ballreactor_image.svg")
 
         assert Path("test_ballreactor_image.svg").exists() is True
         os.system("rm test_ballreactor_image.svg")
 
     def test_BallReactor_with_pf_coils(self):
+        """creates a BallReactor with pf coils using a parametric reactor and
+        checks that all components are created"""
+
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
             inboard_tf_leg_radial_thickness=50,
@@ -102,6 +110,9 @@ class test_BallReactor(unittest.TestCase):
         assert len(test_reactor.shapes_and_components) == 11
 
     def test_BallReactor_with_pf_and_tf_coils(self):
+        """creates a BallReactor with pf and tf coils using a parametric reactor and
+        checks that all components are created"""
+
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
             inboard_tf_leg_radial_thickness=50,
@@ -128,6 +139,9 @@ class test_BallReactor(unittest.TestCase):
         assert len(test_reactor.shapes_and_components) == 12
 
     def test_BallReactor_with_pf_and_tf_coils_export_physical_groups(self):
+        """creates a BallReactor with pf and tf coils using a parametric reactor and checks
+        that the export_physical_groups() method works correctly"""
+
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
             inboard_tf_leg_radial_thickness=50,
@@ -151,10 +165,13 @@ class test_BallReactor(unittest.TestCase):
             tf_coil_poloidal_thickness=50,
         )
         test_reactor.export_physical_groups()
+        # physical group attribute must be specified individually for each component
+        # parametric reactors cause physical_groups = None for all components
 
     def test_export_3d_image(self):
-        """Tests the method export_3d_image
-        """
+        """creates a BallReactor using a parametric reactor and checks that a 3D image
+        of the reactor can be exported using the export_3d_image() method"""
+        
         test_reactor = paramak.BallReactor(
             inner_bore_radial_thickness=50,
             inboard_tf_leg_radial_thickness=50,
