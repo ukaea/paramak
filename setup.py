@@ -31,7 +31,5 @@ setuptools.setup(
         "tqdm",
         "matplotlib",
         "plasmaboundaries",
-        "uncertainties",
-        "importlib_resources",
     ],
 )

@@ -11,11 +11,10 @@ source:
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  # script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
-    - importlib_resources
     - matplotlib
     - numpy
     - pip
@@ -25,10 +24,8 @@ requirements:
     - python
     - scipy
     - sympy
-    - uncertainties
     - cadquery
   run:
-    - importlib_resources
     - matplotlib
     - numpy
     - plasmaboundaries
@@ -37,7 +34,6 @@ requirements:
     - python
     - scipy
     - sympy
-    - uncertainties
     - cadquery
 
 test:
