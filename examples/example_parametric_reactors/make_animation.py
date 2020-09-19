@@ -7,7 +7,6 @@ import os
 import uuid
 
 import numpy as np
-from tqdm import tqdm
 
 import paramak
 
@@ -15,7 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-n", "--number_of_models", type=int, default=10)
 args = parser.parse_args()
 
-for i in tqdm(range(args.number_of_models)):
+for i in range(args.number_of_models):
 
     my_reactor = paramak.BallReactor(
         inner_bore_radial_thickness=50,
