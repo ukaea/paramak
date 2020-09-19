@@ -1,27 +1,67 @@
-{% set setup_py = load_setup_py_data() %}
+{% set name = "paramak" %}
+{% set version = "0.0.16" %}
 
 package:
-  name: paramak
-  version: {{ setup_py.get('version')}}
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: 815145a891ad8cab0ddd114dcdbc879522c2b66e287ea3d5d960601510211dbd
 
 build:
-  number: 1
+  number: 0
+  script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
-  run:
+  host:
+    - importlib_resources
+    - matplotlib
+    - numpy
+    - pip
+    - plasmaboundaries
+    - plotly
+    - pytest-cov
     - python
+    - scipy
+    - sympy
+    - tqdm
+    - uncertainties
+    - cadquery
+  run:
+    - importlib_resources
+    - matplotlib
+    - numpy
+    - plasmaboundaries
+    - plotly
+    - pytest-cov
+    - python
+    - scipy
+    - sympy
+    - tqdm
+    - uncertainties
+    - cadquery
 
 test:
+  imports:
+    - paramak
+    - paramak.parametric_components
+    - paramak.parametric_reactors
+    - paramak.parametric_shapes
+    - tests
   requires:
-    - pytest	
-  source_files:
-    - tests/
-  commands:
-    - pytest -v
+    - pytest-cov
+    - pytest-runner
 
 about:
-  home: https://github.com/ukaea/paramak
-  license: {{ setup_py.get('license')}}
-  license_file: LICENSE
-  summary: Create parametric 3D fusion reactor CAD models
-  doc_url: https://paramak.readthedocs.io/en/latest/#prerequisites
+  home: "https://github.com/ukaea/paramak"
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE.txt
+  summary: "Create 3D fusion reactor CAD models based on input parameters"
+  doc_url: https://paramak.readthedocs.io/
+  dev_url: https://github.com/ukaea/paramak
+
+extra:
+  recipe-maintainers:
+    - shimwell
