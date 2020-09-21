@@ -1,6 +1,6 @@
 from collections import Iterable
 
-import cadquery as cq 
+import cadquery as cq
 
 from paramak import Shape
 
@@ -143,4 +143,3 @@ class SweepSplineShape(Shape):
         self.perform_boolean_operations(solid)
 
         return solid
-        
