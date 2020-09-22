@@ -115,13 +115,13 @@ def main():
     # sweep examples
 
     swept_straight = paramak.SweepStraightShape(
-        points = [
+        points=[
             (-10, 10),
             (10, 10),
             (10, -10),
             (-10, -10)
         ],
-        path_points = [
+        path_points=[
             (50, 0),
             (30, 100),
             (60, 200),
@@ -132,13 +132,13 @@ def main():
     swept_straight.export_html("swept_straight.html")
 
     swept_spline = paramak.SweepSplineShape(
-        points = [
+        points=[
             (-10, 10),
             (10, 10),
             (10, -10),
             (-10, -10)
         ],
-        path_points = [
+        path_points=[
             (50, 0),
             (30, 100),
             (60, 200),
@@ -149,14 +149,14 @@ def main():
     swept_spline.export_html("swept_spline.html")
 
     swept_mixed = paramak.SweepMixedShape(
-        points = [
+        points=[
             (-10, 10, "straight"),
             (10, 10, "spline"),
             (20, 0, "spline"),
             (10, -10, "straight"),
             (-10, -10, "straight")
         ],
-        path_points = [
+        path_points=[
             (50, 0),
             (30, 100),
             (60, 200),
@@ -167,8 +167,8 @@ def main():
     swept_mixed.export_html("swept_mixed.html")
 
     swept_circle = paramak.SweepCircleShape(
-        radius = 20,
-        path_points = [
+        radius=20,
+        path_points=[
             (50, 0),
             (30, 100),
             (60, 200),
