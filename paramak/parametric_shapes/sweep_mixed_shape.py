@@ -1,6 +1,6 @@
 from collections import Iterable
 
-import cadquery as cq 
+import cadquery as cq
 
 from paramak import Shape
 
@@ -35,7 +35,7 @@ class SweepMixedShape(Shape):
 
         default_dict = {"tet_mesh": None,
                         "physical_groups": None,
-                        "hash_value":None}
+                        "hash_value": None}
 
         for arg in kwargs:
             if arg in default_dict:
@@ -130,7 +130,11 @@ class SweepMixedShape(Shape):
             keyname = list(instructions[-1].keys())[0]
             instructions[-1][keyname].append(XZ_points[0])
 
-        solid = cq.Workplane(self.workplane).workplane(offset=self.path_points[0][1]).moveTo(self.path_points[0][0], 0).workplane()
+        solid = cq.Workplane(
+            self.workplane).workplane(
+            offset=self.path_points[0][1]).moveTo(
+            self.path_points[0][0],
+            0).workplane()
 
         for entry in instructions:
             if list(entry.keys())[0] == "spline":
@@ -141,9 +145,10 @@ class SweepMixedShape(Shape):
                 p0 = list(entry.values())[0][0]
                 p1 = list(entry.values())[0][1]
                 p2 = list(entry.values())[0][2]
-                solid = solid.moveTo(p0[0],p0[1]).threePointArc(p1, p2)
+                solid = solid.moveTo(p0[0], p0[1]).threePointArc(p1, p2)
 
-        solid = solid.close().moveTo(-self.path_points[0][0], 0).workplane(offset=distance).moveTo(self.path_points[-1][0], 0).workplane()
+        solid = solid.close().moveTo(-self.path_points[0][0], 0).workplane(
+            offset=distance).moveTo(self.path_points[-1][0], 0).workplane()
 
         for entry in instructions:
             if list(entry.keys())[0] == "spline":
@@ -154,7 +159,7 @@ class SweepMixedShape(Shape):
                 p0 = list(entry.values())[0][0]
                 p1 = list(entry.values())[0][1]
                 p2 = list(entry.values())[0][2]
-                solid = solid.moveTo(p0[0],p0[1]).threePointArc(p1, p2)
+                solid = solid.moveTo(p0[0], p0[1]).threePointArc(p1, p2)
 
         solid = solid.close().sweep(path, multisection=True)
 

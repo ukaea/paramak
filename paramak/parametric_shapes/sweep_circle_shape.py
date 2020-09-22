@@ -1,6 +1,6 @@
 from collections import Iterable
 
-import cadquery as cq 
+import cadquery as cq
 
 from paramak import Shape
 
@@ -36,7 +36,7 @@ class SweepCircleShape(Shape):
 
         default_dict = {"tet_mesh": None,
                         "physical_groups": None,
-                        "hash_value":None}
+                        "hash_value": None}
 
         for arg in kwargs:
             if arg in default_dict:
@@ -68,7 +68,7 @@ class SweepCircleShape(Shape):
 
     @points.setter
     def points(self, values):
-        if values != None:
+        if values is not None:
             raise ValueError(
                 "points is an unused variable in this parametric shape"
             )
@@ -87,7 +87,7 @@ class SweepCircleShape(Shape):
 
     @property
     def radius(self):
-        return self._radius 
+        return self._radius
 
     @radius.setter
     def radius(self, value):

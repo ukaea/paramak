@@ -1,6 +1,6 @@
 from collections import Iterable
 
-import cadquery as cq 
+import cadquery as cq
 
 from paramak import Shape
 
@@ -16,7 +16,7 @@ class SweepStraightShape(Shape):
             or XZ coordinates connected by straight connections which define the 2D shape
             to be swept. The coordinates are defined with respect to origins at the first
             and last points of the spline path.
-    
+
     Returns:
         a paramak shape object: a Shape object that has generic functionality
     """
@@ -42,7 +42,7 @@ class SweepStraightShape(Shape):
 
         default_dict = {"tet_mesh": None,
                         "physical_groups": None,
-                        "hash_value":None}
+                        "hash_value": None}
 
         for arg in kwargs:
             if arg in default_dict:
