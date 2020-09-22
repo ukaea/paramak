@@ -112,6 +112,72 @@ def main():
     extruded_circle.export_stp("extruded_circle.stp")
     extruded_circle.export_html("extruded_circle.html")
 
+    # sweep examples
+
+    swept_straight = paramak.SweepStraightShape(
+        points = [
+            (-10, 10),
+            (10, 10),
+            (10, -10),
+            (-10, -10)
+        ],
+        path_points = [
+            (50, 0),
+            (30, 100),
+            (60, 200),
+            (50, 300)
+        ]
+    )
+    swept_straight.export_stp("swept_straight.stp")
+    swept_straight.export_html("swept_straight.html")
+
+    swept_spline = paramak.SweepSplineShape(
+        points = [
+            (-10, 10),
+            (10, 10),
+            (10, -10),
+            (-10, -10)
+        ],
+        path_points = [
+            (50, 0),
+            (30, 100),
+            (60, 200),
+            (50, 300)
+        ]
+    )
+    swept_spline.export_stp("swept_spline.stp")
+    swept_spline.export_html("swept_spline.html")
+
+    swept_mixed = paramak.SweepMixedShape(
+        points = [
+            (-10, 10, "straight"),
+            (10, 10, "spline"),
+            (20, 0, "spline"),
+            (10, -10, "straight"),
+            (-10, -10, "straight")
+        ],
+        path_points = [
+            (50, 0),
+            (30, 100),
+            (60, 200),
+            (50, 300)
+        ]
+    )
+    swept_mixed.export_stp("swept_mixed.stp")
+    swept_mixed.export_html("swept_mixed.html")
+
+    swept_circle = paramak.SweepCircleShape(
+        radius = 20,
+        path_points = [
+            (50, 0),
+            (30, 100),
+            (60, 200),
+            (50, 300)
+        ]
+    )
+    swept_circle.export_stp("swept_circle.stp")
+    # swept_circle.export_html("swept_circle.html")
+
 
 if __name__ == "__main__":
     main()
