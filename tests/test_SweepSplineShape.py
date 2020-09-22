@@ -1,6 +1,6 @@
 import os
 import unittest
-from pathlib import Path 
+from pathlib import Path
 
 import pytest
 
@@ -12,13 +12,13 @@ class test_object_properties(unittest.TestCase):
         """checks that a SweepSplineShape solid can be created"""
 
         test_shape = SweepSplineShape(
-            points = [
+            points=[
                 (-20, 20),
                 (20, 20),
                 (20, -20),
                 (-20, -20)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (20, 200),
                 (50, 400)
@@ -26,20 +26,20 @@ class test_object_properties(unittest.TestCase):
         )
         test_shape.create_solid()
 
-        assert test_shape.solid is not None 
+        assert test_shape.solid is not None
 
     def test_relative_shape_volume(self):
         """creates two SweepSplineShapes and checks that their relative volumes
         are correct"""
 
         test_shape_1 = SweepSplineShape(
-            points = [
+            points=[
                 (-20, 20),
                 (20, 20),
                 (20, -20),
                 (-20, -20)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (60, 100),
@@ -49,13 +49,13 @@ class test_object_properties(unittest.TestCase):
         test_shape_1.create_solid()
 
         test_shape_2 = SweepSplineShape(
-            points = [
+            points=[
                 (-10, 10),
                 (10, 10),
                 (10, -10),
                 (-10, -10)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (60, 100),
@@ -64,7 +64,8 @@ class test_object_properties(unittest.TestCase):
         )
         test_shape_2.create_solid()
 
-        assert test_shape_1.volume == pytest.approx(test_shape_2.volume * 4, abs=1)
+        assert test_shape_1.volume == pytest.approx(
+            test_shape_2.volume * 4, abs=1)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import os
 import math
 import unittest
-from pathlib import Path 
+from pathlib import Path
 
 import pytest
 
@@ -13,8 +13,8 @@ class test_object_properties(unittest.TestCase):
         """checks that a SweepCircleShape solid can be created"""
 
         test_shape = SweepCircleShape(
-            radius = 10,
-            path_points = [
+            radius=10,
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (50, 100)
@@ -28,8 +28,8 @@ class test_object_properties(unittest.TestCase):
         """creates a SweepCircleshape and checks that the volume is correct"""
 
         test_shape = SweepCircleShape(
-            radius = 10,
-            path_points = [
+            radius=10,
+            path_points=[
                 (50, 0),
                 (50, 50),
                 (50, 100)
@@ -44,8 +44,8 @@ class test_object_properties(unittest.TestCase):
         are correct"""
 
         test_shape_1 = SweepCircleShape(
-            radius = 10,
-            path_points = [
+            radius=10,
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (50, 100)
@@ -54,8 +54,8 @@ class test_object_properties(unittest.TestCase):
         test_shape_1.create_solid()
 
         test_shape_2 = SweepCircleShape(
-            radius = 20,
-            path_points = [
+            radius=20,
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (50, 100)
@@ -68,4 +68,3 @@ class test_object_properties(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    

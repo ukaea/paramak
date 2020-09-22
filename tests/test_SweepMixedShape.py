@@ -1,6 +1,6 @@
 import os
 import unittest
-from pathlib import Path 
+from pathlib import Path
 
 import pytest
 
@@ -12,14 +12,14 @@ class test_object_properties(unittest.TestCase):
         """checks that a SweepMixedShape solid can be created"""
 
         test_shape = SweepMixedShape(
-            points = [
+            points=[
                 (0, 0, "straight"),
                 (0, 20, "spline"),
                 (10, 30, "spline"),
                 (20, 20, "straight"),
                 (20, 0, "straight"),
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (20, 50),
                 (50, 100)
@@ -34,14 +34,14 @@ class test_object_properties(unittest.TestCase):
         are correct"""
 
         test_shape_1 = SweepMixedShape(
-            points = [
+            points=[
                 (-10, 10, "straight"),
                 (10, 10, "spline"),
                 (15, 0, "spline"),
                 (10, -10, "straight"),
                 (-10, -10, "straight")
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (50, 100)
@@ -50,14 +50,14 @@ class test_object_properties(unittest.TestCase):
         test_shape_1.create_solid()
 
         test_shape_2 = SweepMixedShape(
-            points = [
+            points=[
                 (-20, 20, "straight"),
                 (20, 20, "spline"),
                 (30, 0, "spline"),
                 (20, -20, "straight"),
                 (-20, -20, "straight")
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (50, 100)
