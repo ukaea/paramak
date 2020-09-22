@@ -1,8 +1,8 @@
-import os 
-import unittest 
-from pathlib import Path 
+import os
+import unittest
+from pathlib import Path
 
-import pytest 
+import pytest
 
 from paramak import SweepStraightShape
 
@@ -12,13 +12,13 @@ class test_object_properties(unittest.TestCase):
         """checks that a SweepStraightShape solid can be created"""
 
         test_shape = SweepStraightShape(
-            points = [
+            points=[
                 (-20, 20),
                 (20, 20),
                 (20, -20),
                 (-20, -20)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (20, 200),
                 (50, 400)
@@ -32,13 +32,13 @@ class test_object_properties(unittest.TestCase):
         """creates a SweepStraightShape and checks that the volume is correct"""
 
         test_shape = SweepStraightShape(
-            points = [
+            points=[
                 (-20, 20),
                 (20, 20),
                 (20, -20),
                 (-20, -20)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (50, 50),
                 (50, 100)
@@ -53,13 +53,13 @@ class test_object_properties(unittest.TestCase):
         are correct"""
 
         test_shape_1 = SweepStraightShape(
-            points = [
+            points=[
                 (-20, 20),
                 (20, 20),
                 (20, -20),
                 (-20, -20)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (60, 100),
@@ -69,13 +69,13 @@ class test_object_properties(unittest.TestCase):
         test_shape_1.create_solid()
 
         test_shape_2 = SweepStraightShape(
-            points = [
+            points=[
                 (-10, 10),
                 (10, 10),
                 (10, -10),
                 (-10, -10)
             ],
-            path_points = [
+            path_points=[
                 (50, 0),
                 (30, 50),
                 (60, 100),
@@ -87,7 +87,5 @@ class test_object_properties(unittest.TestCase):
         assert test_shape_1.volume == pytest.approx(test_shape_2.volume * 4)
 
 
-
 if __name__ == "__main__":
     unittest.main()
-
