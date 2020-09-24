@@ -42,13 +42,13 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
         height,
         inner_radius,
         outer_radius,
-        number_of_coils,
         gap_size,
         distance=None,
         stp_filename="InnerTfCoilsFlat.stp",
         stl_filename="InnerTfCoilsFlat.stl",
         color=(0.5, 0.5, 0.5),
-        azimuth_placement_angle=0,
+        azimuth_placement_angle=None,
+        number_of_coils=None,
         material_tag="inner_tf_coil_mat",
         name=None,
         **kwargs
@@ -88,8 +88,8 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
         self.gap_size = gap_size
         self.distance = height
 
-        self.find_points()
         self.find_azimuth_placement_angle()
+        self.find_points()
 
     @property
     def height(self):
@@ -98,6 +98,14 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
     @height.setter
     def height(self, height):
         self._height = height
+
+    @property
+    def number_of_coils(self):
+        return self._number_of_coils
+
+    @number_of_coils.setter
+    def number_of_coils(self, value):
+        self._number_of_coils = value
 
     @property
     def distance(self):
@@ -122,14 +130,6 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
     @outer_radius.setter
     def outer_radius(self, outer_radius):
         self._outer_radius = outer_radius
-
-    @property
-    def number_of_coils(self):
-        return self._number_of_coils
-
-    @number_of_coils.setter
-    def number_of_coils(self, number_of_coils):
-        self._number_of_coils = number_of_coils
 
     @property
     def gap_size(self):
@@ -194,13 +194,23 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
         self.points = points
 
     def find_azimuth_placement_angle(self):
-        """Calculates the azimuth placement angles based on the number of tf coils"""
 
-        angles = list(
-            np.linspace(
-                0,
-                360,
-                self.number_of_coils,
-                endpoint=False))
-
-        self.azimuth_placement_angle = angles
+        if self.azimuth_placement_angle is None:
+            if self.number_of_coils is None:
+                raise ValueError('azimuth_placement_angle or number_of_coils must be specified')
+            else:
+                angles = list(
+                    np.linspace(
+                        0, 360,
+                        self.number_of_coils,
+                        endpoint=False
+                    )
+                )
+                self.azimuth_placement_angle = angles
+        
+        else:
+            if self.number_of_coils is None:
+                self.number_of_coils = len(self.azimuth_placement_angle)
+            else:
+                if self.number_of_coils != len(self.azimuth_placement_angle):
+                    raise ValueError('number of azimuthal placement angles should equal number of coils')
