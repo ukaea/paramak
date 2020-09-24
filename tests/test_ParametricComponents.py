@@ -921,7 +921,7 @@ class test_InnerTfCoilsFlat(unittest.TestCase):
         assert test_shape.volume > 1000
 
     def test_number_of_coils_and_azimuth_placement_angle(self):
-        """checks that the tf coils are placed correctly given the combination of the parameters 
+        """checks that the tf coils are placed correctly given the combination of the parameters
         number_of_coils and azimuth_placement_angle, or that the correct errors are raised"""
 
         def no_number_of_coils_or_azimuth_placement_angle():
