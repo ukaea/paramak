@@ -217,7 +217,8 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
 
         if self.azimuth_placement_angle is None:
             if self.number_of_coils is None:
-                raise ValueError('azimuth_placement_angle or number_of_coils must be specified')
+                raise ValueError(
+                    'azimuth_placement_angle or number_of_coils must be specified')
             else:
                 angles = list(
                     np.linspace(
@@ -227,10 +228,11 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
                     )
                 )
                 self.azimuth_placement_angle = angles
-        
+
         else:
             if self.number_of_coils is None:
                 self.number_of_coils = len(self.azimuth_placement_angle)
             else:
                 if self.number_of_coils != len(self.azimuth_placement_angle):
-                    raise ValueError('number of azimuthal placement angles should equal number of coils')
+                    raise ValueError(
+                        'number of azimuthal placement angles should equal number of coils')
