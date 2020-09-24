@@ -929,30 +929,35 @@ class test_InnerTfCoilsFlat(unittest.TestCase):
                 outer_radius=150,
                 gap_size=5
             )
-        
-        self.assertRaises(ValueError, no_number_of_coils_or_azimuth_placement_angle)
+
+        self.assertRaises(
+            ValueError,
+            no_number_of_coils_or_azimuth_placement_angle)
 
         def number_of_coils_not_equal_azimuth_placement_angles():
             test_shape = paramak.InnerTfCoilsFlat(
                 height=500,
                 inner_radius=50,
-                outer_radius = 150,
+                outer_radius=150,
                 gap_size=5,
                 number_of_coils=8,
                 azimuth_placement_angle=[0, 90, 180, 270]
             )
 
-        self.assertRaises(ValueError, number_of_coils_not_equal_azimuth_placement_angles)
+        self.assertRaises(
+            ValueError,
+            number_of_coils_not_equal_azimuth_placement_angles)
 
         test_shape = paramak.InnerTfCoilsFlat(
             height=500,
             inner_radius=50,
             outer_radius=150,
             gap_size=5,
-            number_of_coils = 8
+            number_of_coils=8
         )
 
-        assert test_shape.azimuth_placement_angle == [0, 45, 90, 135, 180, 225, 270, 315]
+        assert test_shape.azimuth_placement_angle == [
+            0, 45, 90, 135, 180, 225, 270, 315]
 
         test_shape = paramak.InnerTfCoilsFlat(
             height=500,
@@ -962,7 +967,9 @@ class test_InnerTfCoilsFlat(unittest.TestCase):
             azimuth_placement_angle=[0, 90, 180, 270]
         )
 
-        assert test_shape.number_of_coils == len(test_shape.azimuth_placement_angle)
+        assert test_shape.number_of_coils == len(
+            test_shape.azimuth_placement_angle)
+
 
 class test_InnerTfCoilsCircular(unittest.TestCase):
     def test_InnerTfCoilsCircular_creation(self):
@@ -989,30 +996,35 @@ class test_InnerTfCoilsCircular(unittest.TestCase):
                 outer_radius=150,
                 gap_size=5
             )
-        
-        self.assertRaises(ValueError, no_number_of_coils_or_azimuth_placement_angle)
+
+        self.assertRaises(
+            ValueError,
+            no_number_of_coils_or_azimuth_placement_angle)
 
         def number_of_coils_not_equal_azimuth_placement_angles():
             test_shape = paramak.InnerTfCoilsCircular(
                 height=500,
                 inner_radius=50,
-                outer_radius = 150,
+                outer_radius=150,
                 gap_size=5,
                 number_of_coils=8,
                 azimuth_placement_angle=[0, 90, 180, 270]
             )
 
-        self.assertRaises(ValueError, number_of_coils_not_equal_azimuth_placement_angles)
+        self.assertRaises(
+            ValueError,
+            number_of_coils_not_equal_azimuth_placement_angles)
 
         test_shape = paramak.InnerTfCoilsCircular(
             height=500,
             inner_radius=50,
             outer_radius=150,
             gap_size=5,
-            number_of_coils = 8
+            number_of_coils=8
         )
 
-        assert test_shape.azimuth_placement_angle == [0, 45, 90, 135, 180, 225, 270, 315]
+        assert test_shape.azimuth_placement_angle == [
+            0, 45, 90, 135, 180, 225, 270, 315]
 
         test_shape = paramak.InnerTfCoilsCircular(
             height=500,
@@ -1022,7 +1034,8 @@ class test_InnerTfCoilsCircular(unittest.TestCase):
             azimuth_placement_angle=[0, 90, 180, 270]
         )
 
-        assert test_shape.number_of_coils == len(test_shape.azimuth_placement_angle)
+        assert test_shape.number_of_coils == len(
+            test_shape.azimuth_placement_angle)
 
 
 class test_ParametricComponents(unittest.TestCase):
