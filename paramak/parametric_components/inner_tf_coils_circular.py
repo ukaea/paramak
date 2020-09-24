@@ -40,13 +40,13 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
         height,
         inner_radius,
         outer_radius,
-        number_of_coils,
         gap_size,
         distance=None,
         stp_filename="InnerTfCoilsCircular.stp",
         stl_filename="InnerTfCoilsCircular.stl",
         color=(0.5, 0.5, 0.5),
-        azimuth_placement_angle=0,
+        azimuth_placement_angle=None,
+        number_of_coils=None,
         material_tag="inner_tf_coil_mat",
         name=None,
         **kwargs
@@ -86,8 +86,8 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
         self.gap_size = gap_size
         self.distance = height
 
-        self.find_points()
         self.find_azimuth_placement_angle()
+        self.find_points()
 
     @property
     def height(self):
@@ -214,13 +214,23 @@ class InnerTfCoilsCircular(ExtrudeMixedShape):
         self.points = points
 
     def find_azimuth_placement_angle(self):
-        """Calculates the azimuth placement angles based on the number of tf coils"""
 
-        angles = list(
-            np.linspace(
-                0,
-                360,
-                self.number_of_coils,
-                endpoint=False))
-
-        self.azimuth_placement_angle = angles
+        if self.azimuth_placement_angle is None:
+            if self.number_of_coils is None:
+                raise ValueError('azimuth_placement_angle or number_of_coils must be specified')
+            else:
+                angles = list(
+                    np.linspace(
+                        0, 360,
+                        self.number_of_coils,
+                        endpoint=False
+                    )
+                )
+                self.azimuth_placement_angle = angles
+        
+        else:
+            if self.number_of_coils is None:
+                self.number_of_coils = len(self.azimuth_placement_angle)
+            else:
+                if self.number_of_coils != len(self.azimuth_placement_angle):
+                    raise ValueError('number of azimuthal placement angles should equal number of coils')
