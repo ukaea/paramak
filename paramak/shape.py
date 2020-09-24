@@ -354,7 +354,7 @@ class Shape:
 
     @azimuth_placement_angle.setter
     def azimuth_placement_angle(self, value):
-        if isinstance(value, (int, float, Iterable)):
+        if isinstance(value, (int, float, Iterable)) or value is None:
             if isinstance(value, Iterable):
                 for i in value:
                     if isinstance(i, (int, float)) is False:
