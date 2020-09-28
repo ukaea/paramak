@@ -739,17 +739,17 @@ class Shape:
         if self.rotation_angle < 360:
             max_height = 3 * self.distance
             max_width = max([i[0] for i in self.points]) * 3
-            
+
             wedge_cutting_slice = paramak.RotateStraightShape(
-                points = [
+                points=[
                     (0, max_height),
                     (max_width, max_height),
                     (max_width, -max_height),
                     (0, -max_height)
                 ],
-                workplane = workplane,
-                rotation_angle = 360 - self.rotation_angle,
-                azimuth_placement_angle = 360 - self.rotation_angle
+                workplane=workplane,
+                rotation_angle=360 - self.rotation_angle,
+                azimuth_placement_angle=360 - self.rotation_angle
             )
 
             solid = cut_solid(solid, wedge_cutting_slice)
@@ -757,4 +757,3 @@ class Shape:
         self.solid = solid
 
         return solid
-
