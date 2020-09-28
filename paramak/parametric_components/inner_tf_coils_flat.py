@@ -47,6 +47,7 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
         azimuth_start_angle=0,
         stp_filename="InnerTfCoilsFlat.stp",
         stl_filename="InnerTfCoilsFlat.stl",
+        rotation_angle=360,
         color=(0.5, 0.5, 0.5),
         azimuth_placement_angle=0,   # cannot be controlled by user
         material_tag="inner_tf_coil_mat",
@@ -77,6 +78,7 @@ class InnerTfCoilsFlat(ExtrudeStraightShape):
             azimuth_placement_angle=azimuth_placement_angle,
             material_tag=material_tag,
             name=name,
+            rotation_angle=rotation_angle,
             hash_value=None,
             **default_dict
         )

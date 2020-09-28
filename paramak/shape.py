@@ -14,6 +14,7 @@ from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
 from PIL import Image
 
+import paramak
 from paramak.utils import cut_solid, intersect_solid, union_solid
 
 
@@ -723,3 +724,37 @@ class Shape:
         self.hash_value = self.get_hash()
 
         return solid
+
+    # only used by extrude shapes
+    def perform_wedge_cut(self, solid):
+        """Performs wedge cut"""
+
+        if self.workplane == "XY":
+            workplane = "XZ"
+        if self.workplane == "XZ":
+            workplane = "XY"
+        if self.workplane == "YZ":
+            workplane = "XY"
+
+        if self.rotation_angle < 360:
+            max_height = 3 * self.distance
+            max_width = max([i[0] for i in self.points]) * 3
+            
+            wedge_cutting_slice = paramak.RotateStraightShape(
+                points = [
+                    (0, max_height),
+                    (max_width, max_height),
+                    (max_width, -max_height),
+                    (0, -max_height)
+                ],
+                workplane = workplane,
+                rotation_angle = 360 - self.rotation_angle,
+                azimuth_placement_angle = 360 - self.rotation_angle
+            )
+
+            solid = cut_solid(solid, wedge_cutting_slice)
+
+        self.solid = solid
+
+        return solid
+
