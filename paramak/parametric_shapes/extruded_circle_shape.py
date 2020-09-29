@@ -36,6 +36,7 @@ class ExtrudeCircleShape(Shape):
         points,
         distance,
         radius,
+        rotation_angle=360,
         workplane="XZ",
         stp_filename="ExtrudeCircleShape.stp",
         stl_filename="ExtrudeCircleShape.stl",
@@ -76,6 +77,7 @@ class ExtrudeCircleShape(Shape):
         self.radius = radius
         self.distance = distance
         self.solid = solid
+        self.rotation_angle = rotation_angle
 
     @property
     def solid(self):
@@ -102,6 +104,14 @@ class ExtrudeCircleShape(Shape):
     @distance.setter
     def distance(self, value):
         self._distance = value
+
+    @property
+    def rotation_angle(self):
+        return self._rotation_angle
+
+    @rotation_angle.setter
+    def rotation_angle(self, value):
+        self._rotation_angle = value
 
     def create_solid(self):
         """Creates a 3d solid using points with straight connections

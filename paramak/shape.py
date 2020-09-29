@@ -703,7 +703,7 @@ class Shape:
         value = hash_object.hexdigest()
         return value
 
-    def perform_boolean_operations(self, solid):
+    def perform_boolean_operations(self, solid, **kwargs):
         """Performs boolean cut, intersect and union operations if shapes are provided"""
 
         # If a cut solid is provided then perform a boolean cut
@@ -717,6 +717,11 @@ class Shape:
         # If an intersect is provided then perform a boolean intersect
         if self.union is not None:
             solid = union_solid(solid, self.union)
+
+        # If a cutting wedge is provided then perform a boolean cut
+        if 'cutting_wedge' in kwargs:
+            if kwargs['cutting_wedge'].solid is not None:
+                solid = cut_solid(solid, kwargs['cutting_wedge'])
 
         self.solid = solid
 

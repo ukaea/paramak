@@ -1,11 +1,13 @@
 from collections import Iterable
 
+from cadquery import exporters
+
 import cadquery as cq
 import numpy as np
 from scipy import integrate
 from scipy.optimize import minimize
 
-from paramak import ExtrudeMixedShape, ExtrudeStraightShape
+from paramak import ExtrudeMixedShape, ExtrudeStraightShape, CuttingWedgeFS
 
 
 class ToroidalFieldCoilPrincetonD(ExtrudeMixedShape):
@@ -45,6 +47,7 @@ class ToroidalFieldCoilPrincetonD(ExtrudeMixedShape):
         thickness,
         distance,
         number_of_coils,
+        rotation_angle=360,
         stp_filename="ToroidalFieldCoilPrincetonD.stp",
         stl_filename="ToroidalFieldCoilPrincetonD.stl",
         color=(0.5, 0.5, 0.5),
@@ -76,6 +79,7 @@ class ToroidalFieldCoilPrincetonD(ExtrudeMixedShape):
             stl_filename=stl_filename,
             color=color,
             azimuth_placement_angle=azimuth_placement_angle,
+            rotation_angle=rotation_angle,
             material_tag=material_tag,
             name=name,
             hash_value=None,
@@ -291,6 +295,11 @@ class ToroidalFieldCoilPrincetonD(ExtrudeMixedShape):
             solid = solid.rotate(
                 (0, 0, 1), (0, 0, -1), self.azimuth_placement_angle)
 
-        self.perform_boolean_operations(solid)
+        cutting_wedge = CuttingWedgeFS(shape=self)
+
+        with open('cutting_wedge.stp', "w") as f:
+            exporters.exportShape(cutting_wedge.solid, "STEP", f)
+
+        self.perform_boolean_operations(solid=solid, cutting_wedge=cutting_wedge)
 
         return solid

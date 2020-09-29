@@ -1,3 +1,7 @@
+from collections import Iterable
+
+import cadquery as cq
+
 from paramak import RotateStraightShape
 
 
@@ -44,6 +48,7 @@ class CuttingWedgeFS(RotateStraightShape):
         )
 
         self.shape = shape
+        self.create_wedge()
 
     @property
     def shape(self):
@@ -53,13 +58,33 @@ class CuttingWedgeFS(RotateStraightShape):
     def shape(self, value):
         self._shape = value
 
-    def find_points(self):
+    @property
+    def solid(self):
+        return self._solid
+
+    @solid.setter
+    def solid(self, value):
+        self._solid = value
+
+    def create_wedge(self):
 
         if self.shape.rotation_angle == 360:
-            raise ValueError('rotation angle = 360, cutting slice cannot be defined')
+
+            self.solid = None
 
         else:
-            max_dimension = self.shape.solid.largestDimension()
+
+            # self.shape.solid cannot be called because this calls create_solid() for the tf coil
+            # this causes the build to be restarted
+            # an estimation of the maximum dimension can be made with the points
+            max_dimension = 0
+            for point in self.shape.points:
+                if abs(point[0]) > max_dimension:
+                    max_dimension = abs(point[0])
+                if abs(point[1]) > max_dimension:
+                    max_dimension = abs(point[1])
+
+            max_dimension = max_dimension * 3
 
             points = [
                 (0, max_dimension),
@@ -68,10 +93,17 @@ class CuttingWedgeFS(RotateStraightShape):
                 (0, -max_dimension)
             ]
 
-            rotation_angle = 360 - self.shape.rotation_angle
-            azimuth_placement_angle = 360 - self.shape.rotation_angle
+            solid = (
+                cq.Workplane(self.workplane)
+                .polyline(points)
+                .close()
+                .revolve(360 - self.shape.rotation_angle)
+            )
 
-        self.points = points
-        self.rotation_angle = rotation_angle
-        self.azimuth_placement_angle = azimuth_placement_angle
-    
+            solid = solid.rotate(
+                (0, 0, 1), (0, 0, -1), 360 - self.shape.rotation_angle
+            )
+
+            self.solid = solid
+
+            return solid

@@ -33,6 +33,7 @@ class ExtrudeSplineShape(Shape):
         self,
         points,
         distance,
+        rotation_angle=360,
         workplane="XZ",
         stp_filename="ExtrudeSplineShape.stp",
         stl_filename="ExtrudeSplineShape.stl",
@@ -72,6 +73,7 @@ class ExtrudeSplineShape(Shape):
 
         self.distance = distance
         self.solid = solid
+        self.rotation_angle = rotation_angle
 
     @property
     def solid(self):
@@ -90,6 +92,14 @@ class ExtrudeSplineShape(Shape):
     @distance.setter
     def distance(self, value):
         self._distance = value
+
+    @property
+    def rotation_angle(self):
+        return self._rotation_angle
+
+    @rotation_angle.setter
+    def rotation_angle(self, value):
+        self._rotation_angle = value
 
     def create_solid(self):
         """Creates a 3d solid using points with spline
