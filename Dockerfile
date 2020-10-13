@@ -21,6 +21,10 @@ RUN conda install -c cadquery -c conda-forge cadquery=master
 
 USER cq
 
+# make sure that pytest is installed
+# we'll need it to run the tests!
+RUN pip install pytest
+
 # Copy over the source code
 COPY paramak paramak/
 COPY setup.py setup.py
