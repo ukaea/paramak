@@ -35,6 +35,4 @@ RUN pip install .
 # Copy over the test folder
 COPY tests tests/
 
-WORKDIR paramak/examples
-
 CMD ["/bin/bash"]
