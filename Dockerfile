@@ -29,7 +29,7 @@ RUN pip install pytest
 COPY paramak paramak/
 COPY setup.py setup.py
 COPY README.md README.md
-
+RUN apt-get clean
 RUN pip install .
 
 # Copy over the test folder
