@@ -11,7 +11,7 @@ from cadquery import exporters
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Polygon
 
-from paramak.utils import cut_solid, intersect_solid, union_solid
+from paramak.utils import cut_solid, intersect_solid, union_solid, convert_distance
 
 
 class Shape:
@@ -52,6 +52,7 @@ class Shape:
         union (paramak.shape or list, optional): If set, the current solid
             will be united with the provided solid or iterable of solids.
             Defaults to None.
+        units (str, optional): units of the points coordinates. Defaults to "m".
     """
 
     def __init__(
@@ -68,7 +69,8 @@ class Shape:
         physical_groups=None,
         cut=None,
         intersect=None,
-        union=None
+        union=None,
+        units="m",
     ):
 
         self.points = points
@@ -90,6 +92,7 @@ class Shape:
 
         self.physical_groups = physical_groups
 
+        self.units = units
         # properties calculated internally by the class
         self.solid = None
         self.render_mesh = None
@@ -393,6 +396,20 @@ class Shape:
             raise ValueError(
                 "azimuth_placement_angle must be a float or list of floats"
             )
+
+    def scale(self, unit_to):
+        new_points = []
+        for p in self.points:
+            new_point = []
+            for coord in [p[0], p[1]]:
+                coord = convert_distance(coord, self.units, unit_to)
+                new_point.append(coord)
+            if len(p) == 3:
+                new_point.append(p[2])
+            new_points.append(new_point)
+        self.points = new_points
+        self.units = unit_to
+
 
     def create_solid(self):
         """Dummy create_solid method
