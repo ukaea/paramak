@@ -4,6 +4,18 @@ from collections import Iterable
 import numpy as np
 
 
+def convert_distance(data, dimension_from, dimension_to):
+
+    units = {
+        "mm": -3,
+        "cm": -2,
+        "dm": -1,
+        "m": 0
+    }
+
+    return data*10**(units[dimension_from] - units[dimension_to])
+
+
 def union_solid(solid, joiner):
     """
     Performs a boolean union of a solid with another solid or iterable of solids
