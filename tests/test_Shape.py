@@ -36,12 +36,12 @@ class test_object_properties(unittest.TestCase):
         def incorrect_points_end_point_is_start_point():
             """checks ValueError is raised when the start and end points are
             the same"""
-
-            test_shape.points = [(0, 200), (200, 100), (0, 0), (0, 200)]
-
-        self.assertRaises(
-            ValueError,
-            incorrect_points_end_point_is_start_point)
+            points = [(0, 200), (200, 100), (0, 0), (0, 200)]
+            test_shape.points = points
+            assert test_shape.points == points
+            points2 = [(0, 200), (200, 100), (0, 0)]
+            test_shape.points = points
+            assert test_shape.points == points
 
         def incorrect_points_missing_z_value():
             """checks ValueError is raised when a point is missing a z value"""
