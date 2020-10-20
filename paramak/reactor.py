@@ -535,8 +535,9 @@ class Reactor:
 
         # creates a small box that surrounds the geometry
         inner_box = cq.Workplane("front").box(
-            largest_dimension + offset, largest_dimension + offset, largest_dimension + offset
-        )
+            largest_dimension + offset,
+            largest_dimension + offset,
+            largest_dimension + offset)
 
         graveyard_thickness = 10
         # creates a large box that surrounds the smaller box
