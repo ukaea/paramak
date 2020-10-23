@@ -13,8 +13,10 @@ class ExtrudeSplineShape(Shape):
     Args:
         distance (float): the extrusion distance to use (cm units if used for
             neutronics).
-        rotation_angle (float): rotation angle of solid created. a cut is performed
-            from rotation_angle to 360 degrees. Defaults to 360.
+        rotation_angle (float, optional): rotation angle of solid created. a 
+            cut is performed from rotation_angle to 360 degrees. Defaults to 360.
+        extrude_both (bool, optional): if set to True, the extrusion will
+            occur in both directions. Defaults to True.
         stp_filename (str, optional): Defaults to "ExtrudeSplineShape.stp".
         stl_filename (str, optional): Defaults to "ExtrudeSplineShape.stl".
     """
@@ -23,6 +25,7 @@ class ExtrudeSplineShape(Shape):
         self,
         distance,
         rotation_angle=360,
+        extrude_both=True,
         stp_filename="ExtrudeSplineShape.stp",
         stl_filename="ExtrudeSplineShape.stl",
         **kwargs
@@ -36,6 +39,7 @@ class ExtrudeSplineShape(Shape):
 
         self.distance = distance
         self.rotation_angle = rotation_angle
+        self.extrude_both = extrude_both
 
     @property
     def distance(self):
@@ -66,7 +70,7 @@ class ExtrudeSplineShape(Shape):
             cq.Workplane(self.workplane)
             .spline(self.points)
             .close()
-            .extrude(distance=-1 * self.distance / 2.0, both=True)
+            .extrude(distance=-1 * self.distance / 2.0, both=self.extrude_both)
         )
 
         # Checks if the azimuth_placement_angle is a list of angles
