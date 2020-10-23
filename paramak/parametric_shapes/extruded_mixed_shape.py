@@ -13,7 +13,7 @@ class ExtrudeMixedShape(Shape):
     Args:
         distance (float): the extrusion distance to use (cm units if used for
             neutronics).
-        rotation_angle (float, optional): rotation angle of solid created. a cut 
+        rotation_angle (float, optional): rotation angle of solid created. a cut
             is performed from rotation_angle to 360 degrees. Defaults to 360.
         extrude_both (bool, optional): if set to True, the extrusion will occur
             in both directions. Defaults to True.
@@ -105,7 +105,9 @@ class ExtrudeMixedShape(Shape):
                 solid = solid.moveTo(p0[0], p0[1]).threePointArc(p1, p2)
 
         # performs extrude in both directions, hence distance / 2
-        solid = solid.close().extrude(distance=-self.distance / 2.0, both=self.extrude_both)
+        solid = solid.close().extrude(
+            distance=-self.distance / 2.0,
+            both=self.extrude_both)
 
         # Checks if the azimuth_placement_angle is a list of angles
         if isinstance(self.azimuth_placement_angle, Iterable):
