@@ -36,6 +36,7 @@ from .parametric_components.center_column_circular import CenterColumnShieldCirc
 from .parametric_components.center_column_flat_top_circular import CenterColumnShieldFlatTopCircular
 
 from .parametric_components.coolant_channel_ring_straight import CoolantChannelRingStraight
+from .parametric_components.coolant_channel_ring_curved import CoolantChannelRingCurved
 
 from .parametric_components.inboard_firstwall_fccs import InboardFirstwallFCCS
 
