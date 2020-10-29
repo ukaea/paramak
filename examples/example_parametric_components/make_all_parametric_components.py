@@ -14,7 +14,6 @@ def main():
     plasma = paramak.Plasma(
         # default parameters
         rotation_angle=rot_angle,
-        stp_filename="plasma_shape.stp",
     )
     all_components.append(plasma)
 
@@ -25,14 +24,14 @@ def main():
         start_angle=-90,
         offset_from_plasma=30,
         rotation_angle=180,
-        stp_filename="blanket_constant_thickness_outboard_plasma.stp",
     )
     all_components.append(component)
 
     component = paramak.BlanketCutterStar(
         height=2000,
         width=2000,
-        distance=100)
+        distance=100
+    )
     all_components.append(component)
 
     component = paramak.BlanketFP(
@@ -42,7 +41,6 @@ def main():
         start_angle=250,
         offset_from_plasma=30,
         rotation_angle=180,
-        stp_filename="blanket_constant_thickness_inboard_plasma.stp",
     )
     all_components.append(component)
 
@@ -53,7 +51,6 @@ def main():
         start_angle=-90,
         offset_from_plasma=30,
         rotation_angle=180,
-        stp_filename="blanket_constant_thickness_plasma.stp",
     )
     all_components.append(component)
 
@@ -62,7 +59,6 @@ def main():
         outer_radius=100,
         height=300,
         rotation_angle=rot_angle,
-        stp_filename="center_column_shield_cylinder.stp",
     )
     all_components.append(CenterColumnShieldCylinder)
 
@@ -70,7 +66,6 @@ def main():
         central_column_shield=CenterColumnShieldCylinder,
         thickness=50,
         rotation_angle=180,
-        stp_filename="firstwall_from_center_column_shield_cylinder.stp",
     )
     all_components.append(component)
 
@@ -80,7 +75,6 @@ def main():
         outer_radius=100,
         height=300,
         rotation_angle=rot_angle,
-        stp_filename="center_column_shield_hyperbola.stp",
     )
     all_components.append(CenterColumnShieldHyperbola)
 
@@ -88,7 +82,6 @@ def main():
         central_column_shield=CenterColumnShieldHyperbola,
         thickness=50,
         rotation_angle=180,
-        stp_filename="firstwall_from_center_column_shield_hyperbola.stp",
     )
     all_components.append(component)
 
@@ -98,7 +91,6 @@ def main():
         outer_radius=100,
         height=300,
         rotation_angle=rot_angle,
-        stp_filename="center_column_shield_circular.stp",
     )
     all_components.append(CenterColumnShieldCircular)
 
@@ -106,7 +98,6 @@ def main():
         central_column_shield=CenterColumnShieldCircular,
         thickness=50,
         rotation_angle=180,
-        stp_filename="firstwall_from_center_column_shield_circular.stp",
     )
     all_components.append(component)
 
@@ -117,7 +108,6 @@ def main():
         arc_height=220,
         height=300,
         rotation_angle=rot_angle,
-        stp_filename="center_column_shield_flat_top_hyperbola.stp",
     )
     all_components.append(CenterColumnShieldFlatTopHyperbola)
 
@@ -125,7 +115,6 @@ def main():
         central_column_shield=CenterColumnShieldFlatTopHyperbola,
         thickness=50,
         rotation_angle=180,
-        stp_filename="firstwall_from_center_column_shield_flat_top_hyperbola.stp",
     )
     all_components.append(component)
 
@@ -136,7 +125,6 @@ def main():
         arc_height=220,
         height=300,
         rotation_angle=rot_angle,
-        stp_filename="center_column_shield_flat_top_Circular.stp",
     )
     all_components.append(CenterColumnShieldFlatTopCircular)
 
@@ -144,7 +132,6 @@ def main():
         central_column_shield=CenterColumnShieldFlatTopCircular,
         thickness=50,
         rotation_angle=180,
-        stp_filename="firstwall_from_center_column_shield_flat_top_Circular.stp",
     )
     all_components.append(component)
 
@@ -154,7 +141,6 @@ def main():
         edge_offset=40,
         height=800,
         rotation_angle=rot_angle,
-        stp_filename="center_column_shield_plasma_hyperbola.stp",
     )
     all_components.append(CenterColumnShieldPlasmaHyperbola)
 
@@ -162,7 +148,6 @@ def main():
         central_column_shield=CenterColumnShieldPlasmaHyperbola,
         thickness=50,
         rotation_angle=180,
-        stp_filename="firstwall_from_center_column_shield_plasma_hyperbola.stp",
     )
     all_components.append(component)
 
@@ -172,7 +157,6 @@ def main():
         number_of_coils=10,
         gap_size=5,
         height=300,
-        stp_filename="inner_tf_coils_circular.stp",
     )
     all_components.append(component)
 
@@ -182,7 +166,6 @@ def main():
         number_of_coils=10,
         gap_size=5,
         height=300,
-        stp_filename="inner_tf_coils_flat.stp",
     )
     all_components.append(component)
 
@@ -193,7 +176,6 @@ def main():
         casing_thicknesses=[5, 5, 10, 10],
         center_points=[(100, 100), (100, 150), (50, 200), (50, 50)],
         rotation_angle=180,
-        stp_filename="pf_coil_case_set.stp"
     )
     all_components.append(pf_coil_set)
 
@@ -203,7 +185,6 @@ def main():
         widths=[10, 10, 20, 40],
         center_points=[(100, 100), (100, 150), (50, 200), (50, 50)],
         rotation_angle=180,
-        stp_filename="pf_coil_set.stp"
     )
     all_components.append(pf_coil_set)
 
@@ -212,7 +193,6 @@ def main():
         pf_coils=pf_coil_set,
         casing_thicknesses=[5, 5, 10, 10],
         rotation_angle=180,
-        stp_filename="pf_coil_cases_set.stp"
     )
     all_components.append(component)
 
@@ -222,7 +202,6 @@ def main():
         height=20,
         width=20,
         rotation_angle=rot_angle,
-        stp_filename="poloidal_field_coil.stp"
     )
     all_components.append(pf_coil)
 
@@ -231,14 +210,13 @@ def main():
         pf_coils=[pf_coil],
         casing_thicknesses=[10],
         rotation_angle=180,
-        stp_filename="pf_coil_cases_set_fc.stp")
+    )
     all_components.append(component)
 
     component = paramak.PoloidalFieldCoilCaseFC(
         pf_coil=pf_coil,
         casing_thickness=10,
         rotation_angle=rot_angle,
-        stp_filename="poloidal_field_coil_case_fc.stp",
     )
     all_components.append(component)
 
@@ -248,7 +226,6 @@ def main():
         coil_width=20,
         casing_thickness=10,
         rotation_angle=rot_angle,
-        stp_filename="poloidal_field_coil_case.stp",
     )
     all_components.append(component)
 
@@ -258,7 +235,6 @@ def main():
         inner_upper_point=(300, 200),
         thickness=100,
         rotation_angle=rot_angle,
-        stp_filename="blanket_arc_v.stp",
     )
     all_components.append(component)
 
@@ -268,7 +244,6 @@ def main():
         inner_upper_point=(300, 200),
         thickness=100,
         rotation_angle=rot_angle,
-        stp_filename="blanket_arc_h.stp",
     )
     all_components.append(component)
 
@@ -277,7 +252,6 @@ def main():
         vertical_mid_point=(800, 0),
         thickness=150,
         distance=60,
-        stp_filename="tf_coil_rectangle.stp",
         number_of_coils=1,
     )
     all_components.append(component)
@@ -289,7 +263,6 @@ def main():
         vertical_length=500,
         thickness=50,
         distance=50,
-        stp_filename="toroidal_field_coil_coat_hanger.stp",
         number_of_coils=1,
     )
     all_components.append(component)
@@ -302,7 +275,6 @@ def main():
         thickness=30,
         distance=30,
         number_of_coils=1,
-        stp_filename="toroidal_field_coil_triple_arc.stp"
     )
     all_components.append(component)
 
@@ -312,14 +284,12 @@ def main():
         thickness=30,
         distance=30,
         number_of_coils=1,
-        stp_filename="toroidal_field_coil_princeton_d.stp"
     )
     all_components.append(component)
 
     component = paramak.ITERtypeDivertor(
         # default parameters
         rotation_angle=rot_angle,
-        stp_filename="ITER_type_divertor.stp",
     )
     all_components.append(component)
 
