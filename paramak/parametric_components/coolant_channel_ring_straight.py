@@ -1,3 +1,6 @@
+
+import numpy as np
+
 from paramak import ExtrudeCircleShape
 
 
@@ -21,6 +24,7 @@ class CoolantChannelRingStraight(ExtrudeCircleShape):
         height,
         channel_radius,
         number_of_coolant_channels,
+        ring_radius,
         stp_filename="CoolantChannelRingStraight.stp",
         stl_filename="CoolantChannelRingStraight.stl",
         material_tag="coolant_channel_mat",
@@ -28,6 +32,8 @@ class CoolantChannelRingStraight(ExtrudeCircleShape):
     ):
 
         super().__init__(
+            distance=height,
+            radius=channel_radius,
             material_tag=material_tag,
             stp_filename=stp_filename,
             stl_filename=stl_filename,
@@ -35,31 +41,31 @@ class CoolantChannelRingStraight(ExtrudeCircleShape):
         )
 
         self.height = height
-        self.inner_radius = inner_radius
-        self.outer_radius = outer_radius
+        self.channel_radius = channel_radius
+        self.number_of_coolant_channels = number_of_coolant_channels
+        self.ring_radius = ring_radius
 
     @property
-    def height(self):
-        return self._height
+    def azimuth_placement_angle(self):
+        self.find_azimuth_placement_angle()
+        return self._azimuth_placement_angle
 
-    @height.setter
-    def height(self, height):
-        self._height = height
+    @azimuth_placement_angle.setter
+    def azimuth_placement_angle(self, value):
+        self._azimuth_placement_angle = value
+
+    def find_azimuth_placement_angle(self):
+        """Calculates the azimuth placement angles based on the number of
+        coolant channels"""
+
+        angles = list(
+            np.linspace(0, 360, self.number_of_coolant_channels, endpoint=False)
+        )
+
+        self.azimuth_placement_angle = angles        
     
-    @property
-    def channel_radius(self):
-        return self._channel_radius
+    def find_points(self):
 
-    @channel_radius.setter
-    def channel_radius(self, channel_radius):
-        self._channel_radius = channel_radius
+        points = [(self.ring_radius, 0)]
 
-    @property
-    def number_of_coolant_channels(self):
-        return self._number_of_coolant_channels
-
-    @number_of_coolant_channels.setter
-    def number_of_coolant_channels(self, number_of_coolant_channels):
-        self._number_of_coolant_channels = number_of_coolant_channels
-
-    def 
+        self.points = points
