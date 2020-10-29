@@ -36,10 +36,9 @@ class CoolantChannelRingCurved(SweepCircleShape):
         self.ring_radius = ring_radius
         self.mid_offset = mid_offset
         self.height = height
-        self.channel_radius = channel_radius
 
         super().__init__(
-            path_points=self.path_points,
+            path_points=self.path_points,   # required argument in imported class, hence why has to be specified in super, and why some parameters have been specified above
             radius=channel_radius,
             material_tag=material_tag,
             stp_filename=stp_filename,
@@ -47,6 +46,7 @@ class CoolantChannelRingCurved(SweepCircleShape):
             **kwargs
         )
 
+        self.channel_radius = channel_radius
         self.number_of_coolant_channels = number_of_coolant_channels
 
     @property
