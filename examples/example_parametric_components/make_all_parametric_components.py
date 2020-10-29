@@ -325,6 +325,15 @@ def main():
     )
     all_components.append(component)
 
+    component = paramak.CoolantChannelRingStraight(
+        height=200,
+        channel_radius=10,
+        ring_radius=70,
+        number_of_coolant_channels=8,
+        workplane="XY"
+    )
+    all_components.append(component)
+
     return all_components
 
 
