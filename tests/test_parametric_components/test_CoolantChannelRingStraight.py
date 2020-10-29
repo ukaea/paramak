@@ -16,8 +16,9 @@ class test_CoolantChannelRingStraight(unittest.TestCase):
         test_shape = paramak.CoolantChannelRingStraight(
             height=200,
             channel_radius=10,
-            ring_offset=70,
-            number_of_coolant_channels=8
+            ring_radius=70,
+            number_of_coolant_channels=8,
+            workplane="XY"
         )
         
         assert test_shape.solid is not None 
@@ -29,16 +30,18 @@ class test_CoolantChannelRingStraight(unittest.TestCase):
         test_shape = paramak.CoolantChannelRingStraight(
             height=200,
             channel_radius=10,
-            ring_offset=70,
-            number_of_coolant_channels=8
+            ring_radius=70,
+            number_of_coolant_channels=8,
+            workplane="XY"
         )
         assert test_shape.volume == pytest.approx(math.pi * (10 ** 2) * 200 * 8)
 
         test_shape = paramak.CoolantChannelRingStraight(
             height=100,
             channel_radius=20,
-            ring_offset=100,
-            number_of_coolant_channels=5
+            ring_radius=70,
+            number_of_coolant_channels=5,
+            workplane="XY"
         )
         assert test_shape.volume == pytest.approx(math.pi * (20 ** 2) * 100 * 5)
 
