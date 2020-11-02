@@ -13,7 +13,7 @@ class CoolantChannelRingStraight(ExtrudeCircleShape):
         channel_radius (float): radius of each coolant channel in ring.
         number_of_coolant_channels (float): number of coolant channels in ring.
         ring radius (float): radius of coolant channel ring.
-        stp_filename (str, optional): Defaults to 
+        stp_filename (str, optional): Defaults to
             "CoolantChannelRingStraight.stp".
         stl_filename (str, optional): Defaults to
             "CoolantChannelRingStraight.stl".
@@ -60,11 +60,14 @@ class CoolantChannelRingStraight(ExtrudeCircleShape):
         coolant channels"""
 
         angles = list(
-            np.linspace(0, 360, self.number_of_coolant_channels, endpoint=False)
-        )
+            np.linspace(
+                0,
+                360,
+                self.number_of_coolant_channels,
+                endpoint=False))
 
-        self.azimuth_placement_angle = angles        
-    
+        self.azimuth_placement_angle = angles
+
     def find_points(self):
 
         points = [(self.ring_radius, 0)]
