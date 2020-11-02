@@ -342,7 +342,7 @@ def main():
         number_of_coolant_channels=8,
     )
     all_components.append(component)
-    
+
     return all_components
 
 

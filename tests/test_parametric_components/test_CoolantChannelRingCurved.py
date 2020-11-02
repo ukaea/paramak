@@ -20,14 +20,13 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
             mid_offset=-20,
             number_of_coolant_channels=8
         )
-        
-        assert test_shape.solid is not None 
+
+        assert test_shape.solid is not None
         assert test_shape.volume > 1000
 
     def test_CoolantChannelRingCurved_relative_volumes(self):
         """creates coolant channel rings using the CoolantChannelRingCurved parametric shape
         and checks the relative volumes are correct"""
-
 
         # number_of_coolant_channels
         test_shape_1 = paramak.CoolantChannelRingCurved(
@@ -48,4 +47,5 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
 
         assert test_shape_1.volume == pytest.approx(test_shape_2.volume * 0.5)
 
-        # needs similar test for mid_offset (volume should increase with mid_offset)
+        # needs similar test for mid_offset (volume should increase with
+        # mid_offset)

@@ -1,5 +1,5 @@
 
-import numpy as np 
+import numpy as np
 
 from paramak import SweepCircleShape
 
@@ -61,8 +61,8 @@ class CoolantChannelRingCurved(SweepCircleShape):
     @property
     def path_points(self):
         self.find_path_points()
-        return self._path_points 
-    
+        return self._path_points
+
     @path_points.setter
     def path_points(self, value):
         self._path_points = value
@@ -72,8 +72,11 @@ class CoolantChannelRingCurved(SweepCircleShape):
         coolant channels"""
 
         angles = list(
-            np.linspace(0, 360, self.number_of_coolant_channels, endpoint=False)
-        )
+            np.linspace(
+                0,
+                360,
+                self.number_of_coolant_channels,
+                endpoint=False))
 
         self.azimuth_placement_angle = angles
 
@@ -86,6 +89,3 @@ class CoolantChannelRingCurved(SweepCircleShape):
         ]
 
         self.path_points = path_points
-
-
-    
