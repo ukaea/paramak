@@ -38,7 +38,7 @@ class CoolantChannelRingCurved(SweepCircleShape):
         self.height = height
 
         super().__init__(
-            path_points=self.path_points,   # required argument in imported class, hence why has to be specified in super, and why some parameters have been specified above
+            path_points=self.path_points,
             radius=channel_radius,
             material_tag=material_tag,
             stp_filename=stp_filename,
@@ -79,7 +79,6 @@ class CoolantChannelRingCurved(SweepCircleShape):
 
     def find_path_points(self):
 
-        # for the moment, channels are centered about z=0
         path_points = [
             (self.ring_radius, -self.height / 2),
             (self.ring_radius + self.mid_offset, 0),
