@@ -50,28 +50,28 @@ test\_ExtrudeMixedShape
 test\_SweepStraightShape
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: test_SweepStraightShape
+.. automodule:: test_parametric_shapes.test_SweepStraightShape
    :members:
    :show-inheritance:
 
 test\_SweepSplineShape
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: test_SweepSplineShape
+.. automodule:: test_parametric_shapes.test_SweepSplineShape
    :members:
    :show-inheritance:
 
 test\_SweepMixedShape
 ^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: test_SweepMixedShape
+.. automodule:: test_parametric_shapes.test_SweepMixedShape
    :members:
    :show-inheritance:
 
 test\_SweepCircleShape
 ^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: test_SweepCircleShape
+.. automodule:: test_parametric_shapes.test_SweepCircleShape
    :members:
    :show-inheritance:
 
