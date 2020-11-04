@@ -11,6 +11,7 @@ import paramak
 import plotly.graph_objects as go
 from paramak.shape import Shape
 
+from hashlib import blake2b
 
 class Reactor:
     """The Reactor object allows shapes and components to be added and then
@@ -35,6 +36,7 @@ class Reactor:
         self.tet_meshes = []
         self.graveyard = None
         self.solid = None
+        self.hash_value = None
 
         self.shapes_and_components = shapes_and_components
         self.graveyard_offset = graveyard_offset
@@ -96,7 +98,10 @@ class Reactor:
         to the Reactor object. This allows collective operations to be
         performed on all the shapes in the reactor. When adding a shape or
         component the stp_filename of the shape or component should be unique"""
-
+        if hasattr(self, 'create_solids'):
+            if self.get_hash() != self.hash_value:
+                new_shapes = self.create_solids()
+                return new_shapes
         return self._shapes_and_components
 
     @shapes_and_components.setter
@@ -145,6 +150,14 @@ class Reactor:
     @solid.setter
     def solid(self, value):
         self._solid = value
+
+    @property
+    def hash_value(self):
+        return self._hash_value
+
+    @hash_value.setter
+    def hash_value(self, value):
+        self._hash_value = value
 
     def neutronics_description(self, include_plasma=False,
                                include_graveyard=True
@@ -248,6 +261,26 @@ class Reactor:
         print("saved geometry description to ", Pfilename)
 
         return str(Pfilename)
+
+    def get_hash(self):
+        hash_object = blake2b()
+        reactor_dict = dict(self.__dict__)
+        # set _solid and _hash_value to None to prevent unnecessary
+        # reconstruction
+        # reactor_dict["_shapes_and_components"] = None
+        # reactor_dict["_solid"] = None
+        # reactor_dict["_hash_value"] = None
+        # reactor_s_or_c =[]
+        # for s_or_c in self.shapes_and_components:
+        #     reactor_s_or_c.append(s_or_c.get_hash)
+        
+        # shape_or_compound_attributes = str(reactor_s_or_c)
+        reactor_attributes = str(list(reactor_dict.values()))
+        # all_atributes= (shape_or_compound_attributes + reactor_attributes)
+        # hash_object.update(all_atributes)
+        hash_object.update(reactor_attributes.encode("utf-8"))
+        value = hash_object.hexdigest()
+        return value
 
     def export_stp(self, output_folder=""):
         """Writes stp files (CAD geometry) for each Shape object in the reactor
