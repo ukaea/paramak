@@ -13,6 +13,7 @@ from paramak.shape import Shape
 
 from hashlib import blake2b
 
+
 class Reactor:
     """The Reactor object allows shapes and components to be added and then
     collective operations to be performed on them. Combining all the shapes is
@@ -273,7 +274,7 @@ class Reactor:
         # reactor_s_or_c =[]
         # for s_or_c in self.shapes_and_components:
         #     reactor_s_or_c.append(s_or_c.get_hash)
-        
+
         # shape_or_compound_attributes = str(reactor_s_or_c)
         reactor_attributes = str(list(reactor_dict.values()))
         # all_atributes= (shape_or_compound_attributes + reactor_attributes)
