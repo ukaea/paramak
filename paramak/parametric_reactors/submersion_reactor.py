@@ -238,7 +238,6 @@ class SubmersionTokamak(paramak.Reactor):
                 self._outboard_tf_coil_start_radius +
                 self.outboard_tf_coil_radial_thickness)
 
-
             self._outboard_tf_coils_horizontal_length = self._blanket_rear_wall_end_radius * 0.75
 
         self._pf_info_provided = False
