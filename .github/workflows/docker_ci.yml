@@ -13,4 +13,4 @@ jobs:
    - name: Build and test with Docker
      run: |
        docker build --tag paramak .
-       docker run --rm paramak pytest tests
+       docker run --rm paramak pytest /tests
