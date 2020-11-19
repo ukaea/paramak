@@ -13,4 +13,4 @@ jobs:
    - name: Build and test with Docker
      run: |
        docker build --tag paramak .
-       docker run --rm paramak pytest /tests
+       docker run --rm paramak  /bin/bash -c "pytest /tests -v --cov=paramak --cov-append --cov-report term --cov-report html:htmlcov --cov-report xml --junitxml=test-reports/junit.xml && curl -s https://codecov.io/bash | bash"
