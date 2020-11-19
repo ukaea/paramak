@@ -12,6 +12,10 @@
 # Run command from within the base repository directory
 # docker build -t ukaea/paramak --build-arg include_neutronics=true .
 
+# Building using the latest release version of CadQuery (default) and MOAB.
+# Run command from within the base repository directory
+# docker build -t ukaea/paramak --build-arg include_neutronics=true --build-arg cq_version=master .
+
 # This dockerfile can be run in a few different ways.
 
 # Run with the following command for a jupyter notebook interface
@@ -87,8 +91,8 @@ RUN if [ "$include_neutronics" = "true" ] ; \
                 -DBUILD_SHARED_LIBS=OFF \
                 -DENABLE_FORTRAN=OFF \
                 -DCMAKE_INSTALL_PREFIX=/MOAB ; \
-    make ; \
-    make install ; \
+    make -j$(nproc) ; \
+    make -j$(nproc) install ; \
     rm -rf * ; \
     cmake ../moab -DBUILD_SHARED_LIBS=ON \
                 -DENABLE_HDF5=ON \
@@ -96,8 +100,8 @@ RUN if [ "$include_neutronics" = "true" ] ; \
                 -DENABLE_BLASLAPACK=OFF \
                 -DENABLE_FORTRAN=OFF \
                 -DCMAKE_INSTALL_PREFIX=/MOAB ; \
-    make ; \
-    make install ; \
+    make -j$(nproc) ; \
+    make -j$(nproc) install ; \
     cd pymoab ; \
     bash install.sh ; \
     python setup.py install ; \
