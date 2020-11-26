@@ -20,6 +20,7 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
         """Checks that the default parameters of a CoolantChannelRingCurved are correct."""
 
         # assert self.test_shape.rotation_angle == 360
+        assert self.test_shape.start_angle == 0
         assert self.test_shape.stp_filename == "CoolantChannelRingCurved.stp"
         assert self.test_shape.stl_filename == "CoolantChannelRingCurved.stl"
         assert self.test_shape.material_tag == "coolant_channel_mat"
@@ -44,6 +45,18 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
         assert test_volume > self.test_shape.volume
         self.test_shape.force_cross_section = True
         assert test_volume < self.test_shape.volume
+
+    def test_CoolantChannelRingCurved_start_angle(self):
+        """Checks that the coolant channels are placed at the correct azimuthal placement
+        angles for a given start angle."""
+
+        assert self.test_shape.azimuth_placement_angle == [
+            0, 45, 90, 135, 180, 225, 270, 315
+        ]
+        self.test_shape.start_angle = 10
+        assert self.test_shape.azimuth_placement_angle == [
+            10, 55, 100, 145, 190, 235, 280, 325
+        ]
 
     # need to add check to warn/raise error when there is coolant channel
     # overlap and a test
