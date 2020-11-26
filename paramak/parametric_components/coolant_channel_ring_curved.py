@@ -35,6 +35,7 @@ class CoolantChannelRingCurved(SweepCircleShape):
         number_of_coolant_channels,
         ring_radius,
         mid_offset,
+        start_angle=0,
         stp_filename="CoolantChannelRingCurved.stp",
         stl_filename="CoolantChannelRingCurved.stl",
         material_tag="coolant_channel_mat",
@@ -44,6 +45,7 @@ class CoolantChannelRingCurved(SweepCircleShape):
         self.ring_radius = ring_radius
         self.mid_offset = mid_offset
         self.height = height
+        self.start_angle = start_angle
 
         super().__init__(
             path_points=self.path_points,
@@ -81,8 +83,8 @@ class CoolantChannelRingCurved(SweepCircleShape):
 
         angles = list(
             np.linspace(
-                0,
-                360,
+                0 + self.start_angle,
+                360 + self.start_angle,
                 self.number_of_coolant_channels,
                 endpoint=False))
 
