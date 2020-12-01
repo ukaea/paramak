@@ -51,4 +51,4 @@ class PortCutterCircular(ExtrudeCircleShape):
         self.radius = radius
 
     def find_points(self):
-        self.points = [(0, self.z_pos)]
+        self.points = [(self.z_pos, 0)]
