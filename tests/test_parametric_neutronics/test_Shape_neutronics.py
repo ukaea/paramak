@@ -6,11 +6,11 @@ from pathlib import Path
 import paramak
 
 
-class TestReactorNeutronics(unittest.TestCase):
+class TestShapeNeutronics(unittest.TestCase):
 
     def test_export_h5m(self):
-        """Creates a Reactor object consisting of two shapes and checks a h5m
-        file of the reactor can be exported using the export_h5m method."""
+        """Creates a Shape object consisting and checks a h5m file of the shape
+        can be exported using the export_h5m method with various options."""
 
         os.system('rm small_dagmc.h5m')
         os.system('rm small_dagmc_without_graveyard.h5m')
