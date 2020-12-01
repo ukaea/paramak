@@ -46,7 +46,7 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
         self.test_shape.force_cross_section = True
         assert test_volume < self.test_shape.volume
 
-    def test_CoolantChannelRingCurved_start_angle(self):
+    def test_start_angle(self):
         """Checks that the coolant channels are placed at the correct azimuthal placement
         angles for a given start angle."""
 

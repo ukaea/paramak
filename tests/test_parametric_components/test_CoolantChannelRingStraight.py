@@ -56,7 +56,7 @@ class test_CoolantChannelRingStraight(unittest.TestCase):
         assert self.test_shape.volume == pytest.approx(
             math.pi * (10 ** 2) * 100 * 8)
 
-    def test_CoolantChannelRingStraight_start_angle(self):
+    def test_start_angle(self):
         """Checks that the coolant channels are placed at the correct azimuthal placement
         angles for a given start angle."""
 
