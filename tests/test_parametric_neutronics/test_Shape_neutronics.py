@@ -19,7 +19,7 @@ class TestShapeNeutronics(unittest.TestCase):
         test_shape = paramak.RotateSplineShape(
             points=[(0, 0), (0, 20), (20, 20)],
             material_tag='mat1',
-            rotation_angle = 180)
+            rotation_angle=180)
         test_shape.export_h5m(
             filename='small_dagmc_without_graveyard.h5m',
             tolerance=0.01,
@@ -29,9 +29,9 @@ class TestShapeNeutronics(unittest.TestCase):
             filename='small_dagmc.h5m',
             tolerance=0.01,
             skip_graveyard=False)
-    
+
         test_shape.export_h5m(
-            filename='large_dagmc.h5m', 
+            filename='large_dagmc.h5m',
             tolerance=0.001,
             skip_graveyard=False)
 
@@ -54,7 +54,7 @@ class TestShapeNeutronics(unittest.TestCase):
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)],
             material_tag='mat1',
-            rotation_angle = 360)
+            rotation_angle=360)
         test_shape.export_h5m(filename='out', tolerance=0.01)
         assert Path("out.h5m").exists() is True
         os.system('rm out.h5m')
