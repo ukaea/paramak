@@ -6,60 +6,58 @@ from pathlib import Path
 import paramak
 
 
-class test_object_properties(unittest.TestCase):
+class TestReactorNeutronics(unittest.TestCase):
 
-    def setUp(self):
-        self.test_shape = paramak.ExtrudeMixedShape(
-            points=[
-                (50, 0, "straight"),
-                (50, 50, "spline"),
-                (60, 70, "spline"),
-                (70, 50, "circle"),
-                (60, 25, "circle"),
-                (70, 0, "straight")],
-            distance=50
-        )
+    def test_export_h5m(self):
+        """Creates a Reactor object consisting of two shapes and checks a h5m
+        file of the reactor can be exported using the export_h5m method."""
 
-    def test_export_h5m_creates_file(self):
-        """Tests the Shape.export_h5m method results in an outputfile."""
-        os.system('rm test_shape.h5m')
-        self.test_shape.export_h5m(filename='test_shape.h5m')
-        assert Path("test_shape.h5m").exists() is True
+        os.system('rm small_dagmc.h5m')
+        os.system('rm small_dagmc_without_graveyard.h5m')
+        os.system('rm small_dagmc_with_graveyard.h5m')
+        os.system('rm large_dagmc.h5m')
+        test_shape = paramak.RotateSplineShape(
+            points=[(0, 0), (0, 20), (20, 20)],
+            material_tag='mat1',
+            rotation_angle = 180)
+        test_shape.export_h5m(
+            filename='small_dagmc_without_graveyard.h5m',
+            tolerance=0.01,
+            skip_graveyard=True)
 
-    def test_offset_from_graveyard_sets_attribute(self):
-        os.system('rm test_shape.h5m')
-        self.test_shape.export_h5m(
-            filename='test_shape.h5m',
-            graveyard_offset=101)
-        assert self.test_shape.graveyard_offset == 101
-
-    def test_tolerance_increases_filesize(self):
-        os.system('rm test_shape.h5m')
-        self.test_shape.export_h5m(
-            filename='test_shape_0001.h5m',
-            tolerance=0.001)
-        self.test_shape.export_h5m(
-            filename='test_shape_001.h5m',
-            tolerance=0.01)
-        assert Path('test_shape_0001.h5m').stat().st_size > Path(
-            'test_shape_001.h5m').stat().st_size
-
-    def test_skipping_graveyard_decreases_filesize(self):
-        os.system('rm test_shape.h5m')
-        self.test_shape.export_h5m(filename='skiped.h5m', skip_graveyard=True)
-        self.test_shape.export_h5m(
-            filename='not_skipped.h5m',
+        test_shape.export_h5m(
+            filename='small_dagmc.h5m',
+            tolerance=0.01,
             skip_graveyard=False)
-        assert Path('not_skipped.h5m').stat().st_size > Path(
-            'skiped.h5m').stat().st_size
+    
+        test_shape.export_h5m(
+            filename='large_dagmc.h5m', 
+            tolerance=0.001,
+            skip_graveyard=False)
 
-    def test_graveyard_offset_increases_voulme(self):
-        os.system('rm test_shape.h5m')
-        self.test_shape.make_graveyard(graveyard_offset=100)
-        small_offset = self.test_shape.graveyard.volume
-        self.test_shape.make_graveyard(graveyard_offset=1000)
-        large_offset = self.test_shape.graveyard.volume
-        assert small_offset < large_offset
+        test_shape.export_h5m(
+            filename='small_dagmc_with_graveyard.h5m',
+            tolerance=0.01,
+            skip_graveyard=False)
+
+        assert Path("small_dagmc.h5m").exists() is True
+        assert Path("small_dagmc_with_graveyard.h5m").exists() is True
+        assert Path("large_dagmc.h5m").exists() is True
+        assert Path("large_dagmc.h5m").stat().st_size > Path(
+            "small_dagmc.h5m").stat().st_size
+        assert Path("small_dagmc_without_graveyard.h5m").stat(
+        ).st_size < Path("small_dagmc.h5m").stat().st_size
+
+    def test_export_h5m_without_extension(self):
+        """Tests that the code appends .h5m to the end of the filename"""
+        os.system('rm out.h5m')
+        test_shape = paramak.RotateStraightShape(
+            points=[(0, 0), (0, 20), (20, 20)],
+            material_tag='mat1',
+            rotation_angle = 360)
+        test_shape.export_h5m(filename='out', tolerance=0.01)
+        assert Path("out.h5m").exists() is True
+        os.system('rm out.h5m')
 
 
 if __name__ == "__main__":
