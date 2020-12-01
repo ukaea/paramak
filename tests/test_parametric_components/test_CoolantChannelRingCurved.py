@@ -13,7 +13,7 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
             channel_radius=10,
             ring_radius=70,
             mid_offset=-20,
-            number_of_coolant_channels=8
+            number_of_coolant_channels=6
         )
 
     def test_default_parameters(self):
@@ -37,7 +37,7 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
         and checks the relative volumes are correct."""
 
         test_volume = self.test_shape.volume
-        self.test_shape.number_of_coolant_channels = 4
+        self.test_shape.number_of_coolant_channels = 3
         assert test_volume == pytest.approx(self.test_shape.volume * 2)
 
         test_volume = self.test_shape.volume
@@ -51,12 +51,9 @@ class test_CoolantChannelRingCurved(unittest.TestCase):
         angles for a given start angle."""
 
         assert self.test_shape.azimuth_placement_angle == [
-            0, 45, 90, 135, 180, 225, 270, 315
+            0, 60, 120, 180, 240, 300
         ]
         self.test_shape.start_angle = 10
         assert self.test_shape.azimuth_placement_angle == [
-            10, 55, 100, 145, 190, 235, 280, 325
+            10, 70, 130, 190, 250, 310
         ]
-
-    # need to add check to warn/raise error when there is coolant channel
-    # overlap and a test

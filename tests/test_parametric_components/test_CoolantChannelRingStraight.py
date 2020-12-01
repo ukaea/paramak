@@ -67,6 +67,3 @@ class test_CoolantChannelRingStraight(unittest.TestCase):
         assert self.test_shape.azimuth_placement_angle == [
             10, 55, 100, 145, 190, 235, 280, 325
         ]
-
-    # need to add check to warn/raise error when there is coolant channel
-    # overlap and a test
