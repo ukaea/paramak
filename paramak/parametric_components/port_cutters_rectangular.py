@@ -7,10 +7,10 @@ class PortCutterRectangular(ExtrudeStraightShape):
     other components (eg. blanket, vessel,..) in order to create ports.
 
     Args:
-        z_pos (float): Z position (cm) of the port
-        height (float): height (cm) of the port
-        width (float): width (cm) of the port
-        distance (float): extruded distance (cm) of the cutter
+        center_point (tuple of floats): Defaults to (0, 0).
+        height (float): height (cm) of the port.
+        width (float): width (cm) of the port.
+        distance (float): extruded distance (cm) of the cutter.
         fillet_radius (float, optional): If not None, radius (cm) of fillets
             added to edges orthogonal to the Z direction. Defaults to None.
         stp_filename (str, optional): defaults to "PortCutterRectangular.stp".
@@ -24,10 +24,10 @@ class PortCutterRectangular(ExtrudeStraightShape):
 
     def __init__(
         self,
-        z_pos,
         height,
         width,
         distance,
+        center_point=(0, 0),
         workplane="ZY",
         rotation_axis="Z",
         extrusion_start_offset=1.,
@@ -52,7 +52,7 @@ class PortCutterRectangular(ExtrudeStraightShape):
             **kwargs
         )
 
-        self.z_pos = z_pos
+        self.center_point = center_point
         self.height = height
         self.width = width
         self.fillet_radius = fillet_radius
@@ -65,7 +65,7 @@ class PortCutterRectangular(ExtrudeStraightShape):
             (self.width / 2, self.height / 2),
             (-self.width / 2, self.height / 2),
         ]
-        points = [(e[1] + self.z_pos, e[0]) for e in points]
+        points = [(e[0]+self.center_point[0], e[1]+self.center_point[1]) for e in points]
         self.points = points
 
     def add_fillet(self):
