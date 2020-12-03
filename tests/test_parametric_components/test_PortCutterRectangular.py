@@ -10,11 +10,12 @@ class TestPortCutterRectangular(unittest.TestCase):
         """Checks a PortCutterRectangular creation."""
 
         test_component = paramak.PortCutterRectangular(
+            center_point = (0, 0),
             distance=3,
-            z_pos=0,
             height=0.2,
             width=0.4,
             fillet_radius=0.02,
+            extrusion_start_offset=1,
             azimuth_placement_angle=[0, 45, 90, 180]
         )
 
