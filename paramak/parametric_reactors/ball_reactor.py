@@ -465,6 +465,8 @@ class BallReactor(paramak.Reactor):
             cut=[self._center_column_cutter],
         )
 
+        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(self, self._firstwall, self._blanket, self._blanket_rear_wall)
+
         return [self._firstwall, self._blanket, self._blanket_rear_wall]
 
     def _make_divertor(self):
