@@ -41,3 +41,15 @@ class TestPortCutterRectangular(unittest.TestCase):
         self.test_shape.azimuth_placement_angle = [0, 90, 180, 270]
         
         assert self.test_shape.volume == pytest.approx(test_volume * 4)
+
+    def test_absolute_volume(self):
+        """Creates a PortCutterRectangular shape and checks that its volume is correct."""
+
+        assert self.test_shape.volume == pytest.approx(40 * 40 * 300)
+
+        self.test_shape.extrusion_start_offset = 20
+        self.test_shape.azimuth_placement_angle = [0, 90, 180, 270]
+        self.test_shape.width = 20
+        self.test_shape.height = 20
+
+        assert self.test_shape.volume == pytest.approx(20 * 20 * 300 * 4)
