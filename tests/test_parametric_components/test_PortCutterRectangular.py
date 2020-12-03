@@ -3,6 +3,7 @@ import unittest
 
 import paramak
 
+import pytest
 
 class TestPortCutterRectangular(unittest.TestCase):
 
@@ -14,14 +15,14 @@ class TestPortCutterRectangular(unittest.TestCase):
     def test_default_parameters(self):
         """Checks that the default parameters of a PortCutterRectangular are correct."""
 
-        assert self.center_point = (0, 0)
-        assert self.workplane = "ZY"
-        assert self.rotation_axis == "Z"
-        assert self.extrusion_start_offset == 1
-        assert self.stp_filename == "PortCutterRectangular.stp"
-        assert self.stl_filename == "PortCutterRectangular.stl"
-        assert self.name == "rectangular_port_cutter"
-        assert self.material_tag == "rectangular_port_cutter_mat"
+        assert self.test_shape.center_point == (0, 0)
+        assert self.test_shape.workplane == "ZY"
+        assert self.test_shape.rotation_axis == "Z"
+        assert self.test_shape.extrusion_start_offset == 1
+        assert self.test_shape.stp_filename == "PortCutterRectangular.stp"
+        assert self.test_shape.stl_filename == "PortCutterRectangular.stl"
+        assert self.test_shape.name == "rectangular_port_cutter"
+        assert self.test_shape.material_tag == "rectangular_port_cutter_mat"
 
     def test_creation(self):
         """Creates a rectangular port cutter using the PortCutterRectangular parametric
@@ -29,3 +30,14 @@ class TestPortCutterRectangular(unittest.TestCase):
 
         assert self.test_shape.solid is not None
         assert self.test_shape.volume > 1000
+
+    def test_relative_volume(self):
+        """Creates PortCutterRectangular shapes and checks that their relative volumes
+        are correct."""
+
+        test_volume = self.test_shape.volume
+
+        self.test_shape.extrusion_start_offset = 20
+        self.test_shape.azimuth_placement_angle = [0, 90, 180, 270]
+        
+        assert self.test_shape.volume == pytest.approx(test_volume * 4)
