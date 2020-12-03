@@ -84,6 +84,9 @@ class ExtrudeMixedShape(Shape):
             distance=extrusion_distance,
             both=self.extrude_both)
 
+        if hasattr(self, "add_fillet"):
+            solid = self.add_fillet(solid)
+
         solid = self.rotate_solid(solid)
         cutting_wedge = calculate_wedge_cut(self)
         solid = self.perform_boolean_operations(solid, wedge_cut=cutting_wedge)

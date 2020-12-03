@@ -56,7 +56,7 @@ class PortCutterRectangular(ExtrudeStraightShape):
         self.height = height
         self.width = width
         self.fillet_radius = fillet_radius
-        self.add_fillet()
+        # self.add_fillet()
 
     def find_points(self):
         points = [
@@ -69,6 +69,13 @@ class PortCutterRectangular(ExtrudeStraightShape):
                    self.center_point[1]) for e in points]
         self.points = points
 
-    def add_fillet(self):
+    def add_fillet(self, solid):
+        if "X" not in self.workplane:
+            filleting_edge = "|X"
+        if "Y" not in self.workplane:
+            filleting_edge = "|Y"
+        if "Z" not in self.workplane:
+            filleting_edge = "|Z"
         if self.fillet_radius is not None and self.fillet_radius != 0:
-            self.solid = self.solid.edges().fillet(self.fillet_radius)
+            solid = solid.edges(filleting_edge).fillet(self.fillet_radius)
+        return solid
