@@ -182,10 +182,12 @@ class BallReactor(paramak.Reactor):
                     0, 360, self.number_of_ports, endpoint=False
                 )
             else:
-                if self.number_of_ports == len(self.port_azimuth_placement_angle):
+                if self.number_of_ports == len(
+                        self.port_azimuth_placement_angle):
                     self.port_azimuth_placement_angle = port_azimuth_placement_angle
                 else:
-                    raise ValueError('number of ports does not equal number of port azimuthal placement angles')
+                    raise ValueError(
+                        'number of ports does not equal number of port azimuthal placement angles')
         else:
             if self.port_azimuth_placement_angle is not None:
                 self.number_of_ports = len(self.port_azimuth_placement_angle)
@@ -467,7 +469,8 @@ class BallReactor(paramak.Reactor):
             cut=[self._center_column_cutter],
         )
 
-        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(self, self._firstwall, self._blanket, self._blanket_rear_wall)
+        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(
+            self, self._firstwall, self._blanket, self._blanket_rear_wall)
 
         return [self._firstwall, self._blanket, self._blanket_rear_wall]
 
