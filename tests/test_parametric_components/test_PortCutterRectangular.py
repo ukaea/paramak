@@ -19,6 +19,7 @@ class TestPortCutterRectangular(unittest.TestCase):
         assert self.test_shape.workplane == "ZY"
         assert self.test_shape.rotation_axis == "Z"
         assert self.test_shape.extrusion_start_offset == 1
+        assert self.test_shape.fillet_radius == None
         assert self.test_shape.stp_filename == "PortCutterRectangular.stp"
         assert self.test_shape.stl_filename == "PortCutterRectangular.stl"
         assert self.test_shape.name == "rectangular_port_cutter"
