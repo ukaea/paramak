@@ -3,6 +3,8 @@ import warnings
 
 import paramak
 
+from paramak.utils import perform_port_cutting
+
 
 class BallReactor(paramak.Reactor):
     """Creates geometry for a simple ball reactor including a plasma,
