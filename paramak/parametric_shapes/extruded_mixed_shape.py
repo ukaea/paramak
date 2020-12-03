@@ -84,6 +84,8 @@ class ExtrudeMixedShape(Shape):
             distance=extrusion_distance,
             both=self.extrude_both)
 
+        # used for filleting rectangular port cutter edges
+        # must be done before azimuthal placement
         if hasattr(self, "add_fillet"):
             solid = self.add_fillet(solid)
 
