@@ -167,7 +167,7 @@ class BallReactor(paramak.Reactor):
 
         self.port_type = port_type
         self.number_of_ports = number_of_ports
-        self.port_z_pos = port_z_pos
+        self.port_center_point = port_center_point
         self.port_radius = port_radius
         self.port_height = port_height
         self.port_width = port_width
