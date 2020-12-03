@@ -53,5 +53,5 @@ class test_component(unittest.TestCase):
         self.test_shape.azimuth_placement_angle = [0, 90, 180, 270]
         self.test_shape.radius = 10
 
-        assert self.test_shape.volume == pytest.approx(math.pi * (10**2) * 300 * 4)
-
+        assert self.test_shape.volume == pytest.approx(
+            math.pi * (10**2) * 300 * 4)
