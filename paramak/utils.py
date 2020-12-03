@@ -208,6 +208,58 @@ def calculate_wedge_cut(self):
     return cutting_wedge
 
 
+def perform_port_cutting(self, *args):
+
+    components = []
+
+    if self.port_type == None and self.port_azimuth_placement_angle == None \
+        and self.port_distance == None and self.port_start_radius == None:
+
+        for component in args:
+            components.append(component)
+        return components
+
+    else:
+        if self.port_type == "circular":
+            if self.port_height != None or self.port_width != None:
+                raise ValueError('only port_radius should be specified')
+            if self.port_radius == None:
+                raise ValueError('port_radius must be specified')
+            
+            port_cutter = paramak.PortCutterCircular(
+                center_point = self.port_center_point,
+                radius = self.port_radius,
+                distance = self.port_distance,
+                extrusion_start_offset = self.port_start_radius,
+                azimuth_placement_angle = self.port_azimuth_placement_angle
+            )
+
+        elif self.port_type == "rectangular":
+            if self.port_radius != None:
+                raise ValueError('only port_height and port_width should be specified')
+            if self.port_height == None or self.port_width == None:
+                raise ValueError('port_height and port_width must be specified')
+
+            port_cutter = paramak.PortCutterRectangular(
+                center_point = self.port_center_point,
+                height = self.port_height,
+                width = self.port_width,
+                distance = self.port_distance,
+                extrusion_start_offset = self.port_start_radius,
+                fillet_radius = self.port_fillet_radius,
+                azimuth_placement_angle = self.port_azimuth_placement_angle
+            )
+        
+        else:
+            raise ValueError('invalid port_type')
+
+        for component in args:
+            component.cut = [port_cutter] + component.cut
+            components.append(component)
+        
+        return components
+
+
 def add_thickness(x, y, thickness, dy_dx=None):
     """Computes outer curve points based on thickness
 
