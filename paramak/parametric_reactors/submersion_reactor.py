@@ -681,7 +681,8 @@ class SubmersionTokamak(paramak.Reactor):
                 self._outboard_rear_blanket_wall_lower],
         )
 
-        self._outboard_rear_blanket_wall = perform_port_cutting(self, self._outboard_rear_blanket_wall)
+        self._outboard_rear_blanket_wall = perform_port_cutting(
+            self, self._outboard_rear_blanket_wall)
 
         return self._outboard_rear_blanket_wall
 
