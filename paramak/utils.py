@@ -212,8 +212,7 @@ def perform_port_cutting(self, *args):
 
     components = []
 
-    if self.port_type is None and self.port_azimuth_placement_angle is None \
-            and self.port_distance is None and self.port_start_radius is None:
+    if self.port_type is None:
 
         for component in args:
             components.append(component)
