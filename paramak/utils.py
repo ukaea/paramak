@@ -256,9 +256,13 @@ def perform_port_cutting(self, *args):
             raise ValueError('invalid port_type')
 
         for component in args:
-            component.cut = [port_cutter] + component.cut
+            if component.cut is None:
+                component.cut = [port_cutter]
+            else:
+                component.cut = [port_cutter] + component.cut
             components.append(component)
-
+            if len(args) == 1:
+                return component
         return components
 
 
