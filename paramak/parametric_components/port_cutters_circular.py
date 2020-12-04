@@ -7,7 +7,7 @@ class PortCutterCircular(ExtrudeCircleShape):
     other components (eg. blanket, vessel,..) in order to create ports.
 
     Args:
-        center_point (tuple of floats): Defaults to (0, 0).
+        center_point ((float, float)): Defaults to (0, 0).
         radius (float): radius (cm) of port.
         distance (float): extruded distance (cm) of the cutter.
         stp_filename (str, optional): defaults to "PortCutterCircular.stp".

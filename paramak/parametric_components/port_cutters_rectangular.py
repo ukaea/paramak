@@ -7,7 +7,7 @@ class PortCutterRectangular(ExtrudeStraightShape):
     other components (eg. blanket, vessel,..) in order to create ports.
 
     Args:
-        center_point (tuple of floats): Defaults to (0, 0).
+        center_point ((float, float)): Defaults to (0, 0).
         height (float): height (cm) of the port.
         width (float): width (cm) of the port.
         distance (float): extruded distance (cm) of the cutter.
