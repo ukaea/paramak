@@ -68,7 +68,7 @@ class BallReactor(paramak.Reactor):
         number_of_ports (int, optional): number of ports. Defaults to None.
         port_center_point ((float, float), optional): position of port center
             point in the workplane given. Defaults to (0, 0).
-        port_radius (float, optional): radius of circular ports. Defaults to 
+        port_radius (float, optional): radius of circular ports. Defaults to
             None.
         port_height (float, optional): height of rectangular ports. Defaults
             to None.
@@ -76,7 +76,7 @@ class BallReactor(paramak.Reactor):
             None.
         port_distance (float, optional): extrusion distance of port cutter.
             Defaults to None.
-        port_azimuth_placement_angle (float or list of floats, optional): 
+        port_azimuth_placement_angle (float or list of floats, optional):
             azimuthal placement of each port. Defualts to None if no ports
             are created. Defaults to list of equally spaced floats between 0
             and 360 of length equal to number_of_ports if number_of_ports is
@@ -492,7 +492,8 @@ class BallReactor(paramak.Reactor):
             cut=[self._center_column_cutter],
         )
 
-        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(self, self._firstwall, self._blanket, self._blanket_rear_wall)
+        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(
+            self, self._firstwall, self._blanket, self._blanket_rear_wall)
 
         return [self._firstwall, self._blanket, self._blanket_rear_wall]
 
