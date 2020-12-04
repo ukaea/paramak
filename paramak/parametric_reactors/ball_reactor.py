@@ -64,6 +64,28 @@ class BallReactor(paramak.Reactor):
             "upper", "lower" or "both". Defaults to "both".
         rotation_angle (float): the angle of the sector that is desired.
             Defaults to 360.0.
+        port_type (str, optional): type of port to be cut. Defaults to None.
+        number_of_ports (int, optional): number of ports. Defaults to None.
+        port_center_point ((float, float), optional): position of port center
+            point in the workplane given. Defaults to (0, 0).
+        port_radius (float, optional): radius of circular ports. Defaults to 
+            None.
+        port_height (float, optional): height of rectangular ports. Defaults
+            to None.
+        port_width (float, optional): width of rectangular ports. Defaults to
+            None.
+        port_distance (float, optional): extrusion distance of port cutter.
+            Defaults to None.
+        port_azimuth_placement_angle (float or list of floats, optional): 
+            azimuthal placement of each port. Defualts to None if no ports
+            are created. Defaults to list of equally spaced floats between 0
+            and 360 of length equal to number_of_ports if number_of_ports is
+            provided but port_azimuth_placement_angle is not.
+        port_start_radius (float, optional): extrusion start point of port
+            cutter. Defaults to None if no ports are created. Defaults to
+            major_radius otherwise.
+        port_fillet_radius (float, optional): fillet radius of rectangular
+            ports. Defaults to 0.
     """
 
     def __init__(
@@ -470,8 +492,7 @@ class BallReactor(paramak.Reactor):
             cut=[self._center_column_cutter],
         )
 
-        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(
-            self, self._firstwall, self._blanket, self._blanket_rear_wall)
+        self._firstwall, self._blanket, self._blanket_rear_wall = perform_port_cutting(self, self._firstwall, self._blanket, self._blanket_rear_wall)
 
         return [self._firstwall, self._blanket, self._blanket_rear_wall]
 
