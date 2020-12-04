@@ -4,6 +4,8 @@ import warnings
 import cadquery as cq
 import paramak
 
+from paramak.utils import perform_port_cutting
+
 
 class SubmersionTokamak(paramak.Reactor):
     """Creates geometry for a simple submersion reactor including a plasma,
@@ -490,6 +492,7 @@ class SubmersionTokamak(paramak.Reactor):
             material_tag="firstwall_mat",
             union=self._inboard_firstwall,
         )
+        self._firstwall = perform_port_cutting(self, self._firstwall)
         return self._firstwall
 
     def _make_divertor(self):
@@ -539,8 +542,7 @@ class SubmersionTokamak(paramak.Reactor):
             name="divertor",
             material_tag="divertor_mat"
         )
-
-        self._firstwall.cut = self._divertor
+        self._firstwall.cut = self._firstwall.cut + [self._divertor]
         self._inboard_firstwall.cut = self._divertor
         return self._divertor
 
@@ -575,6 +577,7 @@ class SubmersionTokamak(paramak.Reactor):
             material_tag="blanket_mat",
             union=self._inboard_blanket,
         )
+        self._blanket = perform_port_cutting(self, self._blanket)
         return self._blanket
 
     def _make_supports(self):
@@ -611,7 +614,7 @@ class SubmersionTokamak(paramak.Reactor):
             material_tag="supports_mat",
             intersect=blanket_enveloppe,
         )
-        self._blanket.cut = self._supports
+        self._blanket.cut = self._blanket.cut + [self._supports]
 
         return self._supports
 
@@ -677,6 +680,8 @@ class SubmersionTokamak(paramak.Reactor):
                 self._outboard_rear_blanket_wall_upper,
                 self._outboard_rear_blanket_wall_lower],
         )
+
+        self._outboard_rear_blanket_wall = perform_port_cutting(self, self._outboard_rear_blanket_wall)
 
         return self._outboard_rear_blanket_wall
 
