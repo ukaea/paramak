@@ -564,7 +564,10 @@ class SubmersionTokamak(paramak.Reactor):
             name="divertor",
             material_tag="divertor_mat"
         )
-        self._firstwall.cut = self._firstwall.cut + [self._divertor]
+        if self._firstwall.cut is None:
+            self._firstwall.cut = [self._divertor]
+        else:
+            self._firstwall.cut = self._firstwall.cut + [self._divertor]
         self._inboard_firstwall.cut = self._divertor
         return self._divertor
 
@@ -636,7 +639,10 @@ class SubmersionTokamak(paramak.Reactor):
             material_tag="supports_mat",
             intersect=blanket_enveloppe,
         )
-        self._blanket.cut = self._blanket.cut + [self._supports]
+        if self._blanket.cut is None:
+            self._blanket.cut = [self._supports]
+        else:
+            self._blanket.cut = self._blanket.cut + [self._supports]
 
         return self._supports
 
