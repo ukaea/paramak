@@ -217,6 +217,8 @@ def perform_port_cutting(self, *args):
 
         for component in args:
             components.append(component)
+        if len(args) == 1:
+            return component
         return components
 
     else:
