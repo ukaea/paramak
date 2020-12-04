@@ -90,6 +90,17 @@ class SubmersionTokamak(paramak.Reactor):
         pf_coil_case_thickness=10,
         divertor_position="both",
         support_position="both",
+        port_type=None,
+        number_of_ports=None,
+        port_center_point=(0, 0),
+        port_radius=None,
+        port_height=None,
+        port_width=None,
+        port_distance=None,
+        port_azimuth_placement_angle=None,
+        port_start_radius=None,
+        port_fillet_radius=0,
+        **kwargs
     ):
 
         super().__init__([])
@@ -146,6 +157,39 @@ class SubmersionTokamak(paramak.Reactor):
         self.major_radius = \
             (outer_equatorial_point + inner_equatorial_point) / 2
         self.minor_radius = self.major_radius - inner_equatorial_point
+
+        self.port_type = port_type
+        self.number_of_ports = number_of_ports
+        self.port_center_point = port_center_point
+        self.port_radius = port_radius
+        self.port_height = port_height
+        self.port_width = port_width
+        self.port_distance = port_distance
+        self.port_start_radius = port_start_radius
+        self.port_azimuth_placement_angle = port_azimuth_placement_angle
+        self.port_fillet_radius = port_fillet_radius
+
+        if self.number_of_ports is not None:
+            if self.port_azimuth_placement_angle is None:
+                self.port_azimuth_placement_angle = np.linspace(
+                    0, 360, self.number_of_ports, endpoint=False
+                )
+            else:
+                if self.number_of_ports == len(
+                        self.port_azimuth_placement_angle):
+                    self.port_azimuth_placement_angle = port_azimuth_placement_angle
+                else:
+                    raise ValueError(
+                        'number of ports does not equal number of port azimuthal placement angles')
+        else:
+            if self.port_azimuth_placement_angle is not None:
+                self.number_of_ports = len(self.port_azimuth_placement_angle)
+
+        self.port_start_radius = port_start_radius
+
+        if self.port_azimuth_placement_angle is not None:
+            if self.port_start_radius is None:
+                self.port_start_radius = self.major_radius
 
     @property
     def pf_coil_radial_thicknesses(self):
