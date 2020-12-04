@@ -259,7 +259,7 @@ def perform_port_cutting(self, *args):
             if component.cut is None:
                 component.cut = [port_cutter]
             else:
-                component.cut = [port_cutter] + component.cut
+                component.cut.insert(0, port_cutter)
             components.append(component)
             if len(args) == 1:
                 return component
