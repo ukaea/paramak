@@ -734,13 +734,16 @@ class Shape:
 
         return self.x_min, self.x_max, self.z_min, self.z_max
 
-    def export_stl(self, filename, tolerance=0.001):
+    def export_stl(self, filename, tolerance=0.001, solid_or_wire='solid'):
         """Exports an stl file for the Shape.solid. If the provided filename
             doesn't end with .stl it will be added
 
         Args:
-            filename (str): the filename of the stl file to be exported
-            tolerance (float): the precision of the faceting
+            filename (str): the filename of the stl file to be exported.
+            tolerance (float): the precision of the faceting.
+            solid_or_wire (str, optional): the object to export can be either
+                'solid' which exports 3D solid shapes or the 'wire' which
+                exports the wire edges of the shape. Defaults to 'solid'.
         """
 
         path_filename = Path(filename)
@@ -751,7 +754,14 @@ class Shape:
         path_filename.parents[0].mkdir(parents=True, exist_ok=True)
 
         with open(path_filename, "w") as out_file:
-            exporters.exportShape(self.solid, "STL", out_file, tolerance)
+            if solid_or_wire == 'solid':
+                exporters.exportShape(self.solid, "STL", out_file, tolerance)
+            elif solid_or_wire == 'wire':
+                exporters.exportShape(self.wire, "STL", out_file, tolerance)
+            else:
+                raise ValueError("The solid_or_wire argument for export_stl \
+                    only accepts 'solid' or 'wire'", self)
+
         print("Saved file as ", path_filename)
 
         return str(path_filename)

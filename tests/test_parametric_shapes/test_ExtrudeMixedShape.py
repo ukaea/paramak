@@ -99,7 +99,7 @@ class TestExtrudeMixedShape(unittest.TestCase):
         assert Path("filename.stp").exists() is True
         os.system("rm filename.stp")
 
-    def test_export_stl(self):
+    def test_export_stl_with_extention(self):
         """Creates a ExtrudeMixedShape and checks that a stl file of the shape
         can be exported with the correct suffix using the export_stl method."""
 
@@ -141,7 +141,7 @@ class TestExtrudeMixedShape(unittest.TestCase):
         self.test_shape.export_stp('test_solid.stp',solid_or_wire='solid')
         self.test_shape.export_stp('test_solid2.stp')
         self.test_shape.export_stp('test_wire.stp',solid_or_wire='wire')
-        
+
         assert Path("test_solid.stp").exists() is True
         assert Path("test_solid2.stp").exists() is True
         assert Path("test_wire.stp").exists() is True
@@ -154,6 +154,31 @@ class TestExtrudeMixedShape(unittest.TestCase):
         os.system("rm test_solid.stp")
         os.system("rm test_solid2.stp")
         os.system("rm test_wire.stp")
+
+    def test_export_stl(self):
+        """Exports and stl file with solid_or_wire = solid and wire and checks
+        that the outputs exist and relative file sizes are correct."""
+
+        os.system("rm test_solid.stl")
+        os.system("rm test_solid2.stl")
+        os.system("rm test_wire.stl")
+
+        self.test_shape.export_stl('test_solid.stl', solid_or_wire='solid')
+        self.test_shape.export_stl('test_solid2.stl')
+        self.test_shape.export_stl('test_wire.stl', solid_or_wire='wire')
+
+        assert Path("test_solid.stl").exists() is True
+        assert Path("test_solid2.stl").exists() is True
+        assert Path("test_wire.stl").exists() is True
+
+        assert Path("test_solid.stl").stat().st_size == \
+            Path("test_solid2.stl").stat().st_size
+        assert Path("test_wire.stl").stat().st_size < \
+            Path("test_solid2.stl").stat().st_size
+
+        # os.system("rm test_solid.stl")
+        # os.system("rm test_solid2.stl")
+        # os.system("rm test_wire.stl")
 
 
 if __name__ == "__main__":
