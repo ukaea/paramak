@@ -1,0 +1,38 @@
+# You will need the dagmc plugin (trelis17.1_ubuntu18.04.tar.gz) and Trelis
+# (trelis17.1_ubuntu18.04.tar.gz) downloaded and in the same folder as this
+# Dockerfile
+
+# buid with the following command
+# sudo docker build -t paramak_with_trelis .
+
+# run with the following command
+# sudo docker run -p 8888:8888 -p 5053:5053 paramak_with_trelis
+
+
+FROM ukaea/paramak
+
+COPY trelis17.1_ubuntu18.04.tar.gz .
+#this command installs trelis
+
+RUN mkdir -p /opt/Trelis-17.1/
+
+RUN tar -xf trelis17.1_ubuntu18.04.tar.gz -C /opt/Trelis-17.1
+
+COPY Trelis-17.1.0-Lin64.deb .
+RUN dpkg -i Trelis-17.1.0-Lin64.deb
+
+RUN cd /opt/Trelis-17.1/bin && \
+    ln -s plugins/svalinn/libdagmc.so . && \
+    ln -s plugins/svalinn/libiGeom.so . && \
+    ln -s plugins/svalinn/libmakeWatertight.so . && \
+    ln -s plugins/svalinn/libmcnp2cad.so . && \
+    ln -s plugins/svalinn/libMOAB.so . && \
+    ln -s plugins/svalinn/libMOAB.so.5 .
+
+# puts the path for trelis into the PATH env
+ENV PATH=$PATH:/opt/Trelis-17.1/bin
+
+# adds the license details, network or VPN connection will be needed
+RUN echo 'HOST trelis-lic-1.services.l ANY 5053\nISV csimsoft' >> /opt/Trelis-17.1/bin/licenses/remote2.lic
+
+# now trelis should run in --batch --nographics mode
