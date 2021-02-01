@@ -29,5 +29,3 @@ do
     echo $file
     anaconda upload $file
 done
-
-# # conda install -c giswqs paramak
