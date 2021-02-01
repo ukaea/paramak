@@ -23,18 +23,19 @@ setuptools.setup(
         "pytest-runner",
     ],
     install_requires=[
-        "pytest-cov",
+        "matplotlib",
+        "numpy",
+        "plasmaboundaries",
         "plotly",
+        "pytest-cov",
         "scipy",
         "sympy",
-        "numpy",
-        "tqdm",
-        "matplotlib",
-        "plasmaboundaries",
+        # "tqdm",
     ],
     extras_require={
         "neutronics": [
             "vtk",
             "neutronics_material_maker",
             "parametric_plasma_source",
-        ]})
+        ]}
+    )
