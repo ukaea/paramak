@@ -2,11 +2,11 @@
 pkg='paramak'
 array=( 3.6 3.7 3.8 )
 
-rm -rf /tmp/cbld
+rm -rf /tmp/conda-build
 
 for i in "${array[@]}"
 do
-	conda-build . -c cadquery -c conda-forge --croot /tmp/cbld --python $i 
+	conda-build . -c cadquery -c conda-forge --croot /tmp/conda-build --python $i 
 done
 
 
@@ -18,16 +18,16 @@ do
     #conda convert --platform all $file  -o $HOME/conda-bld/
     for platform in "${platforms[@]}"
     do
-       conda convert --platform $platform $file  -o $HOME/conda-bld/
+       conda convert --platform $platform $file  -o /tmp/conda-build/
     done
-    
-# done
 
-find /tmp/cbld/ -name *.tar.bz2 | while read file
+
+conda install anaconda-client
+
+find /tmp/conda-build/ -name *.tar.bz2 | while read file
 do
     echo $file
     anaconda upload $file
 done
-
 
 # conda install -c giswqs paramak
