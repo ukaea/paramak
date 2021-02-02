@@ -58,3 +58,7 @@ test-reports/
 
 # ppp output directory
 manifest_processed/
+
+# conda build folders
+build/
+dist/
