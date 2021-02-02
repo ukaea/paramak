@@ -739,13 +739,15 @@ class Shape:
 
         return self.x_min, self.x_max, self.z_min, self.z_max
 
-    def export_stl(self, filename: str, tolerance: float = 0.001) -> str:
+    def export_stl(self, filename: str, tolerance: float = 0.001,
+                   angular_tolerance: float = 0.1) -> str:
         """Exports an stl file for the Shape.solid. If the provided filename
-            doesn't end with .stl it will be added
+            doesn't end with .stl it will be added.
 
         Args:
-            filename (str): the filename of the stl file to be exported
-            tolerance (float): the precision of the faceting
+            filename: the filename of the stl file to be exported
+            tolerance: the deflection tolerance of the faceting
+            angular_tolerance: the angular tolerance, in radians
         """
 
         path_filename = Path(filename)
@@ -755,8 +757,10 @@ class Shape:
 
         path_filename.parents[0].mkdir(parents=True, exist_ok=True)
 
-        with open(path_filename, "w") as out_file:
-            exporters.exportShape(self.solid, "STL", out_file, tolerance)
+        exporters.export(self.solid, str(path_filename), exportType='STL',
+                         tolerance=tolerance,
+                         angularTolerance=angular_tolerance)
+
         print("Saved file as ", path_filename)
 
         return str(path_filename)
@@ -792,14 +796,10 @@ class Shape:
         elif self.stp_filename is not None:
             path_filename = Path(self.stp_filename)
 
-        with open(path_filename, "w") as out_file:
-            if mode == 'solid':
-                exporters.exportShape(self.solid, "STEP", out_file)
-            elif mode == 'wire':
-                exporters.exportShape(self.wire, "STEP", out_file)
-            else:
-                raise ValueError("The mode argument for export_stp \
-                    only accepts 'solid' or 'wire'", self)
+        if mode == 'solid':
+            exporters.export(self.solid, str(path_filename), exportType='STEP')
+        elif mode == 'wire':
+            exporters.export(self.wire, str(path_filename), exportType='STEP')
 
         if units == 'cm':
             _replace(
@@ -856,8 +856,8 @@ class Shape:
 
         path_filename.parents[0].mkdir(parents=True, exist_ok=True)
 
-        with open(path_filename, "w") as out_file:
-            exporters.exportShape(self.solid, "SVG", out_file)
+        exporters.export(self.solid, str(path_filename), exportType='SVG')
+
         print("Saved file as ", path_filename)
 
         return str(path_filename)

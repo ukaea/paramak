@@ -494,8 +494,8 @@ class Reactor:
 
         path_filename.parents[0].mkdir(parents=True, exist_ok=True)
 
-        with open(path_filename, "w") as out_file:
-            exporters.exportShape(self.solid, "SVG", out_file)
+        exporters.export(self.solid, str(path_filename), exportType='SVG')
+
         print("Saved file as ", path_filename)
 
         return str(path_filename)
