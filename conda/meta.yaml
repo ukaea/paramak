@@ -25,6 +25,7 @@ requirements:
     - scipy
     - sympy
     - cadquery
+    - neutronics_material_maker
   run:
     - matplotlib
     - mpmath
@@ -36,6 +37,7 @@ requirements:
     - scipy
     - sympy
     - cadquery
+    - neutronics_material_maker
 
 test:
   imports:
@@ -47,6 +49,10 @@ test:
   requires:
     - pytest-cov
     - pytest-runner
+  source_files:
+    - tests/
+  commands:
+    - pytest -v
 
 about:
   home: "https://github.com/ukaea/paramak"
