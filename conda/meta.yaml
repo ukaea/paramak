@@ -23,6 +23,7 @@ build:
 requirements:
   host:
     - matplotlib
+    - mpmath
     - numpy
     - pip
     - plasmaboundaries
@@ -31,10 +32,10 @@ requirements:
     - python
     - scipy
     - sympy
-    - tqdm
-    - cadquery=master
+    - cadquery=2.1
   run:
     - matplotlib
+    - mpmath
     - numpy
     - plasmaboundaries
     - plotly
@@ -42,8 +43,7 @@ requirements:
     - python
     - scipy
     - sympy
-    - tqdm
-    - cadquery=master
+    - cadquery=2.1
 
 test:
   imports:

@@ -24,13 +24,13 @@ setuptools.setup(
     ],
     install_requires=[
         "matplotlib",
+        "mpmath",
         "numpy",
         "plasmaboundaries",
         "plotly",
         "pytest-cov",
         "scipy",
         "sympy",
-        # "tqdm",
     ],
     extras_require={
         "neutronics": [
