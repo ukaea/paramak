@@ -757,9 +757,12 @@ class Shape:
 
         path_filename.parents[0].mkdir(parents=True, exist_ok=True)
 
-        exporters.export(self.solid, str(path_filename), exportType='STL',
-                         tolerance=tolerance,
-                         angularTolerance=angular_tolerance)
+        with open(path_filename, "w") as out_file:
+            exporters.exportShape(self.solid, "STL", out_file, tolerance)
+
+        # exporters.export(self.solid, str(path_filename), exportType='STL',
+        #                  tolerance=tolerance,
+        #                  angularTolerance=angular_tolerance)
 
         print("Saved file as ", path_filename)
 
