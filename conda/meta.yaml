@@ -51,6 +51,7 @@ test:
     - pytest-runner
   source_files:
     - tests/
+    - examples/
   commands:
     - pytest -v
 
@@ -62,6 +63,7 @@ about:
   summary: "Create 3D fusion reactor CAD models based on input parameters"
   doc_url: https://paramak.readthedocs.io/
   dev_url: https://github.com/ukaea/paramak
+  summary: Paramak - parameter driven fusion reactor model creation
 
 extra:
   recipe-maintainers:
