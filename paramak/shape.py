@@ -800,6 +800,9 @@ class Shape:
             exporters.export(self.solid, str(path_filename), exportType='STEP')
         elif mode == 'wire':
             exporters.export(self.wire, str(path_filename), exportType='STEP')
+        else:
+            raise ValueError("The mode argument for export_stp \
+                only accepts 'solid' or 'wire'", self)
 
         if units == 'cm':
             _replace(
