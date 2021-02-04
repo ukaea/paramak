@@ -76,11 +76,7 @@ def find_number_of_volumes_in_each_step_file(input_locations, basefolder):
         # volumes_in_group = cubit.cmd('volume in group '+str(starting_group_id))
         # print('volumes_in_group',volumes_in_group,type(volumes_in_group))
         if len(new_vols) > 1:
-            cubit.cmd(
-                "unite vol " +
-                " ".join(new_vols) +
-                " with vol " +
-                " ".join(new_vols))
+            cubit.cmd("unite vol {} with vol {}".format(new_vols, new_vols))
         all_vols = cubit.parse_cubit_list("volume", "all")
         new_vols_after_unite = set(
             current_vols).symmetric_difference(set(all_vols))
@@ -109,9 +105,9 @@ def find_all_surfaces_of_reflecting_wedge(new_vols):
         #area = surface.area()
         vertex_in_surface = cubit.parse_cubit_list("vertex", " in surface " + str(surface_id))
         if surface.is_planar() == True and len(vertex_in_surface) == 4:
-        surface_info_dict[surface_id] = {'reflector': True}
+            surface_info_dict[surface_id] = {'reflector': True}
         else:
-        surface_info_dict[surface_id] = {'reflector': False}
+            surface_info_dict[surface_id] = {'reflector': False}
     print('surface_info_dict', surface_info_dict)
     return surface_info_dict
 
