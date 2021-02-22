@@ -1,5 +1,6 @@
 
 import os
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -25,19 +26,19 @@ class TestObjectNeutronicsArguments(unittest.TestCase):
 
     def test_export_h5m_creates_file(self):
         """Tests the Shape.export_h5m method results in an outputfile."""
-        os.system('rm test_shape.h5m')
+        subprocess.call(["rm", "test_shape.h5m"])
         self.test_shape.export_h5m(filename='test_shape.h5m')
         assert Path("test_shape.h5m").exists() is True
 
     def test_export_h5m_creates_file_even_without_extention(self):
         """Tests the Shape.export_h5m method results in an outputfile even
         when the filename does not include the .h5m"""
-        os.system('rm test_shape.h5m')
+        subprocess.call(["rm", "test_shape.h5m"])
         self.test_shape.export_h5m(filename='test_shape')
         assert Path("test_shape.h5m").exists() is True
 
     def test_offset_from_graveyard_sets_attribute(self):
-        os.system('rm test_shape.h5m')
+        """Checks that the graveyard_offset argument sets the attribute"""
         self.test_shape.export_h5m(
             filename='test_shape.h5m',
             graveyard_offset=101)

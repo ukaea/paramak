@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import shutil
+import subprocess
 import warnings
 from pathlib import Path
 from typing import List
@@ -11,7 +12,7 @@ from paramak import get_neutronics_results_from_statepoint_file
 
 try:
     import openmc
-    from openmc.data import REACTION_NAME, REACTION_MT
+    from openmc.data import REACTION_MT, REACTION_NAME
 except ImportError:
     warnings.warn('OpenMC not found, NeutronicsModelFromReactor.simulate \
             method not available', UserWarning)
@@ -323,8 +324,8 @@ class NeutronicsModel():
         """
 
         if method in ['ppp', 'trelis', 'pymoab']:
-            os.system('rm dagmc_not_watertight.h5m')
-            os.system('rm dagmc.h5m')
+            subprocess.call(['rm', 'dagmc_not_watertight.h5m')
+            subprocess.call(['rm', 'dagmc.h5m')
         elif method is None and Path('dagmc.h5m').is_file():
             print('Using previously made dagmc.h5m file')
         else:
@@ -371,8 +372,11 @@ class NeutronicsModel():
                 raise FileNotFoundError(
                     "The make_faceteted_neutronics_model.py was \
                     not found in the directory")
-            os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
-                      str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
+            alpro_args = "faceting_tolerance='" +   str(self.faceting_tolerance) + "' merge_tolerance='" + str(self.merge_tolerance) + "'"
+            subprocess.check_call(['trelis', '-batch', '-nographics', 'make_faceteted_neutronics_model.py', alpro_args
+            
+            # os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
+            #           str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
 
             if not Path("dagmc_not_watertight.h5m").is_file():
                 raise FileNotFoundError(
@@ -396,11 +400,7 @@ class NeutronicsModel():
             raise ValueError(
                 "Failed to create a dagmc_not_watertight.h5m file")
 
-        if os.system(
-                "make_watertight dagmc_not_watertight.h5m -o dagmc.h5m") != 0:
-            raise ValueError(
-                "make_watertight failed, check DAGMC is install and the \
-                    DAGMC/bin folder is in the path directory")
+        subprocess.check_call(["make_watertight", "dagmc_not_watertight.h5m", "-o", "dagmc.h5m")
 
     def create_neutronics_model(self, method: str = None):
         """Uses OpenMC python API to make a neutronics model, including tallies
@@ -615,14 +615,14 @@ class NeutronicsModel():
 
         # Deletes summary.h5m if it already exists.
         # This avoids permission problems when trying to overwrite the file
-        os.system('rm summary.h5')
-        os.system('rm statepoint.' + str(self.simulation_batches) + '.h5')
+        subprocess.call(['rm', 'summary.h5'])
+        subprocess.call(['rm', 'statepoint.' + str(self.simulation_batches) + '.h5'])
 
         # this removes any old file from previous simulations
-        os.system('rm geometry.xml')
-        os.system('rm materials.xml')
-        os.system('rm settings.xml')
-        os.system('rm tallies.xml')
+        subprocess.call(['rm', 'geometry.xml'])
+        subprocess.call(['rm', 'materials.xml'])
+        subprocess.call(['rm', 'settings.xml'])
+        subprocess.call(['rm', 'tallies.xml'])
 
         self.statepoint_filename = self.model.run(
             output=verbose, threads=threads

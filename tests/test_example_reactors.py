@@ -1,5 +1,5 @@
 
-import os
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -21,7 +21,7 @@ class TestExampleReactors(unittest.TestCase):
             "rotation_0000.svg",
             "rotation_0001.svg",
         ]
-        os.system("rm *.svg")
+        subprocess.call(["rm", "*.svg"])
         make_animation.rotate_single_reactor(2)
         make_animation.make_random_reactors(2)
         for output_filename in output_filenames:
@@ -47,12 +47,11 @@ class TestExampleReactors(unittest.TestCase):
             "inner_vessel.stp",
             "Graveyard.stp",
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
         htc_reactor.main(90)
         for output_filename in output_filenames:
             assert Path(output_filename).exists() is True
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
 
     def test_make_parametric_ball_rector(self):
         """Runs the example and checks the output files are produced"""
@@ -66,12 +65,11 @@ class TestExampleReactors(unittest.TestCase):
             "blanket_rear_wall.stp",
             "Graveyard.stp",
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
         ball_reactor.make_ball_reactor(output_folder='')
         for output_filename in output_filenames:
             assert Path(output_filename).exists() is True
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
 
     def test_make_parametric_single_null_ball_reactor(self):
         """Runs the example and checks the output files are produced"""
@@ -87,12 +85,11 @@ class TestExampleReactors(unittest.TestCase):
             "plasma.stp",
             "tf_coil.stp"
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
         ball_reactor_single_null.make_ball_reactor_sn(output_folder='')
         for output_filename in output_filenames:
             assert Path(output_filename).exists() is True
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
 
     def test_make_parametric_single_null_submersion_reactor(self):
         """Runs the example and checks the output files are produced"""
@@ -109,12 +106,11 @@ class TestExampleReactors(unittest.TestCase):
             'pf_coils.stp',
             'Graveyard.stp'
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
         submersion_reactor_single_null.make_submersion_sn(output_folder='')
         for output_filename in output_filenames:
             assert Path(output_filename).exists() is True
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
 
     def test_make_htc_reactor(self):
         output_filenames = [
@@ -133,12 +129,11 @@ class TestExampleReactors(unittest.TestCase):
             'inner_vessel.stp',
             'htc_reactor.svg',
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
         htc_reactor.main()
         for output_filename in output_filenames:
             assert Path(output_filename).exists() is True
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
 
 
 if __name__ == "__main__":
