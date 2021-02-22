@@ -1,5 +1,6 @@
 
 import os
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -49,8 +50,7 @@ class TestExampleComponents(unittest.TestCase):
             'toroidal_field_coil_triple_arc.stp',
             'toroidal_field_coil_princeton_d.stp',
             'ITER_type_divertor.stp']
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
         all_components = make_all_parametric_components.main()
         filenames = []
         for components in all_components:
@@ -59,7 +59,7 @@ class TestExampleComponents(unittest.TestCase):
 
         for output_filename in output_filenames:
             assert Path(output_filename).exists()
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp"])
 
     def test_make_plasma(self):
         """Runs the example and checks the output files are produced"""
@@ -78,28 +78,27 @@ class TestExampleComponents(unittest.TestCase):
             "AST_plasma.png",
             "all_plasma_and_points.html",
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.html", "*.stp", "*.png"])
         make_plasmas.main()
         for output_filename in output_filenames:
             assert Path(output_filename).exists()
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.html", "*.stp", "*.png"])
 
     def test_make_demo_style_blanket(self):
         """Runs the example and checks the output files are produced"""
         output_filename = "blanket.stp"
-        os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp")
         make_demo_style_blankets.main()
         assert Path(output_filename).exists()
-        os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp")
 
     def test_make_segmented_firstwall(self):
         """Runs the example and checks the output files are produced"""
         output_filename = "segmented_firstwall.stp"
-        os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp")
         make_firstwall_for_neutron_wall_loading.main()
         assert Path(output_filename).exists()
-        os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp")
 
     def test_make_vacuum_vessel(self):
         """Runs the example and checks the output files are produced"""
@@ -107,12 +106,11 @@ class TestExampleComponents(unittest.TestCase):
             "vacuum_vessel_with_ports.stp",
             "vacuum_vessel_with_ports.svg",
         ]
-        for output_filename in output_filenames:
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp", "*.svg")
         make_vacuum_vessel_with_ports.main()
         for output_filename in output_filenames:
             assert Path(output_filename).exists()
-            os.system("rm " + output_filename)
+        subprocess.call(["rm", "*.stp", "*.svg")
 
 
 if __name__ == "__main__":

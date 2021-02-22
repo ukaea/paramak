@@ -1,6 +1,6 @@
 
 import json
-import os
+import subprocess
 import unittest
 from pathlib import Path
 
@@ -375,8 +375,8 @@ class TestReactor(unittest.TestCase):
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
-        os.system("rm my_graveyard.stp")
-        os.system("rm Graveyard.stp")
+        subprocess.call(["rm", "my_graveyard.stp"])
+        subprocess.call(["rm", "Graveyard.stp"])
         test_shape.stp_filename = "test_shape.stp"
         test_reactor = paramak.Reactor([test_shape])
 
@@ -385,7 +385,7 @@ class TestReactor(unittest.TestCase):
 
         for filepath in ["Graveyard.stp", "my_graveyard.stp"]:
             assert Path(filepath).exists() is True
-            os.system("rm " + filepath)
+        subprocess.call(["rm", "*.stp"])
 
         assert test_reactor.graveyard is not None
         assert test_reactor.graveyard.__class__.__name__ == "HollowCube"
@@ -396,7 +396,7 @@ class TestReactor(unittest.TestCase):
 
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
-        os.system("rm Graveyard.stp")
+        subprocess.call(["rm", "Graveyard.stp"])
         test_reactor = paramak.Reactor([test_shape])
         test_reactor.export_graveyard()
         assert test_reactor.graveyard_offset == 100
@@ -418,8 +418,8 @@ class TestReactor(unittest.TestCase):
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
-        os.system("rm test_reactor/test_shape.stp")
-        os.system("rm test_reactor/Graveyard.stp")
+        subprocess.call(["rm", "test_reactor/test_shape.stp"])
+        subprocess.call(["rm", "test_reactor/Graveyard.stp"])
         test_shape.stp_filename = "test_shape.stp"
         test_reactor = paramak.Reactor([test_shape])
 
@@ -429,7 +429,7 @@ class TestReactor(unittest.TestCase):
             "test_reactor/test_shape.stp",
                 "test_reactor/Graveyard.stp"]:
             assert Path(filepath).exists() is True
-            os.system("rm " + filepath)
+        subprocess.call(["rm", "test_reactor/*.stp"])
 
     def test_exported_stl_files_exist(self):
         """creates a Reactor object with one shape and checks that a stl file
@@ -439,8 +439,8 @@ class TestReactor(unittest.TestCase):
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
-        os.system("rm test_reactor/test_shape.stl")
-        os.system("rm test_reactor/Graveyard.stl")
+        subprocess.call(["rm", "test_reactor/test_shape.stl"])
+        subprocess.call(["rm", "test_reactor/Graveyard.stl"])
         test_shape.stl_filename = "test_shape.stl"
         test_reactor = paramak.Reactor([test_shape])
 
@@ -450,37 +450,37 @@ class TestReactor(unittest.TestCase):
             "test_reactor/test_shape.stl",
                 "test_reactor/Graveyard.stl"]:
             assert Path(filepath).exists() is True
-            os.system("rm " + filepath)
+        subprocess.call(["rm", "test_reactor/*.stl"])
 
     def test_exported_svg_files_exist(self):
         """Creates a Reactor object with one shape and checks that a svg file
         of the reactor can be exported to a specified location using the
         export_svg method."""
 
-        os.system("rm test_svg_image.svg")
+        subprocess.call(["rm", "test_svg_image.svg"])
 
         self.test_reactor.export_svg("test_svg_image.svg")
 
         assert Path("test_svg_image.svg").exists() is True
-        os.system("rm test_svg_image.svg")
+        subprocess.call(["rm", "test_svg_image.svg"])
 
     def test_exported_svg_files_exist_no_extension(self):
         """creates a Reactor object with one shape and checks that an svg file
         of the reactor can be exported to a specified location using the export_svg
         method"""
 
-        os.system("rm test_svg_image.svg")
+        subprocess.call(["rm", "test_svg_image.svg"])
 
         self.test_reactor.export_svg("test_svg_image")
 
         assert Path("test_svg_image.svg").exists() is True
-        os.system("rm test_svg_image.svg")
+        subprocess.call(["rm", "test_svg_image.svg"])
 
     def test_export_svg_options(self):
         """Exports the test reacto to an svg image and checks that a svg file
         can be exported with the various different export options"""
 
-        os.system("rm *.svg")
+        subprocess.call(["rm", "*.svg"])     
         self.test_reactor.export_svg("r_width.svg", width=900)
         assert Path("r_width.svg").exists() is True
         self.test_reactor.export_svg("r_height.svg", height=900)
@@ -569,7 +569,7 @@ class TestReactor(unittest.TestCase):
         is exported to a json file with the correct material_name and
         stp_filename."""
 
-        os.system("rm manifest_test.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
@@ -595,14 +595,14 @@ class TestReactor(unittest.TestCase):
         assert neutronics_description[0]["tet_mesh"] == "size 60"
         assert neutronics_description[1]["material"] == "Graveyard"
         assert neutronics_description[1]["stp_filename"] == "Graveyard.stp"
-        os.system("rm manifest_test.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
     def test_export_neutronics_description_with_plasma(self):
         """Creates a Reactor object and checks that the neutronics description
         is exported to a json file with the correct entries, including the
         optional plasma."""
 
-        os.system("rm manifest_test.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)],
@@ -640,14 +640,14 @@ class TestReactor(unittest.TestCase):
         assert neutronics_description[1]["stp_filename"] == "plasma.stp"
         assert neutronics_description[2]["material"] == "Graveyard"
         assert neutronics_description[2]["stp_filename"] == "Graveyard.stp"
-        os.system("rm manifest.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
     def test_export_neutronics_description_without_plasma(self):
         """Creates a Reactor object and checks that the neutronics description is
         exported to a json file with the correct entires, exluding the optional
         plasma."""
 
-        os.system("rm manifest_test.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)],
@@ -673,12 +673,12 @@ class TestReactor(unittest.TestCase):
         assert neutronics_description[0]["tet_mesh"] == "size 60"
         assert neutronics_description[1]["material"] == "Graveyard"
         assert neutronics_description[1]["stp_filename"] == "Graveyard.stp"
-        os.system("rm manifest.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
     def test_export_neutronics_without_extension(self):
         """checks a json file is created if filename has no extension"""
 
-        os.system("rm manifest_test.json")
+        subprocess.call(["rm", "manifest_test.json"])
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
@@ -691,14 +691,14 @@ class TestReactor(unittest.TestCase):
         )
         assert returned_filename == "manifest_test.json"
         assert Path("manifest_test.json").exists() is True
-        os.system("rm manifest_test.json")
+        subprocess.call(["rm", "manifest_test.json"])
 
     def test_export_2d_image(self):
         """Creates a Reactor object and checks that a png file of the reactor
         with the correct filename can be exported using the export_2D_image
         method."""
 
-        os.system("rm 2D_test_image.png")
+        subprocess.call(["rm", "2D_test_image.png"])
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
@@ -707,14 +707,14 @@ class TestReactor(unittest.TestCase):
             filename="2D_test_image.png")
 
         assert Path(returned_filename).exists() is True
-        os.system("rm 2D_test_image.png")
+        subprocess.call(["rm", "2D_test_image.png"])
 
     def test_export_2d_image_without_extension(self):
         """creates a Reactor object and checks that a png file of the reactor
         with the correct filename can be exported using the export_2d_image
         method"""
 
-        os.system("rm 2d_test_image.png")
+        subprocess.call(["rm", "2D_test_image.png"])
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
@@ -723,14 +723,14 @@ class TestReactor(unittest.TestCase):
             filename="2d_test_image")
 
         assert Path(returned_filename).exists() is True
-        os.system("rm 2d_test_image.png")
+        subprocess.call(["rm", "2D_test_image.png"])
 
     def test_export_html(self):
         """Creates a Reactor object and checks that a html file of the reactor
         with the correct filename can be exported using the export_html
         method."""
 
-        os.system("rm test_html.html")
+        subprocess.call(["rm", "test_html.html"])
         test_shape = paramak.RotateStraightShape(
             points=[(0, 0), (0, 20), (20, 20)])
         test_shape.rotation_angle = 360
@@ -738,11 +738,11 @@ class TestReactor(unittest.TestCase):
         test_reactor.export_html(filename="test_html.html")
 
         assert Path("test_html.html").exists() is True
-        os.system("rm test_html.html")
+        subprocess.call(["rm", "test_html.html"])
         test_reactor.export_html(filename="test_html")
 
         assert Path("test_html.html").exists() is True
-        os.system("rm test_html.html")
+        subprocess.call(["rm", "test_html.html"])
 
     def test_tet_meshes_error(self):
         test_shape = paramak.RotateStraightShape(

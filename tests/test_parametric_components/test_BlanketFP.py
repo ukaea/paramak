@@ -1,5 +1,5 @@
 
-import os
+import subprocess
 import unittest
 import warnings
 from pathlib import Path
@@ -169,7 +169,7 @@ class TestBlanketFP(unittest.TestCase):
             100, stop_angle=180, start_angle=0,
             rotation_angle=180)
         test_shape.export_physical_groups(outfile)
-        os.system("rm " + outfile)
+        subprocess.call(["rm ", "tests/blanket.json"])
 
     def test_full_cov_stp_export(self):
         """Creates a blanket using the BlanketFP parametric component with full
@@ -182,7 +182,7 @@ class TestBlanketFP(unittest.TestCase):
 
         self.test_shape.export_stp("test_blanket_full_cov.stp")
         assert Path("test_blanket_full_cov.stp").exists()
-        os.system("rm test_blanket_full_cov.stp")
+        subprocess.call("rm", "test_blanket_full_cov.stp")
 
     def test_full_cov_full_rotation(self):
         """Creates a blanket using the BlanketFP parametric component with full
@@ -195,7 +195,7 @@ class TestBlanketFP(unittest.TestCase):
 
         self.test_shape.export_stp("test_blanket_full_cov_full_rot.stp")
         assert Path("test_blanket_full_cov_full_rot.stp").exists()
-        os.system("rm test_blanket_full_cov_full_rot.stp")
+        subprocess.call("rm", "test_blanket_full_cov_full_rot.stp")
 
     def test_overlapping(self):
         """Creates an overlapping geometry and checks that a warning is raised.
