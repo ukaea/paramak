@@ -74,10 +74,6 @@ class NeutronicsModel():
         simulation_particles_per_batch: (int): particles per batch.
         source (openmc.Source()): the particle source to use during the
             OpenMC simulation.
-        merge_tolerance (float): the tolerance to use when merging surfaces.
-            Defaults to 1e-4.
-        faceting_tolerance (float): the tolerance to use when faceting surfaces.
-            Defaults to 1e-1.
         mesh_2D_resolution (tuple of ints): The 3D mesh resolution in the height
             and width directions. The larger the resolution the finer the mesh
             and more computational intensity is required to converge each mesh
@@ -286,20 +282,6 @@ class NeutronicsModel():
         return openmc_material
 
     def create_materials(self):
-        # # checks all the required materials are present
-        # for reactor_material in self.geometry.material_tags:
-        #     if reactor_material not in self.materials.keys():
-        #         raise ValueError(
-        #             "material included by the reactor model has not \
-        #             been added", reactor_material)
-
-        # # checks that no extra materials we added
-        # for reactor_material in self.materials.keys():
-        #     if reactor_material not in self.geometry.material_tags:
-        #         raise ValueError(
-        #             "material has been added that is not needed for this \
-        #             reactor model", reactor_material)
-
         openmc_materials = {}
         for material_tag, material_entry in self.materials.items():
             openmc_material = self.create_material(
@@ -312,80 +294,53 @@ class NeutronicsModel():
 
         return self.mats
 
-    def create_neutronics_geometry(self, method: str = None):
-        """Produces a dagmc.h5m neutronics file compatable with DAGMC
-        simulations.
+    def create_neutronics_geometry_with_trelis(
+            self,
+            faceting_tolerance=1e-3,
+            merge_tolerance=1e-4
+        ):
+        """The Trelis option of producing a h5m file"""
+        #         merge_tolerance (float): the tolerance to use when merging surfaces.
+        #     Defaults to 1e-4.
+        # faceting_tolerance (float): the tolerance to use when faceting surfaces.
+        #     Defaults to 1e-1.
 
-        Arguments:
-            method: (str): The method to use when making the imprinted and
-                merged geometry. Options are "ppp", "trelis", "pymoab" and
-                None.  Defaults to None.
-        """
+        self.geometry.export_stp()
+        self.geometry.export_neutronics_description()
 
-        if method in ['ppp', 'trelis', 'pymoab']:
-            os.system('rm dagmc_not_watertight.h5m')
-            os.system('rm dagmc.h5m')
-        elif method is None and Path('dagmc.h5m').is_file():
-            print('Using previously made dagmc.h5m file')
-        else:
-            raise ValueError(
-                "the method using in create_neutronics_geometry \
-                should be either ppp, trelis, pymoab or None.", method)
+        shutil.copy(
+            src=pathlib.Path(__file__).parent.absolute() /
+            'make_faceteted_neutronics_model.py',
+            dst=pathlib.Path().absolute())
 
-        if method == 'ppp':
+        if not Path("make_faceteted_neutronics_model.py").is_file():
+            raise FileNotFoundError(
+                "The make_faceteted_neutronics_model.py was \
+                not found in the directory")
+        
+        # removes old geometry files
+        os.system('rm dagmc_not_watertight.h5m')
+        os.system('rm dagmc.h5m')
 
-            raise NotImplementedError(
-                "PPP + OCC Faceter / Gmesh option is under development and not \
-                ready to be implemented. Further details on the repositories \
-                https://github.com/makeclean/occ_faceter/ \
-                https://github.com/ukaea/parallel-preprocessor ")
+        os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
+                    str(faceting_tolerance) + "'\" \"merge_tolerance='" + str(merge_tolerance) + "'\"")
 
-            # TODO when the development is ready to test
-            # self.geometry.export_stp()
-            # self.geometry.export_neutronics_description()
-            # # as the installer connects to the system python not the conda
-            # # python this full path is needed for now
-            # if os.system(
-            #         '/usr/bin/python3 /usr/bin/geomPipeline.py manifest.json') != 0:
-            #     raise ValueError(
-            #         "geomPipeline.py failed, check PPP is installed")
+        if not Path("dagmc_not_watertight.h5m").is_file():
+            raise FileNotFoundError("The dagmc_not_watertight.h5m was not found \
+                in the directory, the Trelis stage has failed")
 
-            # # TODO allow tolerance to be user controlled
-            # if os.system(
-            #         'occ_faceter manifest_processed/manifest_processed.brep') != 0:
-            #     raise ValueError(
-            #         "occ_faceter failed, check occ_faceter is install and the \
-            #         occ_faceter/bin folder is in the path directory")
-            # self._make_watertight()
+        self._make_watertight()
 
-        elif method == 'trelis':
-            self.geometry.export_stp()
-            self.geometry.export_neutronics_description()
+        return 'dagmc.h5m'
 
-            shutil.copy(
-                src=pathlib.Path(__file__).parent.absolute() /
-                'make_faceteted_neutronics_model.py',
-                dst=pathlib.Path().absolute())
+    def create_neutronics_geometry_with_pymoab(self, faceting_tolerance=1e-3):
+        """The Pymoab option of producing a h5m file"""
 
-            if not Path("make_faceteted_neutronics_model.py").is_file():
-                raise FileNotFoundError(
-                    "The make_faceteted_neutronics_model.py was \
-                    not found in the directory")
-            os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
-                      str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
+        self.geometry.export_h5m(
+            filename='dagmc.h5m',
+            tolerance=faceting_tolerance
+        )
 
-            if not Path("dagmc_not_watertight.h5m").is_file():
-                raise FileNotFoundError(
-                    "The dagmc_not_watertight.h5m was not found \
-                    in the directory, the Trelis stage has failed")
-            self._make_watertight()
-
-        elif method == 'pymoab':
-
-            self.geometry.export_h5m(
-                filename='dagmc.h5m',
-                tolerance=self.faceting_tolerance
-            )
         return 'dagmc.h5m'
 
     def _make_watertight(self):
@@ -402,7 +357,7 @@ class NeutronicsModel():
                 "make_watertight failed, check DAGMC is install and the \
                     DAGMC/bin folder is in the path directory")
 
-    def create_neutronics_model(self, method: str = None):
+    def create_openmc_neutronics_model(self, simulation_batches, simulation_particles_per_batch, source):
         """Uses OpenMC python API to make a neutronics model, including tallies
         (cell_tallies and mesh_tally_2d), simulation settings (batches,
         particles per batch).
@@ -414,8 +369,6 @@ class NeutronicsModel():
         """
 
         self.create_materials()
-
-        self.create_neutronics_geometry(method=method)
 
         # this is the underlying geometry container that is filled with the
         # faceteted DGAMC CAD model
@@ -590,9 +543,11 @@ class NeutronicsModel():
                 tally.scores = [score]
                 self.tallies.append(tally)
 
-    def simulate(self, verbose: bool = True, method: str = None,
-                 cell_tally_results_filename: str = 'results.json',
-                 threads: int = None):
+    def simulate(
+            self,
+            verbose: bool = True,
+            cell_tally_results_filename: str = 'results.json',
+            threads: int = None) -> str:
         """Run the OpenMC simulation. Deletes exisiting simulation output
         (summary.h5) if files exists.
 
@@ -600,9 +555,6 @@ class NeutronicsModel():
             verbose (Boolean, optional): Print the output from OpenMC (true)
                 to the terminal and don't print the OpenMC output (false).
                 Defaults to True.
-            method (str): The method to use when making the imprinted and
-                merged geometry. Options are "ppp", "trelis", "pymoab".
-                Defaults to pymoab.
             threads (int, optional): Sets the number of OpenMP threads
                 used for the simulation. None takes all available threads by
                 default. Defaults to None.
@@ -611,18 +563,24 @@ class NeutronicsModel():
             dict: the simulation output filename
         """
 
-        self.create_neutronics_model(method=method)
+        if Path('dagmc.h5m').is_file():
+            print('Using previously made dagmc.h5m file')
+        else:
+            raise FileNotFoundError("dagmc.h5m file was not found. Please use \
+                the create_neutronics_geometry_with_cubit() or \
+                create_neutronics_geometry_with_pymoab() methods to \
+                automatically create the dagmc.h5m file")
+
+        for required_file in ['geometry.xml', 'materials.xml', 'settings.xml', 'tallies.xml']:
+            if Path(required_file).is_file() == False:
+                raise FileNotFoundError("{} file was not found. Please use \
+                    the create_openmc_neutronics_model() method to \
+                    automatically create the {} file".format(required_file, required_file))
 
         # Deletes summary.h5m if it already exists.
         # This avoids permission problems when trying to overwrite the file
         os.system('rm summary.h5')
         os.system('rm statepoint.' + str(self.simulation_batches) + '.h5')
-
-        # this removes any old file from previous simulations
-        os.system('rm geometry.xml')
-        os.system('rm materials.xml')
-        os.system('rm settings.xml')
-        os.system('rm tallies.xml')
 
         self.statepoint_filename = self.model.run(
             output=verbose, threads=threads

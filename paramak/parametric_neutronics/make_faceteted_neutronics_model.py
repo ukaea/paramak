@@ -5,9 +5,13 @@ import os
 # This script automatically produces DAGMC compatable geometry. A manifest
 # file is required that specfies a the stp filenames and the materials names to
 # assign. The name of the manifest file is manifest.json by default but can be
-# specified using aprepro arguments. Other optional aprepro arguments are
-# faceting_tolerance and merge_tolerance which default to 1e-1 and 1e-4 by
-# default
+# specified using aprepro arguments.
+
+# Other optional aprepro arguments:
+#   faceting_tolerance which default to 1e-3
+#   merge_tolerance which defaults to 1e-4
+#   output_cub which saves a .cub file and defaults to False
+#   output_trelis which saves a .trelis file and defaults to False
 
 # To using this script with Trelis it can be run in batch mode
 # trelis -batch -nographics make_faceteted_neutronics_model.py
@@ -174,13 +178,17 @@ def imprint_and_merge_geometry():
     cubit.cmd("graphics tol angle 3")
 
 
-def save_output_files():
+def save_output_files(output_trelis, output_cub):
     """This saves the output files"""
     cubit.cmd("set attribute on")
     # use a faceting_tolerance 1.0e-4 or smaller for accurate simulations
     print('using faceting_tolerance of ', faceting_tolerance)
     cubit.cmd('export dagmc "dagmc_not_watertight.h5m" faceting_tolerance '+ faceting_tolerance)
     # os.system('mbconvert -1 dagmc_not_watertight.h5m dagmc_not_watertight_edges.h5m')
+    if output_trelis:
+        cubit.cmd('save as "'+output_filename_stub+'.trelis" overwrite')
+    if output_cub:
+        cubit.cmd('save as "'+output_filename_stub+'.cub" overwrite')
     with open("geometry_details.json", "w") as outfile:
         json.dump(geometry_details, outfile, indent=4)
 
@@ -207,6 +215,16 @@ if "manifest" in aprepro_vars:
 else:
     manifest_filename = "manifest.json"
 
+if "output_cub" in aprepro_vars:
+    output_cub = str(cubit.get_aprepro_value_as_string("output_cub"))
+else:
+    output_cub = False
+
+if "output_trelis" in aprepro_vars:
+    output_trelis = str(trelisit.get_aprepro_value_as_string("output_trelis"))
+else:
+    output_trelis = False
+
 with open(manifest_filename) as f:
     geometry_details = byteify(json.load(f))
 
@@ -220,4 +238,4 @@ imprint_and_merge_geometry()
 
 find_reflecting_surfaces_of_reflecting_wedge(geometry_details)
 
-save_output_files()
+save_output_files(output_trelis=output_trelis, output_cub=output_cub)
