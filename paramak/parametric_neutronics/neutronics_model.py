@@ -373,11 +373,11 @@ class NeutronicsModel():
                     "The make_faceteted_neutronics_model.py was \
                     not found in the directory")
             if method == 'trelis-gui':
-                os.system("trelis make_faceteted_neutronics_model.py \"faceting_tolerance='" +
-                        str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
+                os.system("trelis make_faceteted_neutronics_model.py \"faceting_tolerance='" + str(
+                    self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
             else:
                 os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
-                        str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
+                          str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
 
             if not Path("dagmc_not_watertight.h5m").is_file():
                 raise FileNotFoundError(
