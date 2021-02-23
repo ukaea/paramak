@@ -6,7 +6,7 @@ import os
 # file is required that specfies a the stp filenames and the materials names to
 # assign. The name of the manifest file is manifest.json by default but can be
 # specified using aprepro arguments. Other optional aprepro arguments are
-# faceting_tolerance and merge_tolerance which default to 1e-1 and 1e-4 by
+# faceting_tolerance and merge_tolerance which default to 1e-3 and 1e-4 by
 # default
 
 # To using this script with Trelis it can be run in batch mode
@@ -195,7 +195,7 @@ for var_name in aprepro_vars:
 if "faceting_tolerance" in aprepro_vars:
     faceting_tolerance = str(cubit.get_aprepro_value_as_string("faceting_tolerance"))
 else:
-    faceting_tolerance = str(1.0e-1)
+    faceting_tolerance = str(1.0e-3)
 
 if "merge_tolerance" in aprepro_vars:
     merge_tolerance = str(cubit.get_aprepro_value_as_string("merge_tolerance"))

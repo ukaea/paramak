@@ -77,7 +77,7 @@ class NeutronicsModel():
         merge_tolerance (float): the tolerance to use when merging surfaces.
             Defaults to 1e-4.
         faceting_tolerance (float): the tolerance to use when faceting surfaces.
-            Defaults to 1e-1.
+            Defaults to 1e-3.
         mesh_2D_resolution (tuple of ints): The 3D mesh resolution in the height
             and width directions. The larger the resolution the finer the mesh
             and more computational intensity is required to converge each mesh
@@ -99,7 +99,7 @@ class NeutronicsModel():
         simulation_batches: int = 100,
         simulation_particles_per_batch: int = 10000,
         max_lost_particles: int = 10,
-        faceting_tolerance: float = 1e-1,
+        faceting_tolerance: float = 1e-3,
         merge_tolerance: float = 1e-4,
         mesh_2D_resolution: float = (400, 400),
         mesh_3D_resolution: float = (100, 100, 100),
@@ -318,11 +318,11 @@ class NeutronicsModel():
 
         Arguments:
             method: (str): The method to use when making the imprinted and
-                merged geometry. Options are "ppp", "trelis", "pymoab" and
-                None.  Defaults to None.
+                merged geometry. Options are "ppp", "trelis", "trelis-gui",
+                "pymoab" and None. Defaults to None.
         """
 
-        if method in ['ppp', 'trelis', 'pymoab']:
+        if method in ['ppp', 'trelis', 'trelis-gui', 'pymoab']:
             os.system('rm dagmc_not_watertight.h5m')
             os.system('rm dagmc.h5m')
         elif method is None and Path('dagmc.h5m').is_file():
@@ -330,7 +330,8 @@ class NeutronicsModel():
         else:
             raise ValueError(
                 "the method using in create_neutronics_geometry \
-                should be either ppp, trelis, pymoab or None.", method)
+                should be either ppp, trelis, trelis-gui, pymoab or None.",
+                method)
 
         if method == 'ppp':
 
@@ -358,7 +359,7 @@ class NeutronicsModel():
             #         occ_faceter/bin folder is in the path directory")
             # self._make_watertight()
 
-        elif method == 'trelis':
+        elif method.startswith('trelis'):
             self.geometry.export_stp()
             self.geometry.export_neutronics_description()
 
@@ -371,8 +372,12 @@ class NeutronicsModel():
                 raise FileNotFoundError(
                     "The make_faceteted_neutronics_model.py was \
                     not found in the directory")
-            os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
-                      str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
+            if method == 'trelis-gui':
+                os.system("trelis make_faceteted_neutronics_model.py \"faceting_tolerance='" +
+                        str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
+            else:
+                os.system("trelis -batch -nographics make_faceteted_neutronics_model.py \"faceting_tolerance='" +
+                        str(self.faceting_tolerance) + "'\" \"merge_tolerance='" + str(self.merge_tolerance) + "'\"")
 
             if not Path("dagmc_not_watertight.h5m").is_file():
                 raise FileNotFoundError(
@@ -409,8 +414,8 @@ class NeutronicsModel():
 
         Arguments:
             method: (str): The method to use when making the imprinted and
-                merged geometry. Options are "ppp", "trelis", "pymoab".
-                Defaults to None.
+                merged geometry. Options are "ppp", "trelis", "trelis-gui",
+                "pymoab". Defaults to None.
         """
 
         self.create_materials()
