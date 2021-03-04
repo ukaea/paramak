@@ -5,6 +5,7 @@ on:
     branches:
     - develop  
     - main
+    - add_new_test_bash_script
 jobs:  
   build:     
    runs-on: ubuntu-latest
