@@ -9,9 +9,9 @@ jobs:
   build:     
    runs-on: ubuntu-latest
    strategy:
+    fail-fast: false
     matrix:
       cadquery-version: [2.1, master]
-      fail-fast: false
     
    steps:    
    - uses: actions/checkout@v1
