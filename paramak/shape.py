@@ -20,6 +20,7 @@ from paramak.neutronics_utils import (add_stl_to_moab_core,
                                       define_moab_core_and_tags)
 from paramak.utils import (_replace, cut_solid, facet_wire, get_hash,
                            intersect_solid, plotly_trace, union_solid)
+import warnings
 
 
 class Shape:
@@ -82,7 +83,7 @@ class Shape:
         connection_type: Optional[str] = "mixed",
         name: Optional[str] = None,
         color: Optional[Tuple[float, float, float]] = (0.5, 0.5, 0.5),
-        material_tag: Optional[str] = None,
+        material=None,  # Optional[str, openmc.Material(), nmm.Material(), nmm.MultiMaterial()]
         stp_filename: Optional[str] = None,
         stl_filename: Optional[str] = None,
         azimuth_placement_angle: Optional[Union[float, List[float]]] = 0.0,
@@ -117,7 +118,7 @@ class Shape:
 
         # neutronics specific properties
         self.method = method
-        self.material_tag = material_tag
+        self.material = material
         self.tet_mesh = tet_mesh
         self.surface_reflectivity = surface_reflectivity
         self.faceting_tolerance = faceting_tolerance
@@ -370,25 +371,43 @@ class Shape:
                 "Shape.color must be a list or tuple of 3 or 4 floats")
         self._color = value
 
+
     @property
-    def material_tag(self):
+    def material(self):
         """The material_tag assigned to the Shape. Used when taging materials
         for use in neutronics descriptions"""
+        return self._material
 
-        return self._material_tag
+    
+    @material.setter
+    def material(self, value):
 
-    @material_tag.setter
-    def material_tag(self, value):
-        if value is None:
-            self._material_tag = value
-        elif isinstance(value, str):
-            if len(value) > 27:
-                msg = "Shape.material_tag > 28 characters." + \
-                      "Use with DAGMC will be affected." + str(value)
-                warnings.warn(msg)
-            self._material_tag = value
-        else:
-            raise ValueError("Shape.material_tag must be a string", value)
+        self.set_openmc_material(value)
+        self._material = value
+
+
+        
+        
+
+    # @property
+    # def material_tag(self):
+    #     """The material_tag assigned to the Shape. Used when taging materials
+    #     for use in neutronics descriptions"""
+
+    #     return self._material_tag
+
+    # @material_tag.setter
+    # def material_tag(self, value):
+    #     if value is None:
+    #         self._material_tag = value
+    #     elif isinstance(value, str):
+    #         if len(value) > 27:
+    #             msg = "Shape.material_tag > 28 characters." + \
+    #                   "Use with DAGMC will be affected." + str(value)
+    #             warnings.warn(msg)
+    #         self._material_tag = value
+    #     else:
+    #         raise ValueError("Shape.material_tag must be a string", value)
 
     @property
     def tet_mesh(self):
@@ -569,6 +588,25 @@ class Shape:
             msg = "azimuth_placement_angle must be a float or list of floats"
             raise ValueError(msg)
         self._azimuth_placement_angle = value
+
+    def set_openmc_material(self, value):
+        import openmc
+        import neutronics_material_maker as nmm
+        
+        if isinstance(value, openmc.Material):
+            self.__openmc_material = value
+
+        elif isinstance(value, (nmm.Material, nmm.MultiMaterial)):
+            self.__openmc_material = value.openmc_material.name
+           
+        elif isinstance(value, str):
+            if value == 'graveyard':
+                self.__openmc_material = openmc.Material('graveyard')
+            elif value == 'vacuum':
+                self.__openmc_material = openmc.Material('vacuum')
+            else:
+                self.__openmc_material = nmm.Material(self.material).openmc_material
+
 
     def create_solid(self) -> cq.Workplane:
         solid = None
@@ -1142,7 +1180,36 @@ class Shape:
             dictionary: a dictionary of the step filename and material name
         """
 
-        neutronics_description = {"material_tag": self.material_tag}
+        # try:
+        #     import openmc
+        # execpt:
+        #     warnings.warn('import openmc failed. Shape.material can not accept \
+        #         openmc.Material() object')
+
+        neutronics_description = {}
+
+        if self.material is not None:
+
+            import openmc
+            if isinstance(self.material, openmc.Material):
+                neutronics_description["material_tag"] = self.material.name
+                neutronics_description["material_id"] = self.material.id
+
+            import neutronics_material_maker as nmm
+            if isinstance(self.material, (nmm.Material, nmm.MultiMaterial)):
+                neutronics_description["material_tag"] = self.material.openmc_material.name
+                neutronics_description["material_id"] = self.material.openmc_material.id
+
+            if isinstance(self.material, str):
+                if self.material == 'graveyard':
+                    neutronics_description["material_tag"] = 'graveyard'
+                    neutronics_description["material_id"] = 'graveyard'
+                elif self.material == 'vacuum':
+                    neutronics_description["material_tag"] = 'vacuum'
+                    neutronics_description["material_id"] = 'vacuum'
+                else:
+                    neutronics_description["material_tag"] = nmm.Material(self.material).openmc_material.name
+                    neutronics_description["material_id"] = nmm.Material(self.material).openmc_material.id
 
         if self.stp_filename is not None:
             neutronics_description["stp_filename"] = self.stp_filename

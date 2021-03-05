@@ -906,7 +906,7 @@ class Reactor:
         graveyard_shape = paramak.HollowCube(
             length=graveyard_size_to_use,
             name="graveyard",
-            material_tag="graveyard",
+            material="graveyard",
             stp_filename="graveyard.stp",
             stl_filename="graveyard.stl",
         )

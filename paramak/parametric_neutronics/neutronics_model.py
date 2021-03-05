@@ -258,7 +258,8 @@ class NeutronicsModel():
         if isinstance(material_entry, str):
             openmc_material = nmm.Material(
                 material_entry,
-                material_tag=material_tag).openmc_material
+                material_tag=material_tag
+            ).openmc_material
         elif isinstance(material_entry, openmc.Material):
             # sets the material name in the event that it had not been set
             material_entry.name = material_tag
