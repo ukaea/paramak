@@ -12,6 +12,7 @@ dependencies:
   - matplotlib
   - Pillow
   - cadquery=2.1
+  - python=3.8
   - openmc
   - pip:
     - neutronics-material-maker
