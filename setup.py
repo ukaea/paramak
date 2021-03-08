@@ -21,8 +21,7 @@ setuptools.setup(
     tests_require=[
         "pytest-cov",
         "pytest-runner",
-        "defusedxml"
-    ],
+        "defusedxml"],
     install_requires=[
         "pytest-cov",
         "plotly",
