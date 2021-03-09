@@ -19,4 +19,5 @@ dependencies:
     - plasmaboundaries
     - sphinx-autodoc-typehints
     - defusedxml
+    - warn
     
