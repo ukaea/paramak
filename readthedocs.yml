@@ -20,4 +20,4 @@ sphinx:
 
 # specify conda environment needed for build
 conda:
-  file: environment.yml
+  environment: environment.yml
