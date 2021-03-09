@@ -3,6 +3,7 @@ name: docs-environment
 channels:
   - conda-forge
   - cadquery
+  - python
 
 dependencies:
   - pytest
@@ -13,11 +14,11 @@ dependencies:
   - Pillow
   - cadquery=2.1
   - openmc
+  - python=3.8.5
   - pip:
     - neutronics-material-maker
     - sympy
     - plasmaboundaries
     - sphinx-autodoc-typehints
     - defusedxml
-    - warn
     
