@@ -392,7 +392,7 @@ class BallReactor(paramak.Reactor):
             material_tag="firstwall_mat",
             stp_filename="firstwall.stp",
             stl_filename="firstwall.stl",
-            cut=[self._center_column_cutter]
+            boolean_operations={"cut": [self._center_column_cutter]}
         )
 
         self._blanket = paramak.BlanketFP(
@@ -406,7 +406,8 @@ class BallReactor(paramak.Reactor):
             material_tag="blanket_mat",
             stp_filename="blanket.stp",
             stl_filename="blanket.stl",
-            cut=[self._center_column_cutter])
+            boolean_operations={"cut": [self._center_column_cutter]}
+        )
 
         self._blanket_rear_wall = paramak.BlanketFP(
             plasma=self._plasma,
@@ -420,7 +421,7 @@ class BallReactor(paramak.Reactor):
             material_tag="blanket_rear_wall_mat",
             stp_filename="blanket_rear_wall.stp",
             stl_filename="blanket_rear_wall.stl",
-            cut=[self._center_column_cutter],
+            boolean_operations={"cut": [self._center_column_cutter]}
         )
 
         return [self._firstwall, self._blanket, self._blanket_rear_wall]
@@ -454,7 +455,7 @@ class BallReactor(paramak.Reactor):
                 (self._divertor_end_radius, divertor_height_top),
                 (self._divertor_start_radius, divertor_height_top)
             ],
-            intersect=self._blanket_fw_rear_wall_envelope,
+            boolean_operations={"intersect": self._blanket_fw_rear_wall_envelope},
             stp_filename="divertor.stp",
             stl_filename="divertor.stl",
             name="divertor",
@@ -466,7 +467,7 @@ class BallReactor(paramak.Reactor):
                 self._firstwall,
                 self._blanket,
                 self._blanket_rear_wall]:
-            component.cut.append(self._divertor)
+            component.boolean_operations["cut"].append(self._divertor)
 
         return self._divertor
 
