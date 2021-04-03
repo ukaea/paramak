@@ -186,30 +186,35 @@ RUN if [ "$include_neutronics" = "true" ] ; \
     pip install openmc_data_downloader ; \
     fi
 
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+RUN if [ "$include_neutronics" = "true" ] ; \
+    wget https://f002.backblazeb2.com/file/cubit-downloads/Coreform-Cubit/master/Linux/Coreform-Cubit-master-b7317c72-Lin64.deb ; \
+    dpkg -i Coreform-Cubit-master-b7317c72-Lin64.deb ; \
+    fi
 
-ENV OPENMC_CROSS_SECTIONS=/root/nndc_hdf5/cross_sections.xml
-ENV PATH="/MOAB/build/bin:${PATH}"
-ENV PATH="/DAGMC/bin:${PATH}"
+# COPY requirements.txt requirements.txt
+# RUN pip install -r requirements.txt
 
-RUN mkdir /home/paramak
-EXPOSE 8888
-WORKDIR /home/paramak
+# ENV OPENMC_CROSS_SECTIONS=/root/nndc_hdf5/cross_sections.xml
+# ENV PATH="/MOAB/build/bin:${PATH}"
+# ENV PATH="/DAGMC/bin:${PATH}"
+
+# RUN mkdir /home/paramak
+# EXPOSE 8888
+# WORKDIR /home/paramak
 
 
-FROM dependencies as final
+# FROM dependencies as final
 
-COPY run_tests.sh run_tests.sh
-COPY paramak paramak/
-COPY examples examples/
-COPY setup.py setup.py
-COPY tests tests/
-COPY README.md README.md
+# COPY run_tests.sh run_tests.sh
+# COPY paramak paramak/
+# COPY examples examples/
+# COPY setup.py setup.py
+# COPY tests tests/
+# COPY README.md README.md
 
-# using setup.py instead of pip due to https://github.com/pypa/pip/issues/5816
-RUN python setup.py install
+# # using setup.py instead of pip due to https://github.com/pypa/pip/issues/5816
+# RUN python setup.py install
 
-# this helps prevent the kernal failing
-RUN echo "#!/bin/bash\n\njupyter lab --notebook-dir=/home/paramak --port=8888 --no-browser --ip=0.0.0.0 --allow-root" >> /home/paramak/docker-cmd.sh
-CMD bash /home/paramak/docker-cmd.sh
+# # this helps prevent the kernal failing
+# RUN echo "#!/bin/bash\n\njupyter lab --notebook-dir=/home/paramak --port=8888 --no-browser --ip=0.0.0.0 --allow-root" >> /home/paramak/docker-cmd.sh
+# CMD bash /home/paramak/docker-cmd.sh
