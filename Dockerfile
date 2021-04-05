@@ -164,7 +164,7 @@ RUN if [ "$include_neutronics" = "true" ] ; \
 
 # Clone and install OpenMC with DAGMC
 RUN if [ "$include_neutronics" = "true" ] ; \
-    then git clone --recurse-submodules https://github.com/openmc-dev/openmc.git /opt/openmc ; \
+    then git clone --single-branch --branch v0.12.1 --depth 1 --recurse-submodules https://github.com/openmc-dev/openmc.git /opt/openmc ; \
     cd /opt/openmc ; \
     mkdir build ; \
     cd build ; \
@@ -176,6 +176,7 @@ RUN if [ "$include_neutronics" = "true" ] ; \
     make -j"$compile_cores" install ; \
     cd ..  ; \
     pip install -e .[test] ; \
+    cat /opt/openmc/tools/ci/download-xs.sh ; \
     /opt/openmc/tools/ci/download-xs.sh ; \
     fi
 
