@@ -188,8 +188,19 @@ RUN if [ "$include_neutronics" = "true" ] ; \
     fi
 
 RUN if [ "$include_neutronics" = "true" ] ; \
-    then wget https://f002.backblazeb2.com/file/cubit-downloads/Coreform-Cubit/master/Linux/Coreform-Cubit-master-b7317c72-Lin64.deb ; \
-    dpkg -i Coreform-Cubit-master-b7317c72-Lin64.deb ; \
+    then wget https://f002.backblazeb2.com/file/cubit-downloads/Coreform-Cubit/master/Linux/Coreform-Cubit-master-60a5c1c2-Lin64.deb ; \
+    apt-get --yes install libx11-6 ; \
+    apt-get --yes install libgl1 ; \
+    apt-get --yes install libglu1-mesa ; \
+    apt-get --yes install libgl1-mesa-glx ; \
+    apt-get --yes install libxcb-icccm4 ; \
+    apt-get --yes install libxcb-image0 ; \
+    apt-get --yes install libxcb-keysyms1 ; \
+    apt-get --yes install libxcb-render-util0 ; \
+    apt-get --yes install libxkbcommon-x11-0 ; \
+    apt-get --yes install libxcb-randr0 ; \
+    apt-get --yes install libxcb-xinerama0 ; \
+    dpkg -i Coreform-Cubit-master-60a5c1c2-Lin64.deb ; \
     fi
 
 COPY requirements.txt requirements.txt
