@@ -205,7 +205,8 @@ class TestNeutronicsUtilityFunctions(unittest.TestCase):
 
         os.system('rm *.stl *.h5m')
 
-        # https: // github.com / Shimwell / fusion_example_for_openmc_using_paramak / raw / main / dagmc.h5m
+        # https: // github.com / Shimwell /
+        # fusion_example_for_openmc_using_paramak / raw / main / dagmc.h5m
 
         pf_coil = paramak.PoloidalFieldCoil(
             height=10,
