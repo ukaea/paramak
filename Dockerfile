@@ -176,7 +176,7 @@ RUN if [ "$include_neutronics" = "true" ] ; \
     make -j"$compile_cores" install ; \
     cd ..  ; \
     pip install -e .[test] ; \
-    cat /opt/openmc/tools/ci/download-xs.sh ; \
+    /opt/openmc/tools/ci/download-xs.sh ; \
     /opt/openmc/tools/ci/download-xs.sh ; \
     fi
 
