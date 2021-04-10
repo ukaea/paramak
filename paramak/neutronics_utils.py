@@ -137,7 +137,7 @@ def trelis_command_to_create_dagmc_h5m(
 
     if batch:
         # trelis_cmd = 'trelis -batch -nographics'
-        trelis_cmd = 'libxcb-xinerama0 -batch -nographics'
+        trelis_cmd = 'coreform_cubit -batch -nographics'
     else:
         trelis_cmd = 'trelis'
 
