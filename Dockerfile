@@ -177,7 +177,6 @@ RUN if [ "$include_neutronics" = "true" ] ; \
     cd ..  ; \
     pip install -e .[test] ; \
     /opt/openmc/tools/ci/download-xs.sh ; \
-    /opt/openmc/tools/ci/download-xs.sh ; \
     fi
 
 RUN if [ "$include_neutronics" = "true" ] ; \
