@@ -205,7 +205,7 @@ class TestNeutronicsUtilityFunctions(unittest.TestCase):
 
         os.system('rm *.stl *.h5m')
 
-        https://github.com/Shimwell/fusion_example_for_openmc_using_paramak/raw/main/dagmc.h5m
+        https: // github.com / Shimwell / fusion_example_for_openmc_using_paramak / raw / main / dagmc.h5m
 
         pf_coil = paramak.PoloidalFieldCoil(
             height=10,
@@ -270,7 +270,7 @@ class TestNeutronicsUtilityFunctions(unittest.TestCase):
             merge_tolerance=1e-4,
             material_key_name='material_tag',
             batch=True
-            )
+        )
 
         list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
             filename="dagmc_not_watertight.h5m"
