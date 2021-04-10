@@ -199,185 +199,185 @@ class TestNeutronicsUtilityFunctions(unittest.TestCase):
         assert Path("watertight_dagmc.h5m").exists() is True
 
     # these tests only work if trelis is avaialbe
-    # def test_make_watertight_cmd(self):
-    #     """exports a h5m and makes it watertight, checks the the watertight
-    #     file is produced."""
+    def test_make_watertight_cmd(self):
+        """exports a h5m and makes it watertight, checks the the watertight
+        file is produced."""
 
-    #     os.system('rm *.stl *.h5m')
+        os.system('rm *.stl *.h5m')
 
-    #     https://github.com/Shimwell/fusion_example_for_openmc_using_paramak/raw/main/dagmc.h5m
+        https://github.com/Shimwell/fusion_example_for_openmc_using_paramak/raw/main/dagmc.h5m
 
-    #     pf_coil = paramak.PoloidalFieldCoil(
-    #         height=10,
-    #         width=10,
-    #         center_point=(100, 0),
-    #         rotation_angle=180,
-    #         material_tag='copper',
-    #         method='trelis'
-    #     )
+        pf_coil = paramak.PoloidalFieldCoil(
+            height=10,
+            width=10,
+            center_point=(100, 0),
+            rotation_angle=180,
+            material_tag='copper',
+            method='trelis'
+        )
 
-    #     pf_coil.export_h5m_with_trelis(
-    #         filename='not_watertight_dagmc.h5m',
-    #         include_graveyard=True,
-    #     )
+        pf_coil.export_h5m_with_trelis(
+            filename='not_watertight_dagmc.h5m',
+            include_graveyard=True,
+        )
 
-    #     assert Path('not_watertight_dagmc.h5m').is_file
+        assert Path('not_watertight_dagmc.h5m').is_file
 
-    #     output_filename = paramak.neutronics_utils.make_watertight(
-    #         input_filename="not_watertight_dagmc.h5m",
-    #         output_filename="watertight_dagmc.h5m"
-    #     )
+        output_filename = paramak.neutronics_utils.make_watertight(
+            input_filename="not_watertight_dagmc.h5m",
+            output_filename="watertight_dagmc.h5m"
+        )
 
-    #     assert Path("not_watertight_dagmc.h5").exists() is True
-    #     assert output_filename == "watertight_dagmc.h5m"
-    #     assert Path("watertight_dagmc.h5").exists() is True
+        assert Path("not_watertight_dagmc.h5").exists() is True
+        assert output_filename == "watertight_dagmc.h5m"
+        assert Path("watertight_dagmc.h5").exists() is True
 
-    # def test_trelis_command_to_create_dagmc_h5m_with_default_mat_name(self):
-    #     """Creats a h5m file with trelis and forms groups using the material_tag
-    #     key in the manifest.json file. Then checks the groups in the resulting
-    #     h5 file match those in the original dictionary"""
+    def test_trelis_command_to_create_dagmc_h5m_with_default_mat_name(self):
+        """Creats a h5m file with trelis and forms groups using the material_tag
+        key in the manifest.json file. Then checks the groups in the resulting
+        h5 file match those in the original dictionary"""
 
-    #     pf_coil = paramak.PoloidalFieldCoil(
-    #         height=10,
-    #         width=10,
-    #         center_point=(100, 0),
-    #         rotation_angle=180,
-    #     )
+        pf_coil = paramak.PoloidalFieldCoil(
+            height=10,
+            width=10,
+            center_point=(100, 0),
+            rotation_angle=180,
+        )
 
-    #     pf_coil_case = paramak.PoloidalFieldCoilCaseFC(
-    #         pf_coil=pf_coil,
-    #         casing_thickness=5
-    #     )
+        pf_coil_case = paramak.PoloidalFieldCoilCaseFC(
+            pf_coil=pf_coil,
+            casing_thickness=5
+        )
 
-    #     pf_coil.export_stp('pf_coil.stp')
-    #     pf_coil_case.export_stp('pf_coil_case.stp')
+        pf_coil.export_stp('pf_coil.stp')
+        pf_coil_case.export_stp('pf_coil_case.stp')
 
-    #     manifest_with_material_tags = [
-    #         {
-    #             "material_tag": "copper",
-    #             "stp_filename": "pf_coil_case.stp"
-    #         },
-    #         {
-    #             "material_tag": "tungsten_carbide",
-    #             "stp_filename": "pf_coil.stp"
-    #         }
-    #     ]
-    #     with open('manifest.json', 'w') as outfile:
-    #         json.dump(manifest_with_material_tags, outfile)
+        manifest_with_material_tags = [
+            {
+                "material_tag": "copper",
+                "stp_filename": "pf_coil_case.stp"
+            },
+            {
+                "material_tag": "tungsten_carbide",
+                "stp_filename": "pf_coil.stp"
+            }
+        ]
+        with open('manifest.json', 'w') as outfile:
+            json.dump(manifest_with_material_tags, outfile)
 
-    #     paramak.neutronics_utils.trelis_command_to_create_dagmc_h5m(
-    #         faceting_tolerance=1e-2,
-    #         merge_tolerance=1e-4,
-    #         material_key_name='material_tag',
-    #         batch=True
-    #         )
+        paramak.neutronics_utils.trelis_command_to_create_dagmc_h5m(
+            faceting_tolerance=1e-2,
+            merge_tolerance=1e-4,
+            material_key_name='material_tag',
+            batch=True
+            )
 
-    #     list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
-    #         filename="dagmc_not_watertight.h5m"
-    #     )
+        list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
+            filename="dagmc_not_watertight.h5m"
+        )
 
-    #     assert len(list_of_mats) == 2
-    #     assert 'mat:copper' in list_of_mats
-    #     assert 'mat:tungsten_carbide' in list_of_mats
-    #     # assert 'mat:graveyard' in list_of_mats
+        assert len(list_of_mats) == 2
+        assert 'mat:copper' in list_of_mats
+        assert 'mat:tungsten_carbide' in list_of_mats
+        # assert 'mat:graveyard' in list_of_mats
 
-    # def test_trelis_command_to_create_dagmc_h5m_with_user_mat_name(self):
-    #     """Creats a h5m file with trelis and forms groups using the material_id
-    #     key in the manifest.json file. Then checks the groups in the resulting
-    #     h5 file match those in the original dictionary"""
+    def test_trelis_command_to_create_dagmc_h5m_with_user_mat_name(self):
+        """Creats a h5m file with trelis and forms groups using the material_id
+        key in the manifest.json file. Then checks the groups in the resulting
+        h5 file match those in the original dictionary"""
 
-    #     os.system('rm *.stp *.h5m *.json')
+        os.system('rm *.stp *.h5m *.json')
 
-    #     pf_coil = paramak.PoloidalFieldCoil(
-    #         height=10,
-    #         width=10,
-    #         center_point=(100, 0),
-    #         rotation_angle=180,
-    #     )
+        pf_coil = paramak.PoloidalFieldCoil(
+            height=10,
+            width=10,
+            center_point=(100, 0),
+            rotation_angle=180,
+        )
 
-    #     pf_coil_case = paramak.PoloidalFieldCoilCaseFC(
-    #         pf_coil=pf_coil,
-    #         casing_thickness=5
-    #     )
+        pf_coil_case = paramak.PoloidalFieldCoilCaseFC(
+            pf_coil=pf_coil,
+            casing_thickness=5
+        )
 
-    #     pf_coil.export_stp('pf_coil.stp')
-    #     pf_coil_case.export_stp('pf_coil_case.stp')
+        pf_coil.export_stp('pf_coil.stp')
+        pf_coil_case.export_stp('pf_coil_case.stp')
 
-    #     manifest_with_material_tags = [
-    #         {
-    #             "material_id": "42",
-    #             "stp_filename": "pf_coil_case.stp"
-    #         },
-    #         {
-    #             "material_id": 12,  # this is an int to check the str() works
-    #             "stp_filename": "pf_coil.stp"
-    #         }
-    #     ]
-    #     with open('manifest.json', 'w') as outfile:
-    #         json.dump(manifest_with_material_tags, outfile)
+        manifest_with_material_tags = [
+            {
+                "material_id": "42",
+                "stp_filename": "pf_coil_case.stp"
+            },
+            {
+                "material_id": 12,  # this is an int to check the str() works
+                "stp_filename": "pf_coil.stp"
+            }
+        ]
+        with open('manifest.json', 'w') as outfile:
+            json.dump(manifest_with_material_tags, outfile)
 
-    #     paramak.neutronics_utils.trelis_command_to_create_dagmc_h5m(
-    #         faceting_tolerance=1e-2,
-    #         merge_tolerance=1e-4,
-    #         material_key_name='material_id',
-    #         batch=True,
-    #     )
+        paramak.neutronics_utils.trelis_command_to_create_dagmc_h5m(
+            faceting_tolerance=1e-2,
+            merge_tolerance=1e-4,
+            material_key_name='material_id',
+            batch=True,
+        )
 
-    #     list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
-    #         filename="dagmc_not_watertight.h5m"
-    #     )
+        list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
+            filename="dagmc_not_watertight.h5m"
+        )
 
-    #     assert len(list_of_mats) == 2
-    #     assert 'mat:42' in list_of_mats
-    #     assert 'mat:12' in list_of_mats
-    #     # assert 'mat:graveyard' in list_of_mats
+        assert len(list_of_mats) == 2
+        assert 'mat:42' in list_of_mats
+        assert 'mat:12' in list_of_mats
+        # assert 'mat:graveyard' in list_of_mats
 
-    # def test_trelis_command_to_create_dagmc_h5m_with_custom_geometry_key(self):
-    #     """Creats a h5m file with trelis and loads stp files using a custom
-    #     key in the manifest.json file. Then checks the groups in the resulting
-    #     h5 file match those in the original dictionary"""
+    def test_trelis_command_to_create_dagmc_h5m_with_custom_geometry_key(self):
+        """Creats a h5m file with trelis and loads stp files using a custom
+        key in the manifest.json file. Then checks the groups in the resulting
+        h5 file match those in the original dictionary"""
 
-    #     os.system('rm *.stp *.h5m *.json')
+        os.system('rm *.stp *.h5m *.json')
 
-    #     pf_coil = paramak.PoloidalFieldCoil(
-    #         height=10,
-    #         width=10,
-    #         center_point=(100, 0),
-    #         rotation_angle=180,
-    #     )
+        pf_coil = paramak.PoloidalFieldCoil(
+            height=10,
+            width=10,
+            center_point=(100, 0),
+            rotation_angle=180,
+        )
 
-    #     pf_coil_case = paramak.PoloidalFieldCoilCaseFC(
-    #         pf_coil=pf_coil,
-    #         casing_thickness=5
-    #     )
+        pf_coil_case = paramak.PoloidalFieldCoilCaseFC(
+            pf_coil=pf_coil,
+            casing_thickness=5
+        )
 
-    #     pf_coil.export_stp('pf_coil_custom_key.stp')
-    #     pf_coil_case.export_stp('pf_coil_case_custom_key.stp')
+        pf_coil.export_stp('pf_coil_custom_key.stp')
+        pf_coil_case.export_stp('pf_coil_case_custom_key.stp')
 
-    #     manifest_with_material_tags = [
-    #         {
-    #             "material_tag": "copper",
-    #             "geometry_filename": "pf_coil_custom_key.stp"
-    #         },
-    #         {
-    #             "material_tag": "tungsten_carbide",
-    #             "geometry_filename": "pf_coil_case_custom_key.stp"
-    #         }
-    #     ]
-    #     with open('manifest.json', 'w') as outfile:
-    #         json.dump(manifest_with_material_tags, outfile)
+        manifest_with_material_tags = [
+            {
+                "material_tag": "copper",
+                "geometry_filename": "pf_coil_custom_key.stp"
+            },
+            {
+                "material_tag": "tungsten_carbide",
+                "geometry_filename": "pf_coil_case_custom_key.stp"
+            }
+        ]
+        with open('manifest.json', 'w') as outfile:
+            json.dump(manifest_with_material_tags, outfile)
 
-    #     paramak.neutronics_utils.trelis_command_to_create_dagmc_h5m(
-    #         faceting_tolerance=1e-2,
-    #         merge_tolerance=1e-4,
-    #         geometry_key_name='geometry_filename',
-    #         batch=True
-    #     )
+        paramak.neutronics_utils.trelis_command_to_create_dagmc_h5m(
+            faceting_tolerance=1e-2,
+            merge_tolerance=1e-4,
+            geometry_key_name='geometry_filename',
+            batch=True
+        )
 
-    #     list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
-    #         filename="dagmc_not_watertight.h5m"
-    #     )
+        list_of_mats = paramak.neutronics_utils.find_material_groups_in_h5m(
+            filename="dagmc_not_watertight.h5m"
+        )
 
-    #     assert len(list_of_mats) == 2
-    #     assert 'mat:copper' in list_of_mats
-    #     assert 'mat:tungsten_carbide' in list_of_mats
+        assert len(list_of_mats) == 2
+        assert 'mat:copper' in list_of_mats
+        assert 'mat:tungsten_carbide' in list_of_mats
