@@ -164,7 +164,7 @@ RUN if [ "$include_neutronics" = "true" ] ; \
 
 # Clone and install OpenMC with DAGMC
 RUN if [ "$include_neutronics" = "true" ] ; \
-    then git clone --recurse-submodules https://github.com/openmc-dev/openmc.git /opt/openmc ; \
+    then git clone --single-branch --branch v0.12.1 --depth 1 --recurse-submodules https://github.com/openmc-dev/openmc.git /opt/openmc ; \
     cd /opt/openmc ; \
     mkdir build ; \
     cd build ; \
@@ -184,6 +184,22 @@ RUN if [ "$include_neutronics" = "true" ] ; \
     pip install neutronics_material_maker==0.3.2 ; \
     pip install openmc_data_downloader ; \
     openmc_data_downloader -e all -i H3 -l ENDFB-7.1-NNDC TENDL-2019 -p neutron photon ; \
+    fi
+
+RUN if [ "$include_neutronics" = "true" ] ; \
+    then wget https://f002.backblazeb2.com/file/cubit-downloads/Coreform-Cubit/master/Linux/Coreform-Cubit-master-60a5c1c2-Lin64.deb ; \
+    apt-get --yes install libx11-6 ; \
+    apt-get --yes install libgl1 ; \
+    apt-get --yes install libglu1-mesa ; \
+    apt-get --yes install libgl1-mesa-glx ; \
+    apt-get --yes install libxcb-icccm4 ; \
+    apt-get --yes install libxcb-image0 ; \
+    apt-get --yes install libxcb-keysyms1 ; \
+    apt-get --yes install libxcb-render-util0 ; \
+    apt-get --yes install libxkbcommon-x11-0 ; \
+    apt-get --yes install libxcb-randr0 ; \
+    apt-get --yes install libxcb-xinerama0 ; \
+    dpkg -i Coreform-Cubit-master-60a5c1c2-Lin64.deb ; \
     fi
 
 COPY requirements.txt requirements.txt
