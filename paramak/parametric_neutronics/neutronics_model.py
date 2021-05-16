@@ -404,8 +404,10 @@ class NeutronicsModel():
 
         # this is the underlying geometry container that is filled with the
         # faceteted DGAMC CAD model
-        self.universe = openmc.Universe()
-        geom = openmc.Geometry(self.universe)
+        # self.universe = openmc.Universe()
+        # geom = openmc.Geometry(self.universe)
+        dag_univ = openmc.DAGMCUniverse("dagmc.h5m"),
+        geom = openmc.Geometry(root=dag_univ)
 
         # settings for the number of neutrons to simulate
         settings = openmc.Settings()
@@ -413,7 +415,7 @@ class NeutronicsModel():
         settings.inactive = 0
         settings.particles = self.simulation_particles_per_batch
         settings.run_mode = "fixed source"
-        settings.dagmc = True
+        # settings.dagmc = True
         settings.photon_transport = self.photon_transport
         settings.source = self.source
         settings.max_lost_particles = self.max_lost_particles
