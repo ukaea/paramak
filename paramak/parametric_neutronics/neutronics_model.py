@@ -75,6 +75,15 @@ class NeutronicsModel():
         fusion_power: the power in watts emitted by the fusion reaction
             recalling that each DT fusion reaction emitts 17.6 MeV or
             2.819831e-12 Joules
+        photon_transport: Allows the option of turning photon transport off.
+            This will speed up the simulation but no longer transport photons.
+            Tallies like heating and photon spectra need photons to be left on.
+            If TBR is the only tally that you are interested in then photons
+            can be turned off in most cases. Defaults to True.
+        nuclides: split the integrated tallies per material to include results
+            for each per nuclide.
+        max_lost_particles: Specify the acceptable number of lost particles in
+            the simulation.
     """
 
     def __init__(
@@ -95,6 +104,7 @@ class NeutronicsModel():
                                               float], Tuple[float, float, float]]] = None,
         fusion_power: Optional[float] = 1e9,
         photon_transport: Optional[bool] = True,
+        nuclides: Optional[bool] = False,
         # convert from watts to activity source_activity
         max_lost_particles: Optional[int] = 10,
     ):
@@ -114,6 +124,7 @@ class NeutronicsModel():
         self.mesh_2d_corners = mesh_2d_corners
         self.mesh_3d_corners = mesh_3d_corners
         self.photon_transport = photon_transport
+        self.nuclides = nuclides
         self.fusion_power = fusion_power
 
         self.model = None
@@ -539,36 +550,44 @@ class NeutronicsModel():
             for standard_tally in self.cell_tallies:
                 if standard_tally == 'TBR':
                     score = '(n,Xt)'  # where X is a wild card
-                    sufix = 'TBR'
+                    suffix = 'TBR'
                     tally = openmc.Tally(name='TBR')
                     tally.scores = [score]
                     self.tallies.append(tally)
-                    self._add_tally_for_every_material(sufix, score)
+                    self._add_tally_for_every_material(
+                        suffix=suffix,
+                        score=score,
+                        nuclides=self.nuclides+['total']
+                    )
 
                 elif standard_tally == 'spectra':
 
                     energy_bins = openmc.mgxs.GROUP_STRUCTURES['CCFE-709']
                     energy_filter = openmc.EnergyFilter(energy_bins)
 
-                    neutron_particle_filter = openmc.ParticleFilter([
-                                                                    'neutron'])
+                    neutron_particle_filter = openmc.ParticleFilter(['neutron'])
                     self._add_tally_for_every_material(
-                        'neutron_spectra',
-                        'flux',
-                        [neutron_particle_filter, energy_filter]
+                        suffix='neutron_spectra',
+                        score='flux',
+                        nuclides=False,
+                        additional_filters=[neutron_particle_filter, energy_filter]
                     )
                     if self.photon_transport is True:
-                        photon_particle_filter = openmc.ParticleFilter([
-                                                                       'photon'])
+                        photon_particle_filter = openmc.ParticleFilter(['photon'])
                         self._add_tally_for_every_material(
-                            'photon_spectra',
-                            'flux',
-                            [photon_particle_filter, energy_filter]
+                            suffix='photon_spectra',
+                            score='flux',
+                            nuclides=False,
+                            additional_filters=[photon_particle_filter, energy_filter]
                         )
                 else:
                     score = standard_tally
-                    sufix = standard_tally
-                    self._add_tally_for_every_material(sufix, score)
+                    suffix = standard_tally
+                    self._add_tally_for_every_material(
+                        suffix=suffix,
+                        score=score,
+                        nuclides=self.nuclides
+                    )
 
         # make the model from geometry, materials, settings and tallies
         model = openmc.model.Model(
@@ -581,13 +600,19 @@ class NeutronicsModel():
         self.model = model
         return model
 
-    def _add_tally_for_every_material(self, sufix: str, score: str,
-                                      additional_filters: List = None) -> None:
+    def _add_tally_for_every_material(
+            self,
+            suffix: str,
+            score: str,
+            nuclides: bool,
+            additional_filters: List = None
+    ) -> None:
         """Adds a tally to self.tallies for every material.
 
         Arguments:
-            sufix: the string to append to the end of the tally name to help
+            suffix: the string to append to the end of the tally name to help
                 identify the tally later.
+            nuclides: bool,
             score: the openmc.Tally().scores value that contribute to the tally
         """
         if additional_filters is None:
@@ -595,9 +620,11 @@ class NeutronicsModel():
         for key, value in self.openmc_materials.items():
             if key != 'DT_plasma':
                 material_filter = openmc.MaterialFilter(value)
-                tally = openmc.Tally(name=key + '_' + sufix)
+                tally = openmc.Tally(name=key + '_' + suffix)
                 tally.filters = [material_filter] + additional_filters
                 tally.scores = [score]
+                if nuclides:
+                    tally.nuclides = [nuc.name for nuc in value.nuclides]
                 self.tallies.append(tally)
 
     def simulate(
