@@ -557,7 +557,7 @@ class NeutronicsModel():
                     self._add_tally_for_every_material(
                         suffix=suffix,
                         score=score,
-                        nuclides=self.nuclides+['total']
+                        nuclides=self.nuclides + ['total']
                     )
 
                 elif standard_tally == 'spectra':
@@ -565,21 +565,17 @@ class NeutronicsModel():
                     energy_bins = openmc.mgxs.GROUP_STRUCTURES['CCFE-709']
                     energy_filter = openmc.EnergyFilter(energy_bins)
 
-                    neutron_particle_filter = openmc.ParticleFilter(['neutron'])
+                    neutron_particle_filter = openmc.ParticleFilter([
+                                                                    'neutron'])
                     self._add_tally_for_every_material(
-                        suffix='neutron_spectra',
-                        score='flux',
-                        nuclides=False,
-                        additional_filters=[neutron_particle_filter, energy_filter]
-                    )
+                        suffix='neutron_spectra', score='flux', nuclides=False, additional_filters=[
+                            neutron_particle_filter, energy_filter])
                     if self.photon_transport is True:
-                        photon_particle_filter = openmc.ParticleFilter(['photon'])
+                        photon_particle_filter = openmc.ParticleFilter([
+                                                                       'photon'])
                         self._add_tally_for_every_material(
-                            suffix='photon_spectra',
-                            score='flux',
-                            nuclides=False,
-                            additional_filters=[photon_particle_filter, energy_filter]
-                        )
+                            suffix='photon_spectra', score='flux', nuclides=False, additional_filters=[
+                                photon_particle_filter, energy_filter])
                 else:
                     score = standard_tally
                     suffix = standard_tally
