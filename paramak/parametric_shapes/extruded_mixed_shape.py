@@ -1,6 +1,8 @@
 
 from typing import Optional, Tuple
 
+from cadquery import Solid, Compound, Vector
+
 from paramak import Shape
 from paramak.utils import calculate_wedge_cut
 
@@ -25,6 +27,7 @@ class ExtrudeMixedShape(Shape):
         self,
         distance: float,
         extrude_both: Optional[bool] = True,
+        extrusion_vector: Optional[Tuple[float, float, float]] = None,
         rotation_angle: Optional[float] = 360.0,
         extrusion_start_offset: Optional[float] = 0.0,
         stp_filename: Optional[str] = "ExtrudeMixedShape.stp",
@@ -43,6 +46,7 @@ class ExtrudeMixedShape(Shape):
         self.extrude_both = extrude_both
         self.rotation_angle = rotation_angle
         self.extrusion_start_offset = extrusion_start_offset
+        self.extrusion_vector = extrusion_vector
 
     @property
     def distance(self):
@@ -78,18 +82,11 @@ class ExtrudeMixedShape(Shape):
 
         solid = super().create_solid()
 
-        if not self.extrude_both:
-            extrusion_distance = -self.distance
-        else:
-            extrusion_distance = -self.distance / 2.0
-
         wire = solid.close()
 
         self.wire = wire
 
-        solid = wire.extrude(
-            distance=extrusion_distance,
-            both=self.extrude_both)
+        solid = self.extrude(wire)
 
         # filleting rectangular port cutter edges
         # must be done before azimuthal placement
@@ -100,5 +97,52 @@ class ExtrudeMixedShape(Shape):
         cutting_wedge = calculate_wedge_cut(self)
         solid = self.perform_boolean_operations(solid, wedge_cut=cutting_wedge)
         self.solid = solid
+
+        return solid
+
+    def extrude(self, wire):
+        if not self.extrude_both:
+            extrusion_distance = -self.distance
+        else:
+            extrusion_distance = -self.distance / 2.0
+
+        if self.extrusion_vector is None:
+            # extrude in the normal direction
+            solid = wire.extrude(
+                distance=extrusion_distance,
+                both=self.extrude_both)
+        else:
+            # create extrusion vector
+            vector = (
+                Vector(self.extrusion_vector)
+                .normalized()
+                .multiply(extrusion_distance)
+            )
+
+            # extract wires
+            wireSets = [list(wire.ctx.pendingWires)]
+
+            # extrude
+            solid = Solid.extrudeLinear(
+                outerWire=wireSets[0][0],
+                innerWires=[],
+                vecNormal=vector,
+            )
+
+            toFuse = [solid]
+
+            # if extrude both, do the same in the other direction
+            if self.extrude_both:
+                solid2 = Solid.extrudeLinear(
+                    outerWire=wireSets[0][0],
+                    innerWires=[],
+                    vecNormal=vector.multiply(-1.0),
+                )
+                toFuse.append(solid2)
+
+                # create a compound
+                solid = Compound.makeCompound(toFuse)
+            # because combine is True by default
+            solid = wire._combineWithBase(solid)
 
         return solid
