@@ -1,4 +1,5 @@
 
+import openmc
 import paramak
 
 my_reactor = paramak.BallReactorLayered(
@@ -24,3 +25,29 @@ my_reactor = paramak.BallReactorLayered(
 )
 
 my_reactor.export_stp('BallReactorLayered')
+
+my_source = openmc.Source()
+my_source.space = openmc.stats.Point((my_reactor.major_radius, 0, 0))
+my_source.angle = openmc.stats.Isotropic()
+my_source.energy = openmc.stats.Discrete([14e6], [1])
+
+my_model = paramak.NeutronicsModel(
+    geometry=my_reactor,
+    source=my_source,
+    materials={
+        "inboard_layer_1_mat": "eurofer",
+        "inboard_layer_2_mat": "eurofer",
+        "inboard_layer_3_mat": "eurofer",
+        "divertor_mat": "tungsten",
+        "outboard_layer_1_mat": "Li4SiO4",
+        "outboard_layer_2_mat": "Li4SiO4",
+        "outboard_layer_3_mat": "Li4SiO4",
+        "outboard_layer_4_mat": "Li4SiO4",
+        "pf_coil_mat": "copper",
+        "tf_coil_mat": "copper"
+    },
+    simulation_batches=3,
+    simulation_particles_per_batch=10000
+)
+
+my_model.simulate()
