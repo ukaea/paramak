@@ -459,7 +459,7 @@ class BallReactorLayered(paramak.Reactor):
             self._tf_coil = paramak.ToroidalFieldCoilRectangle(
                 with_inner_leg=False,
                 horizontal_start_point=(
-                    self._inboard_tf_coils_start_radius,
+                    self._inboard_layers_start_radius,
                     self._tf_coil_start_height),
                 vertical_mid_point=(
                     self._tf_coil_start_radius, 0),
