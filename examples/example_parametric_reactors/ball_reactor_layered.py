@@ -16,9 +16,9 @@ my_reactor = paramak.BallReactorLayered(
     pf_coil_case_thicknesses=[10, 10, 10, 10],
     pf_coil_radial_thicknesses=[20, 50, 50, 20],
     pf_coil_vertical_thicknesses=[20, 50, 50, 20],
-    pf_coil_radial_position=[500, 575, 575, 500],
+    pf_coil_radial_position=[550, 625, 625, 550],
     pf_coil_vertical_position=[300, 100, -100, -300],
-    rear_outboard_layer_to_tf_gap=50,
+    rear_outboard_layer_to_tf_gap=100,
     outboard_tf_coil_radial_thickness=100,
     outboard_tf_coil_poloidal_thickness=50
 )
