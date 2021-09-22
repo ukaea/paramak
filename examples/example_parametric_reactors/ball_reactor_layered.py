@@ -44,6 +44,7 @@ my_model = paramak.NeutronicsModel(
         "outboard_layer_3_mat": "Li4SiO4",
         "outboard_layer_4_mat": "Li4SiO4",
         "pf_coil_mat": "copper",
+        "pf_coil_case_mat": "copper",
         "tf_coil_mat": "copper"
     },
     simulation_batches=3,
