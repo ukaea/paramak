@@ -43,7 +43,7 @@ class BallReactorLayered(paramak.Reactor):
         self.method = "trelis"
 
         self.inner_bore_radial_thickness = inner_bore_radial_thickness
-        
+
         self.inboard_layer_thicknesses = inboard_layer_thicknesses
 
         self.divertor_radial_thickness = divertor_radial_thickness
@@ -69,9 +69,9 @@ class BallReactorLayered(paramak.Reactor):
         self.divertor_to_tf_gap_vertical_thickness = divertor_to_tf_gap_vertical_thickness
         if self.plasma_gap_vertical_thickness is None:
             self.plasma_gap_vertical_thickness = self.outer_plasma_gap_radial_thickness
-        
+
         inner_equatorial_point = (
-            inner_bore_radial_thickness 
+            inner_bore_radial_thickness
             + sum(inboard_layer_thicknesses)
             + inner_plasma_gap_radial_thickness
         )
@@ -103,7 +103,7 @@ class BallReactorLayered(paramak.Reactor):
 
     @inboard_layer_thicknesses.setter
     def inboard_layer_thicknesses(self, value):
-        if type(value) != list:
+        if not isinstance(value, list):
             raise TypeError("inboard_layer_thicknesses must be a list")
         self._inboard_layer_thicknesses = value
 
@@ -113,7 +113,7 @@ class BallReactorLayered(paramak.Reactor):
 
     @outboard_layer_thicknesses.setter
     def outboard_layer_thicknesses(self, value):
-        if type(value) != list:
+        if not isinstance(value, list):
             raise TypeError("outboard_layer_thicknesses must be a list")
         self._outboard_layer_thicknesses = value
 
@@ -186,7 +186,6 @@ class BallReactorLayered(paramak.Reactor):
             msg = "divertor_position must be 'upper', 'lower' or 'both'"
             raise ValueError(msg)
 
-    
     def create_solids(self):
         """Insert description"""
 
@@ -268,7 +267,7 @@ class BallReactorLayered(paramak.Reactor):
             )
 
     def _make_vertical_build(self):
-        
+
         # this is the vertical build sequence, components build on each other
         # in a similar manner to the radial build
 
@@ -312,7 +311,7 @@ class BallReactorLayered(paramak.Reactor):
 
             layer_number += 1
             layer_radius += layer_thickness
-        
+
         self._inboard_layers = inboard_layers
 
         return self._inboard_layers
@@ -334,7 +333,7 @@ class BallReactorLayered(paramak.Reactor):
 
         layer_number = 1
         layer_offset = self.offset_from_plasma
-        
+
         for layer_thickness in self.outboard_layer_thicknesses:
 
             outboard_layer = paramak.BlanketFP(
@@ -360,7 +359,6 @@ class BallReactorLayered(paramak.Reactor):
         self._outboard_layers = outboard_layers
 
         return self._outboard_layers
-
 
     def _make_divertor(self):
 
