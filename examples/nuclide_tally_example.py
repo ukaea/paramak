@@ -1,5 +1,5 @@
 
-import openmc 
+import openmc
 import paramak as p
 
 shape_1 = p.CenterColumnShieldCylinder(

@@ -318,7 +318,7 @@ class NeutronicsModel():
             mesh_3d_resolution: Optional[Tuple[int, int, int]] = None,
             mesh_2d_corners: Optional[Tuple[Tuple[float, float, float], Tuple[float, float, float]]] = None,
             mesh_3d_corners: Optional[Tuple[Tuple[float, float, float], Tuple[float, float, float]]] = None,
-            nuclide_tallies = None
+            nuclide_tallies=None
     ):
         """Uses OpenMC python API to make a neutronics model, including tallies
         (cell_tallies and mesh_tally_2d), simulation settings (batches,
@@ -591,15 +591,20 @@ class NeutronicsModel():
                     energy_bins = openmc.mgxs.GROUP_STRUCTURES['CCFE-709']
                     energy_filter = openmc.EnergyFilter(energy_bins)
 
-                    neutron_particle_filter = openmc.ParticleFilter(['neutron'])
+                    neutron_particle_filter = openmc.ParticleFilter([
+                                                                    'neutron'])
 
-                    self._add_nuclide_tally_for_every_material('neutron_spectra', 'flux', [neutron_particle_filter, energy_filter])
+                    self._add_nuclide_tally_for_every_material(
+                        'neutron_spectra', 'flux', [
+                            neutron_particle_filter, energy_filter])
 
                     if self.photon_transport is True:
-                        photon_particle_filter = openmc.ParticleFilter(['photon'])
+                        photon_particle_filter = openmc.ParticleFilter([
+                                                                       'photon'])
 
-                        self._add_nuclide_tally_for_every_material('photon_spectra', 'flux', [photon_particle_filter, energy_filter])
-                
+                        self._add_nuclide_tally_for_every_material(
+                            'photon_spectra', 'flux', [photon_particle_filter, energy_filter])
+
                 else:
                     score = standard_tally
                     sufix = standard_tally
@@ -635,17 +640,22 @@ class NeutronicsModel():
                 tally.scores = [score]
                 self.tallies.append(tally)
 
-    def _add_nuclide_tally_for_every_material(self, sufix: str, score: str,
-                                              additional_filters: List = None) -> None:
-        
+    def _add_nuclide_tally_for_every_material(
+            self,
+            sufix: str,
+            score: str,
+            additional_filters: List = None) -> None:
+
         if additional_filters is None:
             additional_filters = []
-        
+
         for key, value in self.openmc_materials.items():
             if key != 'DT_plasma':
                 material_filter = openmc.MaterialFilter(value)
-                for nuclide in [nuclide_tuple.name for nuclide_tuple in value.nuclides]:
-                    tally = openmc.Tally(name=key + '_' + sufix + "_" + nuclide)
+                for nuclide in [
+                        nuclide_tuple.name for nuclide_tuple in value.nuclides]:
+                    tally = openmc.Tally(
+                        name=key + '_' + sufix + "_" + nuclide)
                     tally.filters = [material_filter] + additional_filters
                     tally.scores = [score]
                     tally.nuclides = [nuclide]
