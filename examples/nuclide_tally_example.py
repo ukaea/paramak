@@ -25,21 +25,22 @@ my_model = p.NeutronicsModel(
         "shape_1_mat": "Li4SiO4"
     },
     cell_tallies=["TBR"],
-    nuclide_tallies=["TBR"],
+    # nuclide_tallies=["TBR"],
     simulation_batches=5,
     simulation_particles_per_batch=100000
 )
 
 my_model.simulate()
+print(my_model.results)
 
-nuclide_total_tbr = 0
+# nuclide_total_tbr = 0
 
-for key, value in my_model.results.items():
-    if key == "TBR":
-        print("Total Integrated TBR in material = " + str(value["result"]))
-    elif key == "shape_1_mat_TBR":
-        pass
-    else:
-        nuclide_total_tbr += value["events per source particle"]["result"]
+# for key, value in my_model.results.items():
+#     if key == "TBR":
+#         print("Total Integrated TBR in material = " + str(value["result"]))
+#     elif key == "shape_1_mat_TBR":
+#         pass
+#     else:
+#         nuclide_total_tbr += value["events per source particle"]["result"]
 
-print("Nuclide total tbr = " + str(nuclide_total_tbr))
+# print("Nuclide total tbr = " + str(nuclide_total_tbr))
